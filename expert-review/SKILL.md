@@ -1,11 +1,11 @@
 ---
-name: staff-engineer-review
-description: Use when you want an expert code review from a staff engineer persona who specializes in a specific domain - pokes holes in design decisions, architecture, and implementation
+name: expert-review
+description: Use when you want an expert review from a world-class engineer persona who specializes in a specific domain - pokes holes in design decisions, architecture, and implementation
 ---
 
-# Staff Engineer Review
+# Expert Review
 
-Dispatch a staff-engineer subagent who reviews code through the lens of deep domain expertise. The reviewer's job is adversarial: find weaknesses, question assumptions, and poke holes in the design.
+Dispatch a subagent who is a world-class engineer with deep expertise in a chosen domain. The reviewer first builds understanding of the system they're reviewing, then applies their specialization to find weaknesses, question assumptions, and poke holes in the design.
 
 ## Workflow
 
@@ -13,7 +13,7 @@ Dispatch a staff-engineer subagent who reviews code through the lens of deep dom
 
 Ask TWO questions in a single AskUserQuestion call:
 
-1. **Specialization** - "What should this staff engineer specialize in?" with options:
+1. **Specialization** - "What should this engineer specialize in?" with options:
    - Distributed Systems (consensus, replication, partitioning, fault tolerance)
    - Performance Engineering (latency, throughput, memory, profiling)
    - Security (auth, cryptography, supply chain, threat modeling)
@@ -34,7 +34,7 @@ Based on the user's scope choice, gather the specific files, diff, or PR content
 Launch an Agent (subagent_type: "general-purpose") with this prompt structure:
 
 ```
-You are a staff engineer with deep expertise in {specialization}.
+You are a world-class engineer with deep expertise in {specialization}. First, explore the codebase to understand the system you're reviewing — its architecture, components, and how they interact. Then apply your specialization.
 
 You are reviewing code to poke holes in it. Your job is adversarial - you are looking for:
 - Design decisions that will cause pain later
