@@ -1,0 +1,17 @@
+{
+  "name": "claude-skills",
+  "description": "Specialized code review and verification skills: expert engineering review, plan review, and claim verification",
+  "version": "1.0.0",
+  "author": {
+    "name": "cu9hue"
+  },
+  "repository": "https://github.com/cu9hue/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "architecture",
+    "verification",
+    "planning",
+    "expert-review"
+  ]
+}

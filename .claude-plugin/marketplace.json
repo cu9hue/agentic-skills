@@ -1,0 +1,14 @@
+{
+  "name": "claude-skills",
+  "owner": {
+    "name": "cu9hue"
+  },
+  "plugins": [
+    {
+      "name": "claude-skills",
+      "source": "./",
+      "description": "Specialized code review and verification skills: expert engineering review, plan review, and claim verification",
+      "version": "1.0.0"
+    }
+  ]
+}
