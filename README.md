@@ -4,8 +4,14 @@ Specialized skills for Claude Code: expert engineering review, plan review, and 
 
 ## Installation
 
+First, register the marketplace:
 ```
-claude plugins add cu9hue/claude-skills
+/plugin marketplace add cu9hue/claude-skills
+```
+
+Then install the plugin:
+```
+/plugin install claude-skills@claude-skills
 ```
 
 ## Skills
