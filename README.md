@@ -24,3 +24,6 @@ Structured interactive review of implementation plans, design docs, or PRs — c
 
 ### verify-claims
 Dispatches parallel subagents to verify factual claims in documents (RFCs, design docs, PRs) against the actual codebase. Catches stale assumptions and incorrect references.
+
+### interrogate-plan
+Takes an existing implementation plan, spec, or design doc and systematically walks every decision branch until no ambiguity remains. Ensures an implementing agent makes zero implicit decisions.
