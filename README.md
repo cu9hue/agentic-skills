@@ -1,18 +1,12 @@
-# Claude Skills
+# Agent Skills
 
-Specialized skills for Claude Code: expert engineering review, plan review, and claim verification.
+Specialized skills for coding agents: expert engineering review, plan review, plan interrogation, and claim verification.
 
-## Installation
+## Layout
 
-First, register the marketplace:
-```
-/plugin marketplace add cu9hue/claude-skills
-```
+Skills live in `.agents/skills`.
 
-Then install the plugin:
-```
-/plugin install claude-skills@claude-skills
-```
+For Claude Code compatibility, `.claude/skills` is a symlink to `.agents/skills`.
 
 ## Skills
 
