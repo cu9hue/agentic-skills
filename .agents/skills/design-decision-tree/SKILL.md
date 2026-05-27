@@ -1,9 +1,9 @@
 ---
-name: interrogate-plan
+name: design-decision-tree
 description: Use when a user has an existing implementation plan, spec, or design doc and wants to ensure every decision is explicit before implementation begins — eliminates implicit decisions by systematically walking every ambiguity, assumption, and unstated default in the document.
 ---
 
-# Interrogate Plan
+# Design Decision Tree
 
 Take an existing implementation plan, spec, or design doc and relentlessly walk every decision branch until no ambiguity remains. The goal: an implementing agent reading the resulting document makes zero implicit decisions.
 
