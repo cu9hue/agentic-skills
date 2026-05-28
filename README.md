@@ -48,8 +48,29 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 
 ## Skills
 
-### review-plan
-Structured interactive review of implementation plans, design docs, or PRs — covers architecture, code quality, tests, and performance with opinionated recommendations.
+### Process
+- **review-plan** — structured interactive review of implementation plans, design docs, or PRs (architecture, code quality, tests, performance).
+- **design-decision-tree** — walks every decision branch in a plan/spec until no ambiguity remains, so an implementing agent makes zero implicit decisions.
+- **gateguard** — fact-forcing gate that blocks Edit/Write/Bash until concrete investigation (importers, schemas, intent) is done.
+- **safety-guard** — prevents destructive operations on production systems or during autonomous runs.
 
-### design-decision-tree
-Takes an existing implementation plan, spec, or design doc and systematically walks every decision branch until no ambiguity remains. Ensures an implementing agent makes zero implicit decisions.
+### Languages
+- **rust-patterns** / **rust-testing** — idiomatic Rust (ownership, traits, concurrency) and TDD-style testing (unit, integration, async, property-based).
+- **cpp-coding-standards** / **cpp-testing** — C++ Core Guidelines enforcement; GoogleTest/CTest, coverage, sanitizers.
+- **python-patterns** / **python-testing** — Pythonic idioms, PEP 8, type hints; pytest, fixtures, mocking, coverage.
+- **coding-standards** — language-agnostic baseline conventions (naming, readability, immutability).
+
+### Frontend
+- **vite-patterns** — Vite config, plugins, HMR, env/proxy, SSR, library mode, build optimization.
+- **frontend-a11y** — accessibility patterns (semantic HTML, ARIA, keyboard nav, focus). Framework-agnostic substance despite a React-flavored description.
+
+### Security
+- **security-review** — checklist + patterns for auth, user input, secrets, API endpoints, payments; bundles `cloud-infrastructure-security.md`.
+
+### Ops & growth
+- **dashboard-builder** — operator-focused monitoring dashboards for Grafana/SigNoz.
+- **seo** — technical SEO, on-page, structured data, Core Web Vitals, content strategy.
+
+> Most extracted skills are adapted from [ECC](https://github.com/affaan-m/ECC) (MIT).
+> Skills needing external infra (e.g. AgentShield MCP, Exa MCP for lead-intelligence)
+> were left out until those servers are wired up.
