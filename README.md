@@ -64,6 +64,9 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **vite-patterns** — Vite config, plugins, HMR, env/proxy, SSR, library mode, build optimization.
 - **frontend-a11y** — accessibility patterns (semantic HTML, ARIA, keyboard nav, focus). Framework-agnostic substance despite a React-flavored description.
 
+### Writing
+- **writing** — direct, concrete, anti-slop prose. Anti-slop rules apply to all writing; a fixed first-person voice (`references/voice-guide.md`) layers on for personal and opinion pieces. Adapted from ECC article-writing.
+
 ### Security
 - **security-review** — checklist + patterns for auth, user input, secrets, API endpoints, payments; bundles `cloud-infrastructure-security.md`.
 
