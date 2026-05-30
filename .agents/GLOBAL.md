@@ -1,18 +1,6 @@
 # Global Instructions
 
-Cross-project, cross-agent instructions. Shared by both Claude Code and Codex
-via `@import` from `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`.
-
-Canonical source: `<repo>/.agents/GLOBAL.md`, surfaced at `~/.agents/GLOBAL.md`
-through the `~/.agents` symlink. Edit here once; both agents pick it up in every
-project.
-
-Keep this file agent-agnostic. Agent-specific guidance (e.g. Claude-hook or
-RTK-proxy details) stays in the separately-imported `RTK.md`.
-
-These rules bias toward caution over speed. For trivial changes, use judgment.
-Some guidance adapts Andrej Karpathy's observations on LLM coding pitfalls
-(<https://x.com/karpathy/status/2015883857489522876>).
+Bias toward caution over speed. For trivial changes, use judgment.
 
 ## Before you write code
 
