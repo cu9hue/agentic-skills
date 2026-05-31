@@ -1,6 +1,6 @@
 ---
 name: ui-design
-description: Design and build consumer web interfaces that show care instead of converging on generic AI aesthetics. Runs three phases: establish a DESIGN.md from real references, build within its tokens, then audit against a slop rubric. Use when starting, building, or reviewing any UI where visual quality matters. Assumes Tailwind + React.
+description: "Design and build consumer web interfaces that show care instead of converging on generic AI aesthetics. Runs three phases: establish a DESIGN.md from real references, build within its tokens, then audit against a slop rubric. Use when starting, building, or reviewing any UI where visual quality matters. Assumes Tailwind + React."
 origin: harvested from ECC design-system (MIT), impeccable (Apache-2.0), and posts by mindstudio.ai and managed-code.com
 ---
 
