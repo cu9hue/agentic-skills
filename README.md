@@ -66,6 +66,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **coding-standards** — language-agnostic baseline conventions (naming, readability, immutability).
 
 ### Frontend
+- **ui-design** — anti-slop discipline for consumer UIs: establish a `DESIGN.md` from real references, build within its tokens, audit against a slop rubric. Assumes Tailwind + React. Harvested from ECC, [impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0), and two anti-slop posts.
 - **vite-patterns** — Vite config, plugins, HMR, env/proxy, SSR, library mode, build optimization.
 - **frontend-a11y** — accessibility patterns (semantic HTML, ARIA, keyboard nav, focus). Framework-agnostic substance despite a React-flavored description.
 
