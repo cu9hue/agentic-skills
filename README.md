@@ -79,7 +79,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ### Ops & growth
 - **dashboard-builder** — operator-focused monitoring dashboards for Grafana/SigNoz.
 - **seo** — technical SEO, on-page, structured data, Core Web Vitals, content strategy.
-- **landing-copy** — landing-page copy and product positioning that sells the desire, not the feature: pin the position, write the page, audit against a conversion-killer catalog. Distilled from Marc Lou's "31 Principles of a Viral Product"; pairs with **ui-design** (visuals) and **seo** (discovery).
+- **landing-copy** — landing-page copy and product positioning that sells the desire, not the feature: pin the position, write the page, audit against a conversion-killer catalog. Distilled from Marc Lou's "31 Principles of a Viral Product" and Julian Shapiro's landing-page guide; pairs with **ui-design** (visuals) and **seo** (discovery).
 
 > Most extracted skills are adapted from [ECC](https://github.com/affaan-m/ECC) (MIT).
 > Skills needing external infra (e.g. AgentShield MCP, Exa MCP for lead-intelligence)

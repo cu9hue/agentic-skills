@@ -1,7 +1,7 @@
 ---
 name: landing-copy
 description: "Write and audit landing-page copy and product positioning that sells the outcome a stranger wants instead of describing the product. Runs three phases: pin the position, write the page, audit against a conversion-killer catalog. Use when writing or reviewing a landing page, hero section, headline, product name, or pricing copy. Pairs with ui-design (visuals) and seo (discovery)."
-origin: distilled from Marc Lou, "31 Principles of a Viral Product" (newsletter.marclou.com), curated and reorganized
+origin: distilled from Marc Lou, "31 Principles of a Viral Product" (newsletter.marclou.com), and Julian Shapiro, "How to Write Copy That Sells / Landing Pages" (julian.com/guide/startup/landing-pages), curated and reorganized
 ---
 
 # Landing Copy
@@ -17,6 +17,15 @@ People buy a desire, not a product. Every unstated decision reverts to describin
 what you built rather than what the reader gets. The skill forces three concrete
 commitments: the one desire (Phase 1), one screen that sells it (Phase 2), and a
 catalog that catches the drift back to feature-talk (Phase 3).
+
+One equation governs every choice below:
+
+> **Conversion = Desire - (Labor + Confusion)**
+
+Raise desire, cut the work the reader must do to act, and remove every "wait,
+what is this?" moment. Most entries in the Conversion-Killer Catalog are just
+labor or confusion in a copy costume. When a line isn't building desire, it had
+better be removing one of the other two.
 
 ## When to Activate
 
@@ -42,15 +51,34 @@ the copy analog of `DESIGN.md`: an explicit brief you write against.
    spell after hearing it once.
 6. **What's actually new.** Name the genuinely novel angle. Clones don't spread.
    If there's a live trend or conversation to connect to, name that too.
+7. **The top objection.** Ask buyers (or churned trials) "What almost stopped
+   you from buying?" The most common answer is the one fear the page has to
+   disarm out loud. Mine it before writing, not after launch.
 
-Output: a short positioning brief covering all six. Write the page only from it.
+Output: a short positioning brief covering all seven. Write the page only from
+it.
 
 ## Phase 2: Write the page
+
+The page has a standard skeleton. Fill it top to bottom; each block does one job:
+
+1. **Navbar** - logo, the few links that matter, pricing among them.
+2. **Hero** - header, subheader, one image or demo, one CTA.
+3. **Social proof** - customer or press logos, directly under the hero.
+4. **CTA** - the primary action, stated as an outcome.
+5. **Features and objections** - three to six blocks, each selling one value
+   prop and disarming one objection.
+6. **Repeat CTA** - the same action again, for readers who scrolled to decide.
+7. **Footer** - the rest, plus one memorable line and a thumbnail-grade OG image.
+
+Then make each block earn its place:
 
 1. **The hero sells alone.** Assume most visitors never scroll. The first screen
    must convert by itself: what it is, the desire it serves, one action.
 2. **Empathy before the pitch.** State the problem better than the reader could
-   state it themselves, first. Earn the sale by proving you understand it.
+   state it themselves, first. Earn the sale by proving you understand it. Then
+   answer the top objection from Phase 1 head-on, in the feature block nearest
+   the doubt, before the reader talks themselves out of it.
 3. **Show, don't explain.** A demo, screenshot, or screen recording beats
    paragraphs. Put your best feature on the page, not behind the paywall.
 4. **Headlines:** fifth-grade reading level (your mother understands it); trigger
@@ -101,6 +129,7 @@ The tell, then the antidote. When you catch one, rewrite.
 | Buried or missing pricing | pricing in the nav |
 | No proof on the page | testimonials, founder face |
 | Hero that needs a scroll to make sense | self-contained first screen |
+| The top objection left unanswered | name it and disarm it in a feature block |
 
 ## Quality Gate
 
@@ -110,6 +139,7 @@ Before delivering, confirm:
 - the hero converts with no scroll: what, desire, one action
 - exactly one primary CTA, labeled by outcome
 - the page leads with the problem before the pitch
+- the top objection from Phase 1 is named and disarmed on the page
 - claims use numbers or proof, not adjectives
 - at least one testimonial and a visible founder
 - no Conversion-Killer Catalog tell survives
