@@ -73,6 +73,9 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ### Writing
 - **writing** — direct, concrete, anti-slop prose. Anti-slop rules apply to all writing; a fixed first-person voice (`references/voice-guide.md`) layers on for personal and opinion pieces. Adapted from ECC article-writing.
 
+### Research
+- **digest-paper** — digest a scientific paper from a PDF/arXiv/DOI in escalating passes (triage by default; brief and deep-dive on request), with the author's claims kept separate from an independent critical read; bundles `literature-survey.md` for mapping a field. Synthesized from Keshav's "How to Read a Paper" (three-pass method) and a five-question hypothesis-summary framework.
+
 ### Security
 - **security-review** — checklist + patterns for auth, user input, secrets, API endpoints, payments; bundles `cloud-infrastructure-security.md`.
 
