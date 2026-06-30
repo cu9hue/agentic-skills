@@ -47,11 +47,14 @@ Cut lookup-able trivia: dates, author names, benchmark scores, hardware,
 hyperparameters, isolated numbers — unless the number *is* the insight (a
 constant that anchors an estimate). When in doubt, cut.
 
-Be ruthless about volume. **Target 3–6 cards for a typical source; treat 8 as a
-hard ceiling** unless the user asks for thorough coverage. More candidates than
-that means you are not selecting — rank them by the trade above and keep only the
-most load-bearing. Match the count to how deeply you read: a triage skim earns a
-few cards or none, never a dozen. **If nothing clears the bar, make no cards.**
+There is no target number. Extract the source's **core ideas** — the load-bearing
+concepts it is actually built on, the ones you would fail to understand it
+without — and make **one card per idea**. A thin source carries two or three; a
+rich one carries more. Let the count fall out of the ideas: never pad to fill a
+deck, never truncate a source that genuinely holds more. The bloat to fight is
+carding *detail, examples, and restatements* as if they were core, and splitting
+one idea across several cards — not a high count of real ideas. Card only what you
+actually understood from your read. **If nothing clears the bar, make no cards.**
 
 ## Writing rules
 
@@ -93,8 +96,8 @@ Before delivering, confirm:
 
 - every card is worth its lifetime of review minutes — if you would not spend
   them on it, cut it
-- the set is small — 3–6 for a typical source, never past ~8 without a request
-  for thoroughness
+- each card is one of the source's core ideas — not a detail, example, or restatement
+- the count matches the ideas — nothing padded to a quota, nothing truncated
 - no two cards test the same idea — near-duplicates merged
 - every card is atomic; zero yes/no questions
 - specific findings are source-qualified
