@@ -30,7 +30,10 @@ ankify understanding, not text.
 
 ## The value bar (apply before writing any card)
 
-Ask of each candidate: *will recalling this change how I think or what I can do?*
+Ask of each candidate two things: *will recalling this change how I think or
+what I can do?* and *is it worth the review minutes it will cost me for years?*
+A card has to earn both. This trade — your future time against the value of the
+memory — is the whole filter; everything below serves it.
 
 Keep cards for:
 
@@ -42,19 +45,28 @@ Keep cards for:
 
 Cut lookup-able trivia: dates, author names, benchmark scores, hardware,
 hyperparameters, isolated numbers — unless the number *is* the insight (a
-constant that anchors an estimate). When in doubt, cut. A handful of dense
-conceptual cards beats twenty thin ones. **If nothing clears the bar, make no cards.**
+constant that anchors an estimate). When in doubt, cut.
+
+Be ruthless about volume. **Target 3–6 cards for a typical source; treat 8 as a
+hard ceiling** unless the user asks for thorough coverage. More candidates than
+that means you are not selecting — rank them by the trade above and keep only the
+most load-bearing. Match the count to how deeply you read: a triage skim earns a
+few cards or none, never a dozen. **If nothing clears the bar, make no cards.**
 
 ## Writing rules
 
 - **Atomic** — one idea per card. Split compound facts so a lapse points at
   exactly what you forgot. Never bundle a concept with a number "to save a card".
 - **No yes/no questions** — reframe into which / why / how / for what.
-- **Cluster, don't orphan** — 2–3 connected cards that hook into what you already
-  know beat a lone disconnected fact.
+- **One idea, one card** — never reframe the same point into two or three
+  near-duplicate cards. Merge overlapping candidates and keep the sharpest. (Still
+  avoid lone facts disconnected from everything you know.)
 - **Source-qualify findings** — "What does Vaswani 2017 claim about path length…",
   not a bare fact, when it is a specific result that could be wrong.
 - **Understanding over recall** — prefer "why does X help?" to "what is X?".
+- **Plain language** — phrase every card by the `writing` skill's anti-slop rules:
+  concrete, no filler, no hedging, no inflated abstractions. A card you have to
+  reread to parse is a card you will dread.
 - **Cloze sparingly**; never write a card you will dread reviewing.
 
 ## Output format
@@ -79,9 +91,12 @@ No import file — copy the keepers into Anki yourself.
 
 Before delivering, confirm:
 
-- every card clears the value bar — conceptual, not lookup-able
+- every card is worth its lifetime of review minutes — if you would not spend
+  them on it, cut it
+- the set is small — 3–6 for a typical source, never past ~8 without a request
+  for thoroughness
+- no two cards test the same idea — near-duplicates merged
 - every card is atomic; zero yes/no questions
-- related cards are clustered, no orphans
 - specific findings are source-qualified
 - if nothing cleared the bar, you made no cards
 - phrasing follows the `writing` skill's anti-slop rules
