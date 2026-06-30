@@ -59,14 +59,21 @@ conceptual cards beats twenty thin ones. **If nothing clears the bar, make no ca
 
 ## Output format
 
-Markdown, grouped by topic. Each card:
+Markdown, grouped by topic. Most cards are Q / A:
 
 ```
 Q: ...
 A: ...
 ```
 
-Mark cloze cards. No import file — copy the keepers into Anki yourself.
+Use cloze sparingly, and only when the deletion lands on the load-bearing
+idea — not to blank out a stray word:
+
+```
+Cloze: The Transformer drops {{c1::recurrence}} so computation parallelizes across {{c2::positions}}.
+```
+
+No import file — copy the keepers into Anki yourself.
 
 ## Quality gate
 
