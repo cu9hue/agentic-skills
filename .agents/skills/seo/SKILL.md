@@ -148,6 +148,6 @@ Fix: Generate a unique title per product using the product name and primary cate
 
 ## Related Skills
 
-- `seo-specialist`
-- `brand-voice`
-- `market-research`
+- `gtm-strategy` — the strategy layer; hands off to this skill when the channel bet is search
+- `landing-copy` — copy and positioning for the pages being optimized
+- `writing` — anti-slop prose rules for any content written along the way
