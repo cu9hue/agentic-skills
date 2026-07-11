@@ -28,6 +28,9 @@ Anti-references (looks to avoid): <...>
 
 Families and weights:
 
+Pick a display face with personality (Fontshare's Clash Display or Satoshi, a
+characterful serif, a grotesk with real width), never Inter/Geist/Roboto.
+
 ```css
 :root {
   --font-display: "<Display Face>", serif;   /* headings */
@@ -142,6 +145,20 @@ At most 3 named shadow recipes. Pick border or shadow per element, never both.
 
 Animate `transform` and `opacity` only. No bounce or elastic. No scroll-triggered
 motion on every section.
+
+## Imagery
+
+Pull from the product's own world before any stock. Define one treatment for the
+whole set so images read as intentional, not scavenged.
+
+- Sources: `<the product's own photography, or a named licensable source>`; no
+  invented URLs, no placeholders shipped as final.
+- Treatment (one, applied to every image): `<e.g. duotone --neutral-900 +
+  --accent · 12% grain · -8% saturation grade>`
+- Aspect ratios in use: `<e.g. 16:9 hero, 4:5 cards>`
+- Format and delivery: WebP/AVIF · `width`/`height` always set · responsive
+  `srcset` · lazy-load below the fold.
+- Alt text: states content or function, never "image".
 
 ## Explicit negatives
 
