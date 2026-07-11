@@ -84,6 +84,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **dashboard-builder** — operator-focused monitoring dashboards for Grafana/SigNoz.
 - **seo** — technical SEO, on-page, structured data, Core Web Vitals, content strategy.
 - **landing-copy** — landing-page copy and product positioning that sells the desire, not the feature: pin the position, write the page, audit against a conversion-killer catalog. Distilled from Marc Lou's "31 Principles of a Viral Product" and Julian Shapiro's landing-page guide; pairs with **ui-design** (visuals) and **seo** (discovery).
+- **growth-metrics** — closes **gtm-strategy**'s measurement loop: one value-delivery activation event, a tracking plan capped at ten events (each carrying the decision it informs), PostHog instrumentation through a typed event catalog on the Next.js/Vercel/Supabase/Stripe stack, and a weekly scorecard read against the strategy doc's kill criteria — falsified bets called falsified, with the named fallback. Ops metrics stay with **dashboard-builder**.
 - **saas-deploy-readiness** — deploy readiness for a Next.js + Vercel + Supabase + Stripe + Resend + GitHub Actions + Drizzle stack: environment separation, env-var classification, Drizzle migrations (expand-contract), rollback, safe server-action errors, smoke tests. Distilled from real deploy incidents; migration and rollback patterns adapted from ECC.
 
 > Most extracted skills are adapted from [ECC](https://github.com/affaan-m/ECC) (MIT).
