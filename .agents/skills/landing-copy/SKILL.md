@@ -1,6 +1,6 @@
 ---
 name: landing-copy
-description: "Write and audit landing-page copy and product positioning that sells the outcome a stranger wants instead of describing the product. Runs three phases: pin the position, write the page, audit against a conversion-killer catalog. Use when writing or reviewing a landing page, hero section, headline, product name, or pricing copy. Pairs with ui-design (visuals) and seo (discovery)."
+description: "Write and audit landing-page copy and product positioning that sells the outcome a stranger wants instead of describing the product. Use when writing or reviewing a landing page, hero section, headline, product name, or pricing copy. Pairs with ui-design (visuals) and seo (discovery)."
 origin: distilled from Marc Lou, "31 Principles of a Viral Product" (newsletter.marclou.com), and Julian Shapiro, "How to Write Copy That Sells / Landing Pages" (julian.com/guide/startup/landing-pages), curated and reorganized
 ---
 
