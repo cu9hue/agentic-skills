@@ -54,6 +54,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ## Skills
 
 ### Process
+- **skill-authoring** — the binding process for skill work in this repo: every new skill ships with persisted evals (`<skill>/evals/scenarios.md` + append-only `results.md`), the no-skill baseline runs before drafting, edits rerun persisted evals as regression (backfilling legacy skills first), and a blind subagent judge decides — plus lean-authoring rules (500-line cap, triggers-only descriptions, `references/` for heavy material). Eval methodology adapted from [Phil Schmid's "Testing Agent Skills"](https://www.philschmid.de/testing-skills); on Claude it complements `superpowers:writing-skills`, on Codex it stands alone.
 - **review-plan** — structured interactive review of implementation plans, design docs, or PRs (architecture, code quality, tests, performance).
 - **design-decision-tree** — walks every decision branch in a plan/spec until no ambiguity remains, so an implementing agent makes zero implicit decisions.
 - **gateguard** — fact-forcing gate that blocks Edit/Write/Bash until concrete investigation (importers, schemas, intent) is done.
