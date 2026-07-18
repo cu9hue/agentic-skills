@@ -77,6 +77,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ### Research
 - **digest-paper** — digest a scientific paper from a PDF/arXiv/DOI in escalating passes (triage by default; brief and deep-dive on request), with the author's claims kept separate from an independent critical read; bundles `literature-survey.md` for mapping a field. Synthesized from Keshav's "How to Read a Paper" (three-pass method) and a five-question hypothesis-summary framework.
 - **ankify** — turn a paper/article/doc/notes into Anki flashcards biased toward conceptual understanding over rote recall: drafts candidates against a value bar (keep only what changes how you think), you curate. Synthesized from Michael Nielsen's "Augmenting Long-Term Memory"; pairs with **digest-paper**.
+- **socratic** — a Socratic questioning session over material you've read: extracts the core ideas as a private coverage checklist, interrogates one idea at a time (one question per turn, probe-then-reveal on misses), closes with a per-idea gap report and hands everything to **ankify**. Question taxonomy from [UConn CETL's "Socratic Questions"](https://cetl.uconn.edu/resources/teaching-your-course/leading-effective-discussions/socratic-questions/); pairs with **digest-paper**.
 
 ### Security
 - **security-review** — checklist + patterns for auth, user input, secrets, API endpoints, payments; bundles `cloud-infrastructure-security.md`.
