@@ -70,7 +70,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ### Frontend
 - **ui-design** — anti-slop discipline for consumer UIs: establish a `DESIGN.md` from real references and the product's own subject, build within its tokens, audit against a slop rubric spanning type, color, layout, motion, and imagery. Assumes Tailwind + React. Harvested from ECC, [impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0), two anti-slop posts, and the design skills from [Anthropic](https://github.com/anthropics/skills), [claudekit](https://github.com/claudekit/frontend-design-pro-demo), and [taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **vite-patterns** — Vite config, plugins, HMR, env/proxy, SSR, library mode, build optimization.
-- **frontend-a11y** — accessibility patterns (semantic HTML, ARIA, keyboard nav, focus). Framework-agnostic substance despite a React-flavored description.
+- *(frontend-a11y retired 2026-07-19: baseline passed all 21 eval rubric lines unaided — see git history for the eval record.)*
 
 ### Writing
 - **writing** — direct, concrete, anti-slop prose. Anti-slop rules apply to all writing; a fixed first-person voice (`references/voice-guide.md`) layers on for personal and opinion pieces. Adapted from ECC article-writing.
