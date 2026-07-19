@@ -62,7 +62,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **goal-loop** — write `/goal` contracts for long-running autonomous runs (the "Ralph loop") in Claude Code and Codex: a 5-part contract (objective, constraints, validation command, stop condition, docs), the meta-prompting trick, drift handling, and per-agent mechanics kept separate. Harvested from [davidondrej/skills](https://github.com/davidondrej/skills) (MIT); Claude Code mechanics corrected against the [official `/goal` docs](https://code.claude.com/docs/en/goal).
 
 ### Languages
-- **rust-patterns** / **rust-testing** — idiomatic Rust (ownership, traits, concurrency) and TDD-style testing (unit, integration, async, property-based).
+- **rust-testing** — Rust tests: unit, integration, async, property-based, mocking, coverage. (rust-patterns retired 2026-07-19: baseline passed all 21 eval rubric lines unaided; refactor outputs were byte-identical between arms — see git history.)
 - **cpp-coding-standards** / **cpp-testing** — C++ Core Guidelines enforcement; GoogleTest/CTest, coverage, sanitizers.
 - **python-testing** — pytest, fixtures, mocking, coverage. (python-patterns retired 2026-07-19: evals showed baseline passes 17/18 of its mandates unaided — see git history for the eval record.)
 - **coding-standards** — language-agnostic baseline conventions (naming, readability, immutability).
