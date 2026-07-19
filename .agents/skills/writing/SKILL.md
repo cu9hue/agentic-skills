@@ -1,7 +1,7 @@
 ---
 name: writing
 description: Write articles, posts, essays, launch notes, newsletters, guides, and docs in a direct, concrete, anti-slop style. Anti-slop rules apply to all prose; a fixed first-person voice layers on for personal and opinion pieces. Use when the user wants written content longer than a paragraph and cares about specificity, credibility, and not sounding like an LLM.
-origin: adapted from ECC article-writing; sourcing rule sharpened with a line from blader/humanizer (github.com/blader/humanizer)
+origin: adapted from ECC article-writing; sourcing rule and the references/ai-tells.md catalog harvested from blader/humanizer (github.com/blader/humanizer, built on Wikipedia's "Signs of AI writing")
 ---
 
 # Writing
@@ -67,35 +67,25 @@ read as neutral.
 
 ## Banned Patterns
 
-Delete and rewrite any of these.
+The full tell catalog lives in [references/ai-tells.md](references/ai-tells.md):
+sentence templates, the AI word cluster, texture, structure and format tells,
+and the five slop categories. Load it whenever you de-slop, audit, or write
+anything longer than a few paragraphs. The core rules, always in force:
 
-**Sentence templates:**
-- "It's not about X, it's about Y"
-- "No X. No Y. Just Z."
-- "In today's fast-paced world" / "In today's rapidly evolving landscape"
-- "The key is..." as a standalone insight
-- "Studies show..." or "research suggests..." without naming the source
-- "here's why this matters" as a standalone bridge
-- a closing question added only to juice engagement
-
-**Texture:**
-- em dashes
-- literary flourish, vague profundity, motivational language
-- corporate filler and hype ("game-changer", "cutting-edge", "revolutionary")
-- generic AI throat-clearing that delays the point
-- fake vulnerability arcs
-- biography padding that does not move the argument
-
-**The five slop categories** (from <https://slopdetector.org/slop-taxonomy>),
-with their tells:
-1. **Generic** ("In today's fast-paced world..."): templated, no concrete detail.
-2. **Pseudo-insight** ("The key is to find balance..."): sounds deep, says nothing.
-3. **Fake authority** ("Studies have shown..."): authoritative tone, zero sources.
-4. **Wikipedia rehash** ("X is defined as..."): basic definitions sold as analysis.
-5. **Wellness** ("Self-care isn't selfish..."): universal advice that helps no one.
-
-The antidote to all five is the same: specificity, lived experience, cited
-sources, real information gain.
+- **No em dashes.** Hard constraint, zero in final output.
+- **No unnamed authority.** "Studies show", "experts argue", population-level
+  stats with the source stripped: name the source, own the claim in first
+  person, or cut it.
+- **No engagement bait.** Closing questions and comment fishing, in any
+  disguise.
+- **No template sentences.** "It's not about X, it's about Y", "No X. No Y.
+  Just Z.", "The key is…", "in today's fast-paced world".
+- **Plain verbs, real analysis.** "Is", not "serves as"; no "-ing" tails
+  that fake depth ("…, highlighting the importance of…"); no hype vocabulary
+  (delve, tapestry, landscape, game-changer, revolutionary).
+- **Cluster over isolation.** One tell is noise, a stack is a confession:
+  when tells cluster, rewrite the passage, and preserve genuine human
+  signals (asides, mixed registers, unresolved tension) while you do.
 
 ## Writing Process
 
@@ -132,7 +122,7 @@ Before delivering, check:
 - every factual claim, biographical ones included, is backed by the brief or
   a named source, or stated as an assumption
 - every paragraph adds new information
-- no banned patterns survive (run the slop-category tells)
+- no banned patterns survive (sweep against references/ai-tells.md)
 - no em dashes
 - short sentences, concrete nouns, plain verbs
 - for personal pieces: voice matches the voice guide, and every qualifier passes

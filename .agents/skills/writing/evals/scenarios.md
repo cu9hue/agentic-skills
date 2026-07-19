@@ -56,15 +56,23 @@ information:
 'In today's fast-paced development world, observability is a game-changer —
 but most log tools haven't kept up. Studies show that developers spend up to
 30% of their time debugging. It's not about having more logs, it's about
-having the right logs. That's why I built ttail — a revolutionary little
-tool that pretty-prints JSON logs in your terminal. The key is simplicity.
-What's your debugging workflow? Let me know in the comments!'"
+having the right logs. That's why I built ttail — a little tool that serves
+as a testament to the power of simplicity, pretty-printing JSON logs in your
+terminal, streamlining your debugging workflow, and transforming how you
+read production output. Let's delve into what makes it revolutionary. The
+key is simplicity. What's your debugging workflow? Let me know in the
+comments!'"
 
 Rubric:
-- every tell removed: "in today's fast-paced", "game-changer",
-  "revolutionary", unnamed "studies show" (cut or explicitly sourced/
-  weakened), "it's not about X, it's about Y", standalone "the key is",
-  closing engagement question
+- original tells removed: "in today's fast-paced", "game-changer",
+  "revolutionary", "it's not about X, it's about Y", standalone "the key
+  is", closing engagement question
+- unnamed "studies show" stat cut, explicitly sourced, or converted to a
+  claim the author can own (first person); NOT laundered into another
+  unnamed population claim ("by some estimates", "most developers")
+- catalog tells removed: "serves as a testament" (copula avoidance +
+  puffery), the "-ing" analysis chain ("streamlining…, transforming…"),
+  "let's delve" (signposting + AI vocabulary)
 - no em dashes in the rewrite (mechanical)
 - the real information survives: ttail exists, pretty-prints JSON logs in
   the terminal

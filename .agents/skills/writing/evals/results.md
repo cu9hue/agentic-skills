@@ -52,3 +52,32 @@ Judge verdict: post-edit wins on severity (16/17 lines each; a fabrication
 survives no reading, the S3 miss survives a lenient one). Edit holds —
 committed. Watch S3-style unnamed population claims in future runs; if it
 recurs, add a scenario line for it.
+
+## 2026-07-19 — regression: humanizer harvest (pre-edit e436984 vs post-edit)
+
+Edit under test: banned patterns restructured — full tell catalog moved to
+references/ai-tells.md (harvested from blader/humanizer: -ing analysis
+chains, copula avoidance, AI vocabulary, aphorism formulas, structure tells,
+cluster-over-isolation and preserve-human-signals meta-rules), SKILL.md
+slimmed to six core rules + pointer. S3 scenario extended to seed the new
+tells ("serves as a testament", "streamlining…transforming…" chain, "let's
+delve") and its sourcing line hardened against laundering (codifies last
+run's watch item). Arms: pre-edit vs post-edit, all four scenarios, blind
+judge, mechanical dash check (zero in both arms). n=1 per cell.
+
+- S1: tie, 6/6 both — no fabrications in either arm (the earlier fix keeps
+  holding)
+- S2: **post-edit**, narrowly — fully brief-bounded; pre-edit needed a
+  judgment call on a performance generalization
+- S3: **pre-edit**, narrowly — both arms removed every planted tell
+  including the new catalog ones and neither laundered the stat; pre-edit
+  retained slightly more of the original's information
+- S4: tie — negative case clean, no over-triggering
+
+Judge verdict: post-edit by the narrowest margin; honest reading is a dead
+tie. Zero rubric failures either side → no regression, edit committed.
+**Caveat logged:** the new catalog tells did not separate the arms at n=1 —
+the pre-edit skill + base model already cleaned them in a rewrite task where
+they're conspicuous. The catalog costs nothing until loaded and hardens the
+audit path, but its necessity is unproven; if a future run shows baseline
+passing all tells, consider slimming it (obsolescence rule).
