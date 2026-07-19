@@ -1,7 +1,7 @@
 ---
 name: writing
 description: Write articles, posts, essays, launch notes, newsletters, guides, and docs in a direct, concrete, anti-slop style. Anti-slop rules apply to all prose; a fixed first-person voice layers on for personal and opinion pieces. Use when the user wants written content longer than a paragraph and cares about specificity, credibility, and not sounding like an LLM.
-origin: adapted from ECC article-writing
+origin: adapted from ECC article-writing; sourcing rule sharpened with a line from blader/humanizer (github.com/blader/humanizer)
 ---
 
 # Writing
@@ -58,7 +58,12 @@ read as neutral.
    screenshot, or code.
 2. Explain after the example, not before.
 3. Use proof instead of adjectives.
-4. Never invent facts, credibility, or customer evidence.
+4. Every claim has a source: researched and named, or provided in the brief.
+   Neither? Say what isn't known, state it as an assumption, or cut the
+   sentence. Never dress a guess up as fact.
+5. Biography is claims too. Anecdotes, usage history, tools tried, time
+   spent: only from the brief. When the brief gives no lived experience,
+   write from the work's facts and your opinions, not a manufactured past.
 
 ## Banned Patterns
 
@@ -124,7 +129,8 @@ sources, real information gain.
 
 Before delivering, check:
 
-- every factual claim is backed by a provided source, or stated as an assumption
+- every factual claim, biographical ones included, is backed by the brief or
+  a named source, or stated as an assumption
 - every paragraph adds new information
 - no banned patterns survive (run the slop-category tells)
 - no em dashes

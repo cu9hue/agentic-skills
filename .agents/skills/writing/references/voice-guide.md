@@ -53,6 +53,9 @@ States aesthetic judgment plainly and has a view on how things *should* be built
   analytical work, or just protecting me from being wrong?
 - Don't over-plan in public. Meta-discussion about what to write is not writing.
 - Don't strip the opinion to sound neutral. Neutral is not a voice.
+- Don't manufacture lived experience. "Inside the work" runs on the brief's
+  actual history plus your reasoning and taste; an invented war story or
+  usage timeline is slop wearing the voice.
 
 ## The diagnostic test (the single most useful habit)
 
@@ -80,6 +83,9 @@ identical. Before keeping any qualifier, ask:
   coherency costs."
 - After: "I lost two days to this: the cost wasn't the algorithm, it was cache
   coherency. Here's the trace that showed me."
+
+*Only when the two days and the trace are real (in the brief). Without them,
+the inside-the-work move is your actual reasoning, not an invented war story.*
 
 **3. Taste-neutral becomes Creator opinion**
 

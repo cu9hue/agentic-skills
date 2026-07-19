@@ -28,3 +28,27 @@ it daily" and a backstory of tools tried. A future edit should strengthen
 the rule for narrative pieces (e.g. "in personal pieces, every biographical
 claim must come from the brief"); S1's rubric already covers it, so the
 regression rerun will show whether the fix lands.
+
+## 2026-07-19 — regression: sourcing/biography edit (pre-edit 1ed5ba3 vs post-edit)
+
+Edit under test: Core Rule 4 rewritten as every-claim-has-a-source (brief or
+named research; line adapted from blader/humanizer), new Rule 5 "biography
+is claims too", quality-gate line extended, voice-guide guard against
+manufactured lived experience. Arms: pre-edit vs post-edit skill, same four
+scenarios, blind judge. n=1 per cell — signal, not proof.
+
+- S1: **post-edit** — the target defect is gone: no fabricated usage
+  timeline or tools-tried backstory; remaining first-person claims judged
+  grantable builder-ran-it inferences. Pre-edit fails the same line it
+  failed in the initial A/B.
+- S2: tie, both clean
+- S3: **pre-edit** by a marginal call — post-edit generalized the fake stat
+  to "a big share of most developers' time" (population claim, source
+  stripped) where pre-edit personalized it ("my week"); rubric permits
+  weakening, so this is a judgment call, not a hard regression
+- S4: tie — negative case stays clean, no over-triggering
+
+Judge verdict: post-edit wins on severity (16/17 lines each; a fabrication
+survives no reading, the S3 miss survives a lenient one). Edit holds —
+committed. Watch S3-style unnamed population claims in future runs; if it
+recurs, add a scenario line for it.
