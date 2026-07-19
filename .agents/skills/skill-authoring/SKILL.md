@@ -1,7 +1,7 @@
 ---
 name: skill-authoring
 description: Use when creating a new skill in this repo, editing what an existing skill mandates, or backfilling evals for a legacy skill. Not for cosmetic changes that leave behavior untouched — typos, README blurbs, formatting.
-origin: eval methodology adapted from Phil Schmid, "Testing Agent Skills" (philschmid.de/testing-skills); process merged with the superpowers writing-skills RED-GREEN-REFACTOR practice
+origin: eval methodology adapted from Phil Schmid, "Testing Agent Skills" (philschmid.de/testing-skills); the 200-500-line range is from Schmid's talk, reporting Gemini-team testing across a skill corpus; process merged with the superpowers writing-skills RED-GREEN-REFACTOR practice
 ---
 
 # Skill Authoring
