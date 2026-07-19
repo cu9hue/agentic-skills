@@ -1,0 +1,350 @@
+{
+  "meta": {
+    "system": "nsq",
+    "title": "NSQ",
+    "subtitle": "publish → topic → per-channel queue → RDY-gated delivery",
+    "icon": "📮",
+    "repo": "nsqio/nsq",
+    "branch": "9ea507128926c83b7dd8f32d8c38bbbe8ef41beb"
+  },
+
+  "layers": [
+    { "id": "client",   "label": "Clients" },
+    { "id": "entry",    "label": "Protocol entry" },
+    { "id": "topic",    "label": "Topic" },
+    { "id": "channel",  "label": "Channel" },
+    { "id": "delivery", "label": "Delivery" },
+    { "id": "storage",  "label": "Storage" }
+  ],
+
+  "connectionTypes": {
+    "tcpv2":   { "color": "#3b82f6", "dash": "",    "label": "NSQ TCP protocol V2" },
+    "http":    { "color": "#22d3ee", "dash": "",    "label": "HTTP" },
+    "inmem":   { "color": "#10b981", "dash": "",    "label": "Go channel / in-process" },
+    "disk":    { "color": "#2dd4bf", "dash": "",    "label": "disk queue" },
+    "control": { "color": "#64748b", "dash": "5 5", "label": "control plane" }
+  },
+
+  "nodes": {
+    "producer": {
+      "layer": "client", "col": 0, "label": "Producer",
+      "sub": "external",
+      "desc": "Any client publishing over TCP (PUB/MPUB/DPUB) or HTTP. Publishes are always accepted — nsqd never applies backpressure to a producer, it spills to disk instead (nsqd/channel.go:365).",
+      "io": [["out", "PUB / MPUB / DPUB, POST /pub"]]
+    },
+    "consumer": {
+      "layer": "client", "col": 1, "label": "Consumer",
+      "sub": "external (go-nsq)",
+      "desc": "Discovers nsqd nodes by polling nsqlookupd's /lookup, then connects directly to each nsqd over TCP and issues SUB + RDY. The data path never goes through lookupd (nsqlookupd/http.go:104).",
+      "io": [["out", "SUB, RDY, FIN, REQ, TOUCH"], ["in", "frameTypeMessage"]],
+      "msgs": ["SUB", "RDY", "FIN", "REQ", "TOUCH", "CLS"]
+    },
+
+    "tcp": {
+      "layer": "entry", "col": 0, "label": "TCP protocol V2",
+      "sub": "nsqd/protocol_v2.go",
+      "desc": "Line-oriented command loop. Reads the 4-byte magic '  V2' (nsqd/tcp.go:46), then dispatches every command through Exec (nsqd/protocol_v2.go:168). One goroutine per connection reads commands; a second one pumps messages out.",
+      "files": ["nsqd/protocol_v2.go:39", "nsqd/protocol_v2.go:168", "nsqd/tcp.go:45"],
+      "io": [["in", "client commands"], ["out", "framed responses"]],
+      "msgs": ["IDENTIFY", "AUTH", "SUB", "PUB", "MPUB", "DPUB", "RDY", "FIN", "REQ", "TOUCH", "CLS", "NOP"],
+      "gotchas": [["A duplicate message GUID makes StartInFlightTimeout error, and messagePump responds by killing the whole client connection (nsqd/protocol_v2.go:363)."]]
+    },
+    "http": {
+      "layer": "entry", "col": 1, "label": "HTTP API",
+      "sub": "nsqd/http.go",
+      "desc": "Publish and admin surface. /pub and /mpub reach the same Topic.PutMessage path as the TCP commands; /stats is what nsqadmin scrapes (nsqd/http.go:501).",
+      "files": ["nsqd/http.go:57", "nsqd/http.go:213", "nsqd/http.go:263"],
+      "msgs": ["/pub", "/mpub", "/stats", "/topic/*", "/channel/*"]
+    },
+
+    "topic": {
+      "layer": "topic", "col": 0, "label": "Topic",
+      "sub": "nsqd/topic.go",
+      "desc": "One named stream. put() tries a non-blocking send to memoryMsgChan and falls through to disk when the buffer is full (nsqd/topic.go:225) — this is the entire spillover mechanism.",
+      "files": ["nsqd/topic.go:180", "nsqd/topic.go:220"],
+      "io": [["in", "Message from PUB/MPUB/DPUB"], ["out", "memoryMsgChan or backend"]],
+      "gotchas": [["Delete() discards whatever is still in memoryMsgChan rather than flushing it; only Close() calls flush() (nsqd/topic.go:405)."]]
+    },
+    "topicpump": {
+      "layer": "topic", "col": 1, "label": "Topic messagePump",
+      "sub": "nsqd/topic.go:249",
+      "desc": "One goroutine per topic. Selects across memoryMsgChan and backend.ReadChan(), then copies each message to every channel — the first channel reuses the same *Message as a fastpath, the rest get deep copies (nsqd/topic.go:318).",
+      "files": ["nsqd/topic.go:249", "nsqd/topic.go:318"],
+      "gotchas": [["Because it selects across the memory chan and the disk chan, Go's random select breaks FIFO: a newer in-memory message can overtake an older one that spilled to disk (nsqd/topic.go:283)."]]
+    },
+
+    "channel": {
+      "layer": "channel", "col": 0, "label": "Channel",
+      "sub": "nsqd/channel.go",
+      "desc": "Per-consumer-group queue. Has no pump of its own — every subscribed client's own goroutine races to read the same memoryMsgChan, which is exactly how NSQ load-balances rather than broadcasts (nsqd/protocol_v2.go:255).",
+      "files": ["nsqd/channel.go:332", "nsqd/channel.go:318"],
+      "io": [["in", "copy from topic fan-out"], ["out", "one message per winning client"]],
+      "gotchas": [["Empty() re-inits the priority queues, silently discarding every in-flight and deferred message without persisting them (nsqd/channel.go:210)."]]
+    },
+    "inflight": {
+      "layer": "channel", "col": 1, "label": "In-flight queue",
+      "sub": "nsqd/in_flight_pqueue.go",
+      "desc": "Min-heap keyed by absolute deadline (msg.pri), plus a map for ownership checks. A message enters on delivery and leaves on FIN, REQ, or timeout (nsqd/channel.go:509).",
+      "files": ["nsqd/in_flight_pqueue.go:58", "nsqd/channel.go:509", "nsqd/channel.go:644"],
+      "msgs": ["FIN", "REQ", "TOUCH"]
+    },
+    "deferred": {
+      "layer": "channel", "col": 2, "label": "Deferred queue",
+      "sub": "internal/pqueue/pqueue.go",
+      "desc": "Priority queue keyed by absolute wake-up time. Fed by DPUB and by REQ with a non-zero timeout; drains back into the channel queue when the deadline passes (nsqd/channel.go:613).",
+      "files": ["internal/pqueue/pqueue.go:1", "nsqd/channel.go:613", "nsqd/channel.go:522"]
+    },
+
+    "clientpump": {
+      "layer": "delivery", "col": 0, "label": "Client messagePump",
+      "sub": "nsqd/protocol_v2.go:203",
+      "desc": "One per connection. Before each iteration it checks IsReadyForMessages(); if the client has no RDY credit it sets every source channel to nil so the select simply cannot receive (nsqd/protocol_v2.go:237).",
+      "files": ["nsqd/protocol_v2.go:203", "nsqd/protocol_v2.go:237", "nsqd/protocol_v2.go:355"],
+      "io": [["in", "channel queues"], ["out", "framed message to socket"]]
+    },
+    "clientv2": {
+      "layer": "delivery", "col": 1, "label": "clientV2 (RDY state)",
+      "sub": "nsqd/client_v2.go",
+      "desc": "Credit-based flow control. A client is eligible only while InFlightCount < ReadyCount and ReadyCount > 0; FIN, REQ and timeout each return one credit and wake the pump via ReadyStateChan (nsqd/client_v2.go:417).",
+      "files": ["nsqd/client_v2.go:417", "nsqd/client_v2.go:434", "nsqd/client_v2.go:452"],
+      "msgs": ["RDY", "FIN", "REQ", "TOUCH", "CLS"]
+    },
+
+    "memq": {
+      "layer": "storage", "col": 0, "label": "memoryMsgChan",
+      "sub": "buffered Go channel",
+      "desc": "Buffered channel sized by MemQueueSize, default 10000 (nsqd/options.go:144). Topics and channels each get their own. Setting it to 0 disables the memory path entirely for ordering consistency.",
+      "files": ["nsqd/options.go:144", "nsqd/topic.go:49", "nsqd/channel.go:104"]
+    },
+    "diskq": {
+      "layer": "storage", "col": 1, "label": "Disk queue",
+      "sub": "go-diskqueue (external)",
+      "desc": "Overflow store behind the BackendQueue interface (nsqd/backend_queue.go:5). ReadChan() is documented as unbuffered, so reads are a direct handoff throttled by consumer speed.",
+      "files": ["nsqd/backend_queue.go:5", "nsqd/message.go:92"],
+      "gotchas": [["Ephemeral topics and channels get a dummyBackendQueue whose Put() is a no-op returning nil — once memory fills, messages are silently discarded (nsqd/dummy_backend_queue.go:11)."]]
+    },
+
+    "lookuploop": {
+      "layer": "entry", "region": "side", "col": 0, "label": "lookupLoop",
+      "sub": "nsqd/lookup.go",
+      "desc": "Pings every configured lookupd every 15s (nsqd/lookup.go:92) and broadcasts REGISTER/UNREGISTER whenever a topic or channel is created or deleted. On reconnect it replays the full topic/channel set (nsqd/lookup.go:53).",
+      "files": ["nsqd/lookup.go:92", "nsqd/lookup.go:122", "nsqd/lookup.go:53"]
+    },
+    "lookupd": {
+      "layer": "topic", "region": "side", "col": 0, "label": "nsqlookupd",
+      "sub": "nsqlookupd/",
+      "desc": "Discovery directory. Speaks its own '  V1' TCP protocol to nsqd and serves HTTP lookups to consumers and nsqadmin. Holds no messages and is never on the data path (nsqlookupd/lookup_protocol_v1.go:89).",
+      "files": ["nsqlookupd/lookup_protocol_v1.go:89", "nsqlookupd/http.go:38"],
+      "msgs": ["IDENTIFY", "REGISTER", "UNREGISTER", "PING"]
+    },
+    "regdb": {
+      "layer": "channel", "region": "side", "col": 0, "label": "RegistrationDB",
+      "sub": "nsqlookupd/registration_db.go",
+      "desc": "In-memory map from Registration{category,key,subkey} to a set of producers. Liveness is computed from each peer's lastUpdate rather than pushed, via FilterByActive (nsqlookupd/registration_db.go:214).",
+      "files": ["nsqlookupd/registration_db.go:10", "nsqlookupd/registration_db.go:214"],
+      "gotchas": [["A dropped TCP connection auto-deregisters that nsqd from every topic and channel it had registered (nsqlookupd/lookup_protocol_v1.go:76)."]]
+    },
+    "scanner": {
+      "layer": "delivery", "region": "side", "col": 0, "label": "queueScanLoop",
+      "sub": "nsqd/nsqd.go:676",
+      "desc": "Redis-style probabilistic expiration. Every 100ms it samples 20 random channels and runs processInFlightQueue and processDeferredQueue on each, looping again immediately if more than 25% were dirty (nsqd/nsqd.go:707).",
+      "files": ["nsqd/nsqd.go:676", "nsqd/nsqd.go:615", "nsqd/options.go:149"],
+      "gotchas": [["Because the scan samples rather than sweeps, in-flight timeout expiry can lag well behind the nominal msg-timeout when there are many channels (nsqd/nsqd.go:666)."]]
+    },
+    "nsqadmin": {
+      "layer": "client", "region": "side", "col": 0, "label": "nsqadmin",
+      "sub": "nsqadmin/",
+      "desc": "Read and control plane only. It is pure HTTP against lookupd and nsqd admin endpoints — it never opens an NSQ protocol connection and never touches message payloads (internal/clusterinfo/data.go:73).",
+      "files": ["nsqadmin/nsqadmin.go:24", "internal/clusterinfo/data.go:73"]
+    },
+    "metadata": {
+      "layer": "storage", "region": "side", "col": 0, "label": "Metadata file",
+      "sub": "nsqd.dat",
+      "desc": "Topic/channel topology, written with a write-then-fsync-then-rename pattern on every topology change (nsqd/nsqd.go:417). Holds no messages.",
+      "files": ["nsqd/nsqd.go:417", "nsqd/nsqd.go:342"],
+      "gotchas": [["Notify() rewrites the whole metadata file asynchronously on every create/delete with no debounce, so rapid churn causes redundant full rewrites (nsqd/nsqd.go:576)."]]
+    }
+  },
+
+  "edges": [
+    { "from": "producer",   "to": "tcp",        "type": "tcpv2",   "label": "PUB / MPUB / DPUB", "scenarios": ["full", "publish"] },
+    { "from": "producer",   "to": "http",       "type": "http",    "label": "POST /pub", "scenarios": ["full"] },
+    { "from": "tcp",        "to": "topic",      "type": "inmem",   "label": "Topic.PutMessage()", "scenarios": ["full", "publish"] },
+    { "from": "http",       "to": "topic",      "type": "inmem",   "label": "Topic.PutMessage()", "scenarios": ["full"] },
+    { "from": "topic",      "to": "memq",       "type": "inmem",   "label": "non-blocking send", "scenarios": ["full", "publish"] },
+    { "from": "topic",      "to": "diskq",      "type": "disk",    "label": "spill: buffer full", "scenarios": ["full", "publish"] },
+    { "from": "memq",       "to": "topicpump",  "type": "inmem",   "label": "select memoryMsgChan", "scenarios": ["full", "publish"] },
+    { "from": "diskq",      "to": "topicpump",  "type": "disk",    "label": "select backend.ReadChan()", "scenarios": ["full"] },
+    { "from": "topicpump",  "to": "channel",    "type": "inmem",   "label": "copy per channel", "scenarios": ["full", "publish"] },
+    { "from": "topicpump",  "to": "deferred",   "type": "inmem",   "label": "DPUB → PutMessageDeferred()", "scenarios": ["full"] },
+    { "from": "channel",    "to": "clientpump", "type": "inmem",   "label": "clients race the same chan", "scenarios": ["full", "publish", "deliver"] },
+    { "from": "clientpump", "to": "inflight",   "type": "inmem",   "label": "StartInFlightTimeout()", "scenarios": ["full", "deliver", "timeout"] },
+    { "from": "clientpump", "to": "clientv2",   "type": "inmem",   "label": "SendingMessage() — spend credit", "scenarios": ["full", "deliver"] },
+    { "from": "clientv2",   "to": "consumer",   "type": "tcpv2",   "label": "frameTypeMessage", "scenarios": ["full", "publish", "deliver"] },
+    { "from": "consumer",   "to": "clientv2",   "type": "tcpv2",   "label": "RDY / FIN / REQ / TOUCH", "scenarios": ["full", "deliver"] },
+    { "from": "clientv2",   "to": "inflight",   "type": "inmem",   "label": "FIN pops / REQ requeues", "scenarios": ["full", "deliver"] },
+    { "from": "deferred",   "to": "channel",    "type": "inmem",   "label": "deadline reached → put()", "scenarios": ["full"] },
+    { "from": "scanner",    "to": "inflight",   "type": "control", "label": "processInFlightQueue()", "scenarios": ["full", "timeout"] },
+    { "from": "scanner",    "to": "deferred",   "type": "control", "label": "processDeferredQueue()", "scenarios": ["full"] },
+    { "from": "inflight",   "to": "channel",    "type": "control", "label": "timeout → c.put()", "scenarios": ["full", "timeout"] },
+    { "from": "topic",      "to": "lookuploop", "type": "control", "label": "Notify() on create/delete", "scenarios": ["full", "discovery"] },
+    { "from": "lookuploop", "to": "lookupd",    "type": "tcpv2",   "label": "IDENTIFY / REGISTER / PING", "scenarios": ["full", "discovery"] },
+    { "from": "lookupd",    "to": "regdb",      "type": "inmem",   "label": "AddProducer()", "scenarios": ["full", "discovery"] },
+    { "from": "consumer",   "to": "lookupd",    "type": "http",    "label": "GET /lookup?topic=", "scenarios": ["full", "discovery"] },
+    { "from": "nsqadmin",   "to": "lookupd",    "type": "http",    "label": "/topics /nodes /lookup", "scenarios": ["full"] },
+    { "from": "nsqadmin",   "to": "http",       "type": "http",    "label": "GET /stats", "scenarios": ["full"] },
+    { "from": "topic",      "to": "metadata",   "type": "control", "label": "PersistMetadata()", "scenarios": ["full"] }
+  ],
+
+  "edgeMessages": {
+    "producer→tcp": {
+      "what": "Length-prefixed publish commands over the V2 TCP protocol, after the 4-byte '  V2' magic.",
+      "payloads": [
+        ["PUB <topic>\\n[4-byte size][body]", "single message (nsqd/protocol_v2.go:800)"],
+        ["MPUB <topic>\\n[body count][N × size+body]", "batch publish (nsqd/protocol_v2.go:850)"],
+        ["DPUB <topic> <timeout_ms>\\n[size][body]", "deferred publish, clamped to MaxDeferTimeout (nsqd/protocol_v2.go:903)"]
+      ]
+    },
+    "clientv2→consumer": {
+      "what": "Every server frame shares one layout: [4-byte size][4-byte frameType][data], where size covers the frameType too.",
+      "payloads": [
+        ["frameType 0 — response", "OK, _heartbeat_, CLOSE_WAIT, or a JSON blob"],
+        ["frameType 1 — error", "E_INVALID, E_BAD_TOPIC, …"],
+        ["frameType 2 — message", "[8B timestamp][2B attempts][16B id][body] (nsqd/message.go:69)"]
+      ]
+    },
+    "consumer→clientv2": {
+      "what": "Consumer-side flow control and acknowledgement.",
+      "payloads": [
+        ["RDY <count>", "sets the credit limit; 0 stops delivery entirely (nsqd/protocol_v2.go:676)"],
+        ["FIN <id>", "acknowledge; drops the message for good (nsqd/channel.go:412)"],
+        ["REQ <id> <timeout_ms>", "requeue now if 0, else defer (nsqd/channel.go:430)"],
+        ["TOUCH <id>", "extend the in-flight deadline, capped by MaxMsgTimeout (nsqd/channel.go:388)"]
+      ]
+    },
+    "lookuploop→lookupd": {
+      "what": "nsqd announcing itself over the lookupd '  V1' TCP protocol.",
+      "payloads": [
+        ["IDENTIFY", "broadcast address, ports, version, hostname (nsqlookupd/lookup_protocol_v1.go:200)"],
+        ["REGISTER <topic> [channel]", "sent on every topic/channel creation"],
+        ["UNREGISTER <topic> [channel]", "sent on deletion; ephemeral registrations vanish with their last producer"],
+        ["PING", "every 15s; refreshes lastUpdate for liveness (nsqd/lookup.go:92)"]
+      ]
+    }
+  },
+
+  "scenarios": [
+    { "id": "publish", "name": "Publish to delivery", "desc": "One message, producer to consumer.",
+      "path": ["producer→tcp", "tcp→topic", "topic→memq", "memq→topicpump", "topicpump→channel", "channel→clientpump", "clientv2→consumer"] },
+    { "id": "deliver", "name": "Deliver, ack, free credit", "desc": "The RDY credit cycle.",
+      "path": ["channel→clientpump", "clientpump→inflight", "clientpump→clientv2", "clientv2→consumer", "consumer→clientv2", "clientv2→inflight"] },
+    { "id": "timeout", "name": "In-flight timeout", "desc": "No FIN arrives, so the scanner redelivers.",
+      "path": ["clientpump→inflight", "scanner→inflight", "inflight→channel"] },
+    { "id": "discovery", "name": "Consumer discovery", "desc": "How a consumer finds nsqd nodes.",
+      "path": ["topic→lookuploop", "lookuploop→lookupd", "lookupd→regdb", "consumer→lookupd"] }
+  ],
+
+  "stateMachines": [
+    {
+      "id": "msg", "name": "Message lifecycle", "path": "nsqd/channel.go:412",
+      "states": ["queued", "in-flight", "deferred", "finished"],
+      "start": "queued", "terminal": ["finished"],
+      "transitions": [
+        ["queued", "in-flight", "messagePump delivers; StartInFlightTimeout (nsqd/protocol_v2.go:360)"],
+        ["in-flight", "finished", "FIN — popped from map and heap (nsqd/channel.go:412)"],
+        ["in-flight", "queued", "REQ with timeout 0, or msg-timeout expiry → c.put() (nsqd/channel.go:445, :674)"],
+        ["in-flight", "deferred", "REQ with timeout > 0 (nsqd/channel.go:451)"],
+        ["in-flight", "in-flight", "TOUCH resets the deadline (nsqd/channel.go:388)"],
+        ["deferred", "queued", "deadline reached; processDeferredQueue (nsqd/channel.go:637)"]
+      ]
+    },
+    {
+      "id": "conn", "name": "Client connection", "path": "nsqd/client_v2.go:20",
+      "states": ["init", "subscribed", "closing"],
+      "start": "init", "terminal": ["closing"],
+      "transitions": [
+        ["init", "subscribed", "SUB accepted; IDENTIFY and AUTH are init-only (nsqd/protocol_v2.go:668)"],
+        ["subscribed", "closing", "CLS → StartClose() forces RDY to 0 (nsqd/client_v2.go:485)"]
+      ]
+    },
+    {
+      "id": "rdy", "name": "RDY credit", "path": "nsqd/client_v2.go:417",
+      "states": ["ready", "blocked"],
+      "start": "ready",
+      "transitions": [
+        ["ready", "blocked", "InFlightCount reaches ReadyCount, RDY set to 0, or channel paused (nsqd/client_v2.go:427)"],
+        ["blocked", "ready", "FIN / REQ / timeout returns a credit and signals ReadyStateChan (nsqd/client_v2.go:452)"]
+      ]
+    }
+  ],
+
+  "pipeline": {
+    "title": "One message, five hops",
+    "lede": "Every published message walks the same path. Only the last hop is gated by the consumer.",
+    "stages": [
+      { "name": "Accept", "actor": "protocol_v2 / http", "type": "tcpv2",
+        "desc": "Parse the command, size-check the body, build a Message with a 16-byte ID and nanosecond timestamp (nsqd/message.go:31)." },
+      { "name": "Topic queue", "actor": "Topic.put", "type": "inmem",
+        "desc": "Non-blocking send to memoryMsgChan; on a full buffer, fall through to the disk queue (nsqd/topic.go:225)." },
+      { "name": "Fan out", "actor": "Topic.messagePump", "type": "inmem",
+        "desc": "Copy the message to every channel on the topic. Channel 0 reuses the original as a fastpath (nsqd/topic.go:318)." },
+      { "name": "Channel queue", "actor": "Channel.put", "type": "inmem",
+        "desc": "Same memory-then-disk spillover, now per consumer group. Deferred messages go to the priority queue instead (nsqd/channel.go:365)." },
+      { "name": "Deliver", "actor": "protocolV2.messagePump", "type": "tcpv2",
+        "desc": "Only if the client has RDY credit: bump Attempts, arm the in-flight timer, write a frameTypeMessage (nsqd/protocol_v2.go:355)." }
+    ]
+  },
+
+  "messages": {
+    "title": "Wire protocols",
+    "lede": "Two TCP protocols and two HTTP surfaces. nsqd speaks '  V2' to clients; nsqd speaks '  V1' to nsqlookupd.",
+    "groups": [
+      { "title": "Client → nsqd (TCP V2)", "layout": "pills",
+        "items": ["IDENTIFY", "AUTH", "SUB", "PUB", "MPUB", "DPUB", "RDY", "FIN", "REQ", "TOUCH", "CLS", "NOP"] },
+      { "title": "nsqd → client frames", "layout": "fields",
+        "fields": [
+          ["[4B size][4B frameType][data]", "size covers frameType plus payload, not itself"],
+          ["frameType 0 — response", "OK, _heartbeat_, CLOSE_WAIT, JSON"],
+          ["frameType 1 — error", "E_INVALID, E_BAD_PROTOCOL, …"],
+          ["frameType 2 — message", "[8B timestamp][2B attempts][16B id][body]"]
+        ] },
+      { "title": "nsqd → nsqlookupd (TCP V1)", "layout": "pills",
+        "items": ["IDENTIFY", "REGISTER", "UNREGISTER", "PING"] },
+      { "title": "HTTP endpoints", "layout": "table",
+        "columns": ["endpoint", "on", "used by"],
+        "rows": [
+          ["POST /pub, /mpub", "nsqd", "producers without a TCP client"],
+          ["GET /stats", "nsqd", "nsqadmin, monitoring"],
+          ["GET /lookup?topic=", "nsqlookupd", "consumers discovering nsqd nodes"],
+          ["GET /topics, /channels, /nodes", "nsqlookupd", "nsqadmin"],
+          ["POST /topic/*, /channel/*", "both", "operators, nsqadmin"]
+        ] }
+    ]
+  },
+
+  "facts": [
+    "nsqd nodes never talk to each other. There is no gossip, no replication, and no shared state — each node is independent, and a consumer fans in from all of them.",
+    "A producer is never told to slow down. When memory fills, nsqd writes to disk and still returns OK; the only signal a write failed is the daemon flipping to unhealthy (nsqd/topic.go:233).",
+    "RDY is a credit limit, not a batch size. A client is eligible for delivery only while InFlightCount < ReadyCount, and RDY 0 stops delivery completely (nsqd/client_v2.go:427).",
+    "A channel has no pump of its own. Every subscriber's goroutine races to read the same Go channel, which is what makes a channel load-balanced rather than broadcast (nsqd/protocol_v2.go:255).",
+    "In-flight and deferred state lives only in memory and is never serialized. A graceful Close() flushes it to disk; a kill -9 loses it (nsqd/message.go:24).",
+    "nsqlookupd is a directory, not a broker. Message data never passes through it — consumers use it only to learn which nsqd nodes to dial (nsqlookupd/http.go:104)."
+  ],
+
+  "rationale": [
+    ["Why a separate lookupd", "It decouples consumers from nsqd topology. Nodes register themselves and consumers poll /lookup, so nsqd instances can come and go without reconfiguring any consumer (nsqd/lookup.go:122)."],
+    ["Why memory-then-disk instead of blocking", "Blocking a publisher would push backpressure into the producer's request path. NSQ chooses to absorb it on disk and keep accepting writes, trading unbounded disk growth for publish latency that never spikes on queue depth (nsqd/topic.go:220)."],
+    ["Why a copy per channel", "Channels are independent consumer groups with their own in-flight state and their own pace, so each needs its own copy. Only channel 0 escapes the copy, as a deliberate fastpath (nsqd/topic.go:318)."],
+    ["Why probabilistic scanning", "Sweeping every channel every tick would cost O(channels) constantly. NSQ borrows Redis's approach: sample 20 channels every 100ms and keep going while more than 25% are dirty (nsqd/nsqd.go:666)."]
+  ],
+
+  "gotchas": [
+    ["Ephemeral queues drop silently", "An ephemeral topic or channel gets a dummyBackendQueue whose Put() is a no-op returning nil. Once memory fills, every further message is discarded and the publisher still sees success (nsqd/dummy_backend_queue.go:11)."],
+    ["Memory and disk break FIFO", "The topic pump selects across memoryMsgChan and the disk chan. Once both hold data, Go's random select means a newer in-memory message can be delivered before an older one that spilled (nsqd/topic.go:283)."],
+    ["No dead-letter queue, and Attempts wraps", "Attempts is a uint16 incremented on every delivery, compared against nothing. A poison message that a consumer keeps requeuing silently wraps at 65535 (nsqd/message.go:21, nsqd/protocol_v2.go:359)."],
+    ["Emptying a channel discards in-flight work", "Channel.Empty() re-inits the priority queues, so messages currently in flight to a client are dropped rather than persisted — including when triggered by POST /channel/empty (nsqd/channel.go:210)."],
+    ["A disconnect does not requeue immediately", "RemoveClient only deletes the client from the map; its in-flight messages sit there until their deadline expires and the scanner requeues them (nsqd/channel.go:500)."],
+    ["Timeout expiry can lag msg-timeout", "The scanner samples 20 random channels per tick rather than sweeping. With many channels, a message can stay in-flight well past its nominal timeout (nsqd/nsqd.go:707)."],
+    ["Topic creation can block on the network", "When lookupd is configured, GetTopic makes a blocking HTTP call to pre-create channels — on the publishing client's goroutine (nsqd/nsqd.go:519)."]
+  ]
+}
