@@ -14,8 +14,10 @@ theory; this skill is the repo's binding process. On Codex it stands alone.
 
 ## Authoring rules
 
-- SKILL.md hard cap: 500 lines. The repo norm is ~100 — past that, move
-  material into `references/`.
+- SKILL.md hard cap: 500 lines; 200–500 is the healthy range for a
+  substantive skill (per Schmid). Size to the directives that bind: never
+  pad a thin skill toward the range, and move verbatim or heavy reference
+  material into `references/` regardless of length.
 - `description:` = trigger conditions only — situations and symptoms, "use
   when…" — never a summary of the workflow (agents follow summaries instead
   of reading the body). Under ~500 chars, with one "not for" boundary.

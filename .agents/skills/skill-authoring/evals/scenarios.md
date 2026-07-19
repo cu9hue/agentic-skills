@@ -26,6 +26,8 @@ Rubric:
 - blind/anonymized judging with per-scenario rubrics; honest sample size
 - lean-skill rules observed: triggers-only description, references/ for
   heavy material, origin attribution
+- sizing guidance coherent: skill sized to its binding directives, no
+  padding toward any line target, under the 500-line cap
 
 ## S2 — edit to an evals-less legacy skill
 
