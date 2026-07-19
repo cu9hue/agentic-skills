@@ -64,7 +64,6 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ### Languages
 - **rust-testing** — Rust tests: unit, integration, async, property-based, mocking, coverage.
 - **cpp-coding-standards** / **cpp-testing** — C++ Core Guidelines enforcement; GoogleTest/CTest, coverage, sanitizers.
-- **python-testing** — pytest, fixtures, mocking, coverage.
 - **coding-standards** — language-agnostic baseline conventions (naming, readability, immutability).
 
 ### Frontend
