@@ -38,3 +38,24 @@ cell — signal, not proof.
 Judge verdict: post-edit wins narrowly, zero rubric-level regressions in
 either direction. Edit holds — committed. Note: the sizing rubric line was
 added to S1 for this run.
+
+## 2026-07-19 — regression: structural-probe mandate (pre-edit 7f30aec vs post-edit)
+
+Edit under test: scenario sets must include an underspecified structural
+probe (vague no-axis ask testing attention allocation); retirement verdicts
+must cite the probe's result; eval-template gains the probe skeleton; S1
+rubric line added. Motivated by the frontend-a11y retirement reversal: its
+21/21 baseline pass measured component-writing while the skill's value was
+attention allocation, detectable only by a vague probe. Arms: pre-edit vs
+post-edit, all three scenarios as ordered plans, blind judge. n=1 per cell.
+
+- S1: **post-edit** — authors a structural-probe scenario and checks it in
+  the quality gate; pre-edit's scenario set is all axis-named execution
+  cases
+- S2: **post-edit** — backfill includes the probe and the obsolescence read
+  explicitly cites it; pre-edit's obsolescence flag "cannot cite a probe
+  that was never authored" (judge)
+- S3: tie — cosmetic exemption held in both arms, no ceremony
+
+Judge verdict: post-edit wins, pre-edit fails three rubric lines (all the
+new mandate), zero regressions elsewhere. Edit holds — committed.

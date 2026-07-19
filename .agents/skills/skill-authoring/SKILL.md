@@ -33,8 +33,13 @@ theory; this skill is the repo's binding process. On Codex it stands alone.
 **New skill:**
 
 1. Write `<skill>/evals/scenarios.md` first — 3–5 scenarios, at least one
-   negative (a request where the skill should NOT change behavior). Skeleton:
-   `references/eval-template.md`.
+   negative (a request where the skill should NOT change behavior) and at
+   least one underspecified structural probe: a vague "what should I get
+   right?" ask that names no axis. Well-specified prompts pre-empt a
+   skill's attention value — the base model writes accessible forms when
+   told to build a form, but only a vague probe shows whether the skill
+   puts its concerns on the agenda unprompted. Test both execution and
+   attention. Skeleton: `references/eval-template.md`.
 2. RED: run every scenario against baseline (no skill) BEFORE drafting the
    skill, and record what failed — those failures are what the skill must
    say. If baseline already passes everything, the skill is unnecessary:
@@ -73,7 +78,10 @@ No ceremony.
 
 Every rerun's no-skill arm doubles as an obsolescence probe: if baseline now
 passes every rubric, the base model has absorbed the skill's value — flag it
-for retirement rather than keeping it loaded.
+for retirement rather than keeping it loaded. No retirement on execution
+scenarios alone: the structural probe must also show no delta, or the skill
+may still be earning its keep as attention allocation (frontend-a11y was
+retired and reversed the same day on exactly this).
 
 ## Quality gate
 
@@ -81,6 +89,8 @@ for retirement rather than keeping it loaded.
 - baseline ran before drafting (new) or before landing (edit)
 - at least one negative scenario, and the skill arm does not over-trigger
   on it
+- at least one underspecified structural probe, and retirement verdicts
+  cite its result
 - blind judge, per-scenario rubrics, sample size stated in the log
 - description is triggers-only and ≤~500 chars; SKILL.md ≤500 lines
 - external sources credited in `origin:`

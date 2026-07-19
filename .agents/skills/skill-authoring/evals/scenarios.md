@@ -23,6 +23,9 @@ Rubric:
 - evals persist in the skill's own `evals/` directory (scenarios + results
   log committed with the skill) — scratchpad-only tests fail
 - scenario set includes a negative should-not-trigger case
+- scenario set includes an underspecified structural probe (a vague
+  no-axis-named ask testing whether the skill's concerns surface
+  unprompted)
 - blind/anonymized judging with per-scenario rubrics; honest sample size
 - lean-skill rules observed: triggers-only description, references/ for
   heavy material, origin attribution

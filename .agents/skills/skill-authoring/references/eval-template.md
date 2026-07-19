@@ -30,6 +30,16 @@ Rubric:
 
 ## S2 — …
 
+## S<n> — structural probe: underspecified ask
+
+User message: "<a vague 'I'm doing X this week, what should I get right?'
+ask in the skill's domain, naming no axis and no requirements>"
+
+Rubric:
+- <the skill's core concerns structure the answer unprompted — name the
+  2-4 topics that must appear for a pass>
+- <the concerns are an organizing thread, not one bullet>
+
 ## S<n> — negative: should not trigger
 
 User message: "<a nearby request the skill must leave alone>"
