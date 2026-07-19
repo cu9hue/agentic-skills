@@ -81,3 +81,31 @@ the pre-edit skill + base model already cleaned them in a rewrite task where
 they're conspicuous. The catalog costs nothing until loaded and hardens the
 audit path, but its necessity is unproven; if a future run shows baseline
 passing all tells, consider slimming it (obsolescence rule).
+
+## 2026-07-19 — regression: corpus-derived voice guide (pre-edit ef58fe7 vs post-edit)
+
+Edit under test: voice-guide.md rewritten from the author's real notes
+corpus (128 files, ~38k words) — archetype theory replaced with seven
+observed mechanics (compressed verdicts, dash-thought converted at polish,
+flat opinions, mixed register, operational self-honesty, structure habits,
+inside-the-work on the brief's facts), corpus lines as examples. Qualifier
+diagnostic and manufactured-experience guard kept. Dash policy decided:
+ban stays, dashes convert at polish. Arms: pre-edit vs post-edit, four
+scenarios, blind judge scoring standard rubrics (gate) + five voice-match
+criteria (tiebreaker). n=1 per cell.
+
+Round 1: post-edit won voice decisively (21.5 vs 17.5 of 25 — compressed
+verdicts and no framing-announcements landed; pre-edit's essayist
+constructions scored worst) but FAILED the gate: S3 laundered the stat into
+"most developers' time" and S1 invented a jq-usage habit. Pre-edit took the
+gate with one soft invented fact.
+
+Fix: two voice-guide additions — "own the stat or kill it" (population
+claims convert to first person or die) and "habits and preferences are
+biography too". Targeted retest of S1 and S3: both clean — S3 owns the stat
+in first person, S1 invents no habits and handles zero users flatly.
+Verified directly against the failed rubric lines (not a fresh blind
+panel — iteration recheck, noted honestly).
+
+Verdict: edit holds after one fix round; voice win carries. New S1 rubric
+line added (voice-match) so future regressions keep scoring it.

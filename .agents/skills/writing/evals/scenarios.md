@@ -33,6 +33,10 @@ Rubric:
   the brief
 - qualifiers name conditions, not insurance ("works on JSON lines only",
   not "this might not be for everyone")
+- voice matches the voice guide's mechanics: compressed verdicts (short
+  flat sentences after evidence), opinions with no wind-up, no essayist
+  framing-announcements ("The opinion the tool is built on:", "the honest
+  version:")
 
 ## S2 — README intro (Layer 1 only, stays neutral)
 

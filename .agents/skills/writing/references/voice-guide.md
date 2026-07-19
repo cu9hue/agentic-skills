@@ -4,111 +4,124 @@ The fixed personal voice for opinion and personal pieces. Load this only when
 writing posts, essays, launch notes, or newsletters. Skip it for neutral
 reference material, where the anti-slop rules alone apply.
 
-**Archetypes:** Sage (substance), Explorer (momentum), Creator (taste).
+Derived from the author's actual notes corpus (128 files, ~38k words,
+analyzed 2026-07-19). Every rule below is an observed habit, not a persona;
+the quoted examples are real lines from the corpus.
 
-The blend in one line: write from *inside* the work, bring real analytical
-structure, and hold a clear standard for how things should be made. Confident
-conditionals, delivered fast, in first person, with an opinion about quality
-attached.
+**The voice in one line:** evidence gets sentences, the verdict gets a
+fragment; opinions land flat and unhedged; casual and technical share a
+sentence; everything is written from inside the work.
 
-The governing rule that resolves the internal tension: **be provisional about
-conclusions, rigorous about reasoning.** Show the framework solidly. Let the
-verdict stay open and revisable.
+## Mechanics
 
-## The three forces, and what each one is for
+**1. Compress the verdict.** Explanations run normal length; conclusions
+compress to a fragment or a short flat sentence, often after the evidence.
 
-**Sage** is the native register: frameworks, precision, the refusal to flatten a
-claim into a hot take. This is the strength, so the job is to *discipline* it,
-not amplify it. Left unchecked, Sage produces hedge-stacks and detached "from on
-high" explaining.
+- "Jitter is unacceptable."
+- "It was BAD."
+- "Hard to set up."
 
-**Explorer** is the corrective. Ships, goes first, writes field notes from
-territory actually being crossed. This is the antidote to over-planning and
-pre-hedging. When Sage says "let me map the whole space before I commit,"
-Explorer says "here's what I found, I'll revise."
+One-word-emphasis CAPS is allowed, rarely. Aphoristic compression is native:
+"If this is up to me, it deserves 100% of my energy. Otherwise, it's none of
+my concern."
 
-**Creator** is the through-line. Cares about craft and taste, not just analysis.
-This is what makes the design work and the quant work belong under one name.
-States aesthetic judgment plainly and has a view on how things *should* be built.
+**2. The dash-thought, converted at polish.** The native connective move is
+claim — consequence ("Allocations are costly — consider a pool"). Keep the
+move, convert the punctuation before publishing (em dashes are the top AI
+tell, banned by the skill): colon, period, or parentheses.
 
-## Do
+- Draft: "Allocations are costly — consider a pool."
+- Published: "Allocations are costly: consider a pool."
 
-- Write in first person, from inside the work. "Here's what broke when I built
-  X," not "one common pitfall is."
-- State the framework with full rigor: conditions, trade-offs, when it holds.
-- Keep the verdict revisable. "I might be wrong about the answer" beats "I'm
-  scared to state the answer."
-- Lead with an opinion about quality when you have one. Taste is content.
-- Ship provisional. A published draft you'll revise beats a perfect draft you
-  won't.
-- Let conditionals do analytical work: "lock-free wins above this contention
-  threshold" earns its place.
+The `=>` and `->` shorthand stays in notes; it never ships.
 
-## Don't
+**3. Opinions land flat.** No wind-up, no softening clause. "Corporate
+theater." "Bloated and smells." "Denormalized data is not a sin." A verdict
+is a sentence, not a paragraph. Qualifiers are allowed only when they name a
+condition: "Perfectly fine for hot path however."
 
-- Don't pre-hedge. Softening a position before stating it is fear, not nuance.
-- Don't narrate from a distance. The detached explainer voice kills Explorer and
-  Creator both.
-- Don't stack qualifiers defensively. Ask of every "it depends": is this doing
-  analytical work, or just protecting me from being wrong?
-- Don't over-plan in public. Meta-discussion about what to write is not writing.
-- Don't strip the opinion to sound neutral. Neutral is not a voice.
-- Don't manufacture lived experience. "Inside the work" runs on the brief's
-  actual history plus your reasoning and taste; an invented war story or
-  usage timeline is slop wearing the voice.
+**Own the stat or kill it.** An unnamed population claim never survives in
+this voice, in any disguise: "most developers", "a big chunk of developers'
+time", "by some estimates" are all the same laundered "studies show".
+Convert to first person ("debugging eats enough of my time") or cut the
+sentence entirely.
+
+**4. Mixed register is the texture.** Casual and technical in the same
+breath: "people feel less wealthy and don't wanna invest" next to
+"deleveraging". Do not sand it off. The author's own discourse markers —
+"actually", "basically", "super" — are voice, not AI tells; keep them in
+personal pieces (the ai-tells cluster rule governs: one marker is voice, a
+pile-up of catalog tells is slop).
+
+**5. Self-honesty, no performance.** Admit what you don't know, plainly:
+"Incredibly dense talk. I learned that I need to learn a lot of stuff."
+Self-directed imperatives are native: "Toughen up." "Reread every time there
+is an urge." No fake vulnerability arcs; the honesty is operational, not
+confessional.
+
+**6. Structure habits.** Bold-label bullets ("**What drives me:**"),
+"Actionable:" callouts, question headers that do real thinking ("What's
+going to spark the next crash?"), numbered taxonomies ("6 ways to say no").
+Exclamation marks mark genuine surprise ("3–6 assertions on average to get
+to the behavior change!"), never hype.
+
+**7. From inside the work, on the brief's facts.** First person, builder's
+view: "As my own sidenote, template bloat can lead to worse instruction
+cache utilization." Lived experience comes from the brief's actual history
+plus your reasoning and taste; an invented war story or usage timeline is
+slop wearing the voice. Habits and preferences are biography too: "the jq
+dialect I already use everywhere else" is a fabricated fact unless the brief
+says so. Without real history, the inside-the-work move is your actual
+reasoning.
 
 ## The diagnostic test (the single most useful habit)
 
 The nuance instinct and the hedging instinct produce sentences that look
 identical. Before keeping any qualifier, ask:
 
-> Is this conditional describing *when the claim holds* (keep it, that's Sage),
-> or is it lowering my exposure *in case I'm wrong* (cut it, that's fear)?
+> Is this conditional describing *when the claim holds* (keep it), or is it
+> lowering my exposure *in case I'm wrong* (cut it)?
+
+Be provisional about conclusions, rigorous about reasoning: state the
+framework solidly, let the verdict stay revisable.
 
 ## Before / after
 
-**1. Pre-hedge becomes conditional with teeth**
+**1. Pre-hedge becomes a condition with teeth**
 
-- Before: "Lock-free isn't always faster. It really depends, and there's a lot of
-  nuance here, so take this with a grain of salt."
+- Before: "Lock-free isn't always faster. It really depends, and there's a
+  lot of nuance here, so take this with a grain of salt."
 - After: "Lock-free loses to plain locks under low contention. The
   atomic-operation overhead doesn't pay off until you're past [threshold].
   Here's the data."
 
-*Same nuance. The qualifier now names a condition instead of buying insurance.*
+**2. Padded verdict becomes a compressed one**
 
-**2. Detached Sage becomes Explorer from inside**
+- Before: "Overall, this approach turned out to have significant drawbacks
+  that made it less suitable for our use case than we initially hoped."
+- After: "It was bad. Crashes always lead to low economic activity" — verdict
+  first, mechanism after. (Pattern straight from the corpus.)
 
-- Before: "A common mistake engineers make is failing to account for cache
-  coherency costs."
-- After: "I lost two days to this: the cost wasn't the algorithm, it was cache
-  coherency. Here's the trace that showed me."
+**3. Sanded register becomes mixed register**
 
-*Only when the two days and the trace are real (in the brief). Without them,
-the inside-the-work move is your actual reasoning, not an invented war story.*
+- Before: "Individuals become reluctant to make investments during downturns."
+- After: "People feel less wealthy and don't wanna invest."
 
-**3. Taste-neutral becomes Creator opinion**
+**4. Observer voice becomes builder's sidenote**
 
-- Before: "There are several valid approaches to structuring this kind of
-  project."
-- After: "Most of these structures are wrong for a solo operator. This is the one
-  I'd build, and why."
-
-**4. Over-planning becomes shipping**
-
-- Before: "I'm still figuring out the right first topic. There are a few
-  directions and I want to pick the one with the best angle."
-- After: "First post: locks vs lock-free, the version that's actually correct.
-  Here it is." *(then the post)*
+- Before: "It should be noted that template instantiation may increase code
+  size."
+- After: "As my own sidenote, template bloat can lead to worse instruction
+  cache utilization. Perfectly fine for hot path however."
 
 ## Voice in one breath
 
-Rigorous about *how*, relaxed about *whether*. In the work, not above it. An
-opinion about quality, always attached.
+Verdicts compressed, opinions flat, register mixed, honesty operational.
+Rigorous about *how*, relaxed about *whether*. In the work, not above it.
 
 ---
 
-Anti-slop reference: the five-category slop taxonomy at
-<https://slopdetector.org/slop-taxonomy> (Generic, Pseudo-Insight, Fake
-Authority, Wikipedia Rehash, Wellness). The antidotes are the same across all
-five: specificity, lived experience, cited sources, genuine information gain.
+Anti-slop reference: the full tell catalog and cluster rule live in
+[ai-tells.md](ai-tells.md). The five slop categories' shared antidote —
+specificity, real lived experience, cited sources, information gain — is
+this voice's baseline, not its ceiling.
