@@ -64,7 +64,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 ### Languages
 - **rust-patterns** / **rust-testing** — idiomatic Rust (ownership, traits, concurrency) and TDD-style testing (unit, integration, async, property-based).
 - **cpp-coding-standards** / **cpp-testing** — C++ Core Guidelines enforcement; GoogleTest/CTest, coverage, sanitizers.
-- **python-patterns** / **python-testing** — Pythonic idioms, PEP 8, type hints; pytest, fixtures, mocking, coverage.
+- **python-testing** — pytest, fixtures, mocking, coverage. (python-patterns retired 2026-07-19: evals showed baseline passes 17/18 of its mandates unaided — see git history for the eval record.)
 - **coding-standards** — language-agnostic baseline conventions (naming, readability, immutability).
 
 ### Frontend
