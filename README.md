@@ -62,15 +62,14 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **goal-loop** — write `/goal` contracts for long-running autonomous runs (the "Ralph loop") in Claude Code and Codex: a 5-part contract (objective, constraints, validation command, stop condition, docs), the meta-prompting trick, drift handling, and per-agent mechanics kept separate. Harvested from [davidondrej/skills](https://github.com/davidondrej/skills) (MIT); Claude Code mechanics corrected against the [official `/goal` docs](https://code.claude.com/docs/en/goal).
 
 ### Languages
-- **rust-testing** — Rust tests: unit, integration, async, property-based, mocking, coverage. (rust-patterns retired 2026-07-19: baseline passed all 21 eval rubric lines unaided; refactor outputs were byte-identical between arms — see git history.)
+- **rust-testing** — Rust tests: unit, integration, async, property-based, mocking, coverage.
 - **cpp-coding-standards** / **cpp-testing** — C++ Core Guidelines enforcement; GoogleTest/CTest, coverage, sanitizers.
-- **python-testing** — pytest, fixtures, mocking, coverage. (python-patterns retired 2026-07-19: evals showed baseline passes 17/18 of its mandates unaided — see git history for the eval record.)
+- **python-testing** — pytest, fixtures, mocking, coverage.
 - **coding-standards** — language-agnostic baseline conventions (naming, readability, immutability).
 
 ### Frontend
 - **ui-design** — anti-slop discipline for consumer UIs: establish a `DESIGN.md` from real references and the product's own subject, build within its tokens, audit against a slop rubric spanning type, color, layout, motion, and imagery. Assumes Tailwind + React. Harvested from ECC, [impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0), two anti-slop posts, and the design skills from [Anthropic](https://github.com/anthropics/skills), [claudekit](https://github.com/claudekit/frontend-design-pro-demo), and [taste-skill](https://github.com/Leonxlnx/taste-skill).
-- *(vite-patterns retired 2026-07-19: baseline passed all 24 eval rubric lines unaided — see git history for the eval record.)*
-- **frontend-a11y** — accessibility patterns (semantic HTML, ARIA, keyboard nav, focus). Briefly retired 2026-07-19 after baseline passed all component-writing eval lines, then resurrected the same day: a structural probe showed its real function is putting a11y on the agenda in open-ended feature work, which baseline doesn't do unprompted (see `evals/results.md`).
+- **frontend-a11y** — accessibility patterns (semantic HTML, ARIA, keyboard nav, focus). Earns its keep as attention allocation: puts a11y on the agenda in open-ended feature work (see `evals/results.md`).
 
 ### Writing
 - **writing** — direct, concrete, anti-slop prose. Anti-slop rules apply to all writing; a fixed first-person voice (`references/voice-guide.md`) layers on for personal and opinion pieces. Adapted from ECC article-writing.
