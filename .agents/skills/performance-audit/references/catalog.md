@@ -306,8 +306,10 @@ if all of those are measured and rejected, insert
 **Confirming measurement.** Establish the precondition, which is that the
 hardware prefetcher is not already covering this loop:
 `perf stat -e l2_rqsts.all_pf,l2_rqsts.pf_miss` on Intel shows whether the
-prefetcher is issuing for it at all. Confirm latency-bound rather than
-bandwidth-bound as in the pointer-chasing entry. Then, if you insert a
+prefetcher is issuing for it at all. Where the host lets you measure achieved
+bandwidth, add the latency-versus-bandwidth check from the pointer-chasing
+entry — it is supporting evidence there and it is supporting evidence here, so
+its absence does not block you. Then, if you insert a
 prefetch, it is not confirmed by one run: sweep at least three distances,
 re-measure each under the full gate-1 protocol with spread, and keep the change
 only if the win exceeds the run-to-run spread at every distance around the

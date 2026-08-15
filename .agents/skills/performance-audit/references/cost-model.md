@@ -38,23 +38,32 @@ hypotheses is worth testing first. The test is what tells you which one is
 true. If a report sentence would still stand with the table deleted, it is a
 finding; if it collapses, it was never one.
 
-The rows are not equally soft, so be specific about which ones can order
-anything. The wide ones: contended atomic RMW spans 3x inside one socket, and
-the page-walk row is bimodal — 20–50 cycles with the page-table entries cached
-against 500 or more without, a 25x split inside a single row. The pairs that
-overlap, and therefore rank nothing against each other: contended atomic RMW
-(100–300) against idle local DRAM (200–350); an uncached page walk (500+)
-against remote DRAM (350–700) and against a cross-socket atomic (500+); a
-cross-socket false-sharing round trip (300–600) against remote DRAM (350–700);
-loaded local DRAM (500–1000) against idle remote DRAM (350–700); and a
-same-socket false-sharing round trip (100–200) against a same-socket contended
-atomic (100–300), which is unsurprising, since both are the same coherence
-traffic. Where two anchors overlap, measure both or say you could not.
+The rows are not equally soft. The wide ones: contended atomic RMW spans 3x
+inside one socket, and the page-walk row is bimodal — 20–50 cycles with the
+page-table entries cached against 500 or more without, a 25x split inside a
+single row.
 
-Where they do not overlap, the ordering holds — but on one machine only. An L3
-hit and an idle local DRAM access are a factor of 2.2 apart at their closest
-(90 against 200), which is a real gap, and it is still smaller than the spread
-across the parts this stamp covers. That is what the next paragraph is for.
+The rule for using two rows together is one you apply, not one you look up:
+**any two rows whose cycle ranges intersect rank nothing against each other.**
+Read the two ranges and check. Intersections are common enough that listing
+them would run longer than the table, and they include some you would not
+guess — a branch mispredict (15–20) sits entirely inside an uncontended atomic
+RMW (15–25); a same-socket false-sharing round trip is the same 100–200 as a
+4 KiB L1-hot `memcpy`; the syscall floor (150–250) reaches idle local DRAM, a
+same-socket contended atomic, and that same false-sharing round trip; a
+cold-source `memcpy` (600–1000) reaches remote DRAM, loaded local DRAM, an
+uncached page walk, and a cross-socket atomic; even an L3 hit (45–90) reaches a
+cached page walk (20–50). Those are examples, not an inventory: do not read a
+pair's absence from this paragraph as permission to rank it. Where the ranges
+intersect, measure both or say you could not.
+
+Where they do not intersect, the *direction* holds and the *size* does not. An
+L3 hit and an idle local DRAM access are 2.2x apart at their closest (90
+against 200) and 7.8x apart at their widest (45 against 350), because each row
+is its own band and a ratio between two bands compounds both. Across every part
+this stamp covers, DRAM is the more expensive of the two — that ordering is
+safe. By how much is a 3.5x question, which is why you must not put the size in
+a report without deriving it. That is what the next paragraph is for.
 
 Re-derive the rows that matter to your audit on the target machine, and quote
 the derived numbers instead. `lmbench` covers memory latency, syscall, and
@@ -103,9 +112,16 @@ bandwidth of your workload is not something plain `perf stat` reports — it
 needs uncore memory-controller counters:
 
 ```bash
-# Intel server: each CAS command moves one 64-byte line.
-# bytes = (cas_count_read + cas_count_write) * 64
+# Intel server: the uncore memory controllers. Modern perf builds ship the
+# Intel uncore JSON, which attaches a ScaleUnit to these events, so perf
+# already prints MiB — read that number and divide by elapsed time. Do NOT
+# multiply it by 64; the scaling is applied for you and you would overstate
+# bandwidth by orders of magnitude.
 perf stat -a -e uncore_imc/cas_count_read/,uncore_imc/cas_count_write/ -- ./bench
+
+# Only if perf prints a bare unscaled count — a number with no unit beside
+# it — do you convert by hand: bytes = (reads + writes) * 64, one CAS per
+# 64-byte line. Check which you got before you divide.
 
 # AMD Zen 4 and later expose the UMC PMU. Check what this kernel has:
 perf list | grep -iE 'umc|uncore_imc|amd_df'
@@ -152,8 +168,11 @@ Take the event count from your own counters, never from this file. Take the
 per-event cost from this file only until you have re-derived it.
 
 One row needs the re-derivation before you use it at all: **local DRAM**. Its
-table figure is idle latency, and a loaded server runs two to three times
-higher. Feed the idle number into the arithmetic above and every DRAM
+table figure is idle latency, and a typically loaded server runs two to three
+times higher — that is the number to plan with. Past roughly 80% of peak
+bandwidth queueing takes over and there is no ceiling at all, which is the
+tail the row's "+" refers to; two to three times is the working case, not a
+bound. Feed the idle number into the arithmetic above and every DRAM
 hypothesis is systematically under-ranked — which is the bucket most audits
 land in, so the bias is not random, it points one way. Either use a loaded
 figure derived on the target machine, or state that your DRAM estimate is a
