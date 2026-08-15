@@ -4,9 +4,10 @@ Top-down Microarchitecture Analysis splits every pipeline slot the CPU issued
 into four buckets. Measure the split, name the bucket, then drill down. The
 bucket is the finding; the source code is not evidence for it.
 
-A *pipeline slot* is one µop-issue opportunity in one cycle. A core issues 4
-slots per cycle (6 on Golden Cove and later). The four level-1 buckets partition
-100% of those slots, so they always sum to 100%.
+A *pipeline slot* is one µop-issue opportunity in one cycle. Slot count is the
+core's issue width: 4 through Skylake, 5 on Sunny Cove through Tiger Lake, 6 on
+Golden Cove and later, and 6 dispatch on Zen 3 and Zen 4. The four level-1
+buckets partition 100% of those slots, so they always sum to 100%.
 
 Rules:
 
@@ -43,14 +44,20 @@ operations*. A large heavy-operations share means the microcode sequencer is
 running — FP assists on denormals, `rep movsb`, gather/scatter. That is retired
 work that buys nothing. Check it before you conclude the code is efficient.
 
+FP assists appear here and again under `bad speculation` / machine clears. Both
+are right: the assist's own microcoded µops retire and land in `retiring`,
+while the pipeline flush that starts the assist is a machine clear. A denormal
+storm shows up in both buckets, and flushing denormals to zero
+(`-ffast-math`, or `_MM_SET_FLUSH_ZERO_MODE`) removes both.
+
 ### `bad speculation`
 
 - **branch mispredicts** — the common case. Count with `branch-misses` and
   `branches`; the rate that matters is misses over branches. On Intel,
   `br_misp_retired.all_branches` attributes them to code.
 - **machine clears** — rarer and more specific: memory-ordering violations
-  (usually 4K address aliasing between a load and a store, or true sharing
-  across threads), self-modifying code, FP assists. Count with
+  (memory-disambiguation mispredicts and cross-thread sharing),
+  self-modifying code, FP assists. Count with
   `machine_clears.count` and its `.memory_ordering` and `.smc` variants on
   Intel. A machine clear costs far more than a mispredict, so a small count can
   still dominate.
@@ -65,7 +72,10 @@ databases, browsers, anything with a flat profile and a big text segment.
 - **fetch latency** — the front end stalled waiting for instruction bytes:
   L1 i-cache misses, iTLB misses, branch resteers. Counters:
   `L1-icache-load-misses`, `iTLB-load-misses`, and on Intel
-  `frontend_retired.l2_miss` / `icache_16b.ifdata_stall`.
+  `frontend_retired.l2_miss` plus the i-cache stall counter, whose name moves
+  between generations: `icache.ifdata_stall` on Haswell and Broadwell,
+  `icache_16b.ifdata_stall` on Skylake, `icache_data.stalls` on Ice Lake and
+  later. Check with `perf list | grep -i icache` before you use it.
 - **fetch bandwidth** — bytes arrived but decode could not keep up: µop-cache
   (DSB) misses, legacy decode paths, loop-stream-detector limits. Counters on
   Intel: `idq.dsb_uops` vs `idq.mite_uops`, `dsb2mite_switches.penalty_cycles`.
@@ -82,7 +92,9 @@ Both drill-downs point at code size and code layout, not at data.
   `cycle_activity.stalls_total`.
 - **memory bound** — stalled on the memory hierarchy. Split by level, because
   the fix differs at every level:
-  - **L1 bound** — DTLB misses, store-to-load forwarding blocks, 4K aliasing.
+  - **L1 bound** — DTLB misses, store-to-load forwarding blocks, and 4K
+    aliasing (`ld_blocks_partial.address_alias` on Intel — a forwarding block,
+    not a machine clear).
   - **L2 bound** — the working set spills out of L1.
   - **L3 bound** — separate latency from contention; on a shared L3 another
     thread may be the cause.
@@ -99,21 +111,42 @@ bound" without a level is not a localization.
 
 ### 0. Check the PMU is exposed
 
-Run this first. Virtual machines and most containers do not expose the PMU.
+Run this first. Four different walls block `perf`, and they have different
+fixes.
 
 ```bash
 perf stat -e cycles,instructions -- /bin/true
 cat /proc/sys/kernel/perf_event_paranoid
+cat /proc/sys/kernel/nmi_watchdog
 ```
 
-If the counters print `<not supported>` or `<not counted>`, there is no PMU.
-Every command below except `cachegrind` will fail. Move to a bare-metal host or
-use `cachegrind`.
+If the counters print `<not supported>` or `<not counted>`, this host is not
+giving you the PMU. Work out which wall you hit before you move machines:
 
-`perf_event_paranoid` gates access: `2` allows profiling your own process, `1`
-also allows kernel events, `-1` allows system-wide. Lower it with
-`sudo sysctl -w kernel.perf_event_paranoid=1`. System-wide collection (`-a`)
-needs `-1`, `root`, or `CAP_PERFMON`.
+- **Permissions.** `perf_event_paranoid` gates access. The ladder: `2` allows
+  user-space per-process measurement; `1` adds kernel events; `0` adds
+  system-wide (`-a`) collection and raw tracepoints; `-1` is unrestricted.
+  Lower it with `sudo sysctl -w kernel.perf_event_paranoid=0`, which is what
+  section 1 needs. System-wide collection needs `0` or lower, `root`, or
+  `CAP_PERFMON`.
+- **Debian and Ubuntu ship `3`**, a value from an out-of-tree patch that is not
+  in the ladder above. It blocks all unprivileged `perf`. If you read `3`, that
+  is why, and the same `sysctl` fixes it.
+- **Containers have the PMU** — they share the host kernel. What blocks them is
+  Docker's default seccomp profile denying `perf_event_open`. Run with
+  `--security-opt seccomp=unconfined --cap-add CAP_PERFMON`, or
+  `--privileged`. Do not migrate off the container; unblock it.
+- **Virtual machines need an exposed vPMU.** Under KVM that is
+  `-cpu host,pmu=on`. Essentially no shared public-cloud instance exposes one;
+  AWS `.metal` instances do, because they are not virtualized. WSL2 has no PMU
+  at all. This is the one wall you cannot fix from inside — move to bare metal
+  or use `cachegrind` (section 6).
+- **The NMI watchdog holds a counter.** With `nmi_watchdog` at `1`, one general
+  counter is unavailable, which forces multiplexing and perturbs
+  `perf stat --topdown` on pre-Ice-Lake parts as well as `toplev`. Turn it off
+  for the measurement: `sudo sysctl -w kernel.nmi_watchdog=0`.
+
+`cachegrind` is the only tool in this file that needs none of the above.
 
 ### 1. The level-1 split
 
@@ -185,13 +218,31 @@ perf annotate --stdio -s <symbol>
 Record the event that matches the bucket you found, so the profile ranks by
 that bucket rather than by time:
 
+For `memory bound`, use `perf mem`. It picks the right precise event for the
+vendor, so it works on both Intel and AMD:
+
 ```bash
-perf record -e cache-misses:pp -g -- ./bench      # memory bound
-perf record -e branch-misses:pp -g -- ./bench     # bad speculation
+perf mem record -- ./bench
+perf mem report --stdio
 ```
 
-The `:pp` suffix requests precise attribution. It needs PEBS on Intel or IBS on
-AMD. Without it the sampled instruction pointer skids and blames the wrong line.
+It reports each sampled load with the level that served it — L1, L2, L3, local
+or remote DRAM — so it names the level as well as the line. On Intel Skylake or
+newer you can also sample one level directly:
+
+```bash
+perf record -e mem_load_retired.l3_miss:pp -g -- ./bench   # Intel Skylake+
+perf record -e branch-misses:pp -g -- ./bench              # bad speculation
+```
+
+Do not write `perf record -e cache-misses:pp`. `cache-misses` maps to
+`LONGEST_LAT_CACHE.MISS`, which is not a PEBS event before Ice Lake, so on
+Skylake through Cascade Lake it fails with `Invalid argument`.
+
+The `:pp` suffix requests precise attribution. It needs PEBS on Intel. On AMD,
+`:pp` resolves to IBS only for `cycles:pp`; any other event with `:pp` returns
+`EOPNOTSUPP`, which is the reason to reach for `perf mem` there. Without a
+precise event the sampled instruction pointer skids and blames the wrong line.
 `--call-graph dwarf` works on binaries built without frame pointers but produces
 large files; use `--call-graph fp` when the build has
 `-fno-omit-frame-pointer`.
@@ -212,7 +263,8 @@ offsets on one line, touched by different PIDs or TIDs, is false sharing. Same
 offset from several threads is true sharing, which is a different fix.
 
 `perf c2c` needs PEBS load-latency events on Intel, or IBS on AMD with a recent
-kernel. It usually needs `perf_event_paranoid` at `1` or lower.
+kernel. It samples across CPUs, so give it `perf_event_paranoid` at `0` or
+lower, or run it as root.
 
 ### 5. Full multi-level TMA
 
@@ -239,9 +291,13 @@ the level-2 or level-3 node before you can act.
 including in VMs and containers.
 
 ```bash
-valgrind --tool=cachegrind --branch-sim=yes --cachegrind-out-file=cg.out ./bench
+valgrind --tool=cachegrind --cache-sim=yes --branch-sim=yes --cachegrind-out-file=cg.out ./bench
 cg_annotate cg.out
 ```
+
+Pass `--cache-sim=yes` explicitly. Valgrind 3.23 made cache simulation opt-in;
+without the flag a 3.23-or-newer build prints no cache columns at all. On older
+builds it was the default, so the flag is safe either way.
 
 Read `D1mr`/`D1mw` (L1 data misses), `DLmr`/`DLmw` (last-level data misses),
 `I1mr`/`ILmr` (instruction misses), and `Bcm`/`Bim` (mispredicted conditional
@@ -267,7 +323,7 @@ out*. Miss counts, not slots, so this is weaker evidence. Say so in the report.
 
 | Ratio | Compute | Reading |
 |---|---|---|
-| IPC | `instructions / cycles` | `< 1.0`: stalled, look at the rows below. `> 2.0`: not stalled — treat as `retiring`, the fix is fewer instructions or wider ones. Peak is 4 (6 on the newest cores). |
+| IPC | `instructions / cycles` | `< 1.0`: stalled, look at the rows below. `> 2.0`: not stalled — treat as `retiring`, the fix is fewer instructions or wider ones. Peak equals the issue width: 4 through Skylake, 5 on Sunny Cove through Tiger Lake, 6 on Golden Cove and Zen 3/4. |
 | Branch miss rate | `branch-misses / branches` | `> 5%`: `bad speculation` is real. `< 1%`: rule it out. |
 | LLC miss rate | `cache-misses / cache-references` | `> 20%` with a large absolute count: DRAM traffic. Meaningless alone — pair it with MPKI. |
 | LLC MPKI | `cache-misses / instructions * 1000` | `> 10`: `backend bound` / `memory bound` at the DRAM level. `< 1`: rule DRAM out. |
@@ -275,15 +331,25 @@ out*. Miss counts, not slots, so this is weaker evidence. Say so in the report.
 | dTLB MPKI | `dTLB-load-misses / instructions * 1000` | `> 1`: page-walk cost. Test hugepages. |
 | iTLB / i-cache MPKI | `iTLB-load-misses` or `L1-icache-load-misses` `/ instructions * 1000` | `> 1`: weak evidence for `frontend bound`. Confirm with a real TMA tool before acting. |
 
-Then check the ratios explain the runtime. Multiply each event count by its
-penalty and compare the total against `cycles`:
+Then check the ratios explain the runtime. None of the counters above is a
+per-level *hit* count, so derive them by subtraction first:
+
+- L2 hits ≈ `L1-dcache-load-misses` − `LLC-loads`
+- L3 hits ≈ `LLC-loads` − `LLC-load-misses`
+- DRAM accesses ≈ `LLC-load-misses`
+
+perf's `LLC-*` aliases map to different underlying events across Intel
+generations and often miss prefetch traffic, so treat these three as
+order-of-magnitude counts, not exact ones.
+
+Multiply each by its penalty and compare the total against `cycles`:
 
 | Event | Penalty, order of magnitude |
 |---|---|
 | L2 hit | 12 cycles |
 | L3 hit | 40 cycles |
 | DRAM access | 200 cycles |
-| Branch mispredict | 17 cycles |
+| Branch mispredict | 20 cycles |
 | TLB page walk | 30 cycles |
 
 Out-of-order execution hides much of this latency, so the sum is an upper bound
@@ -305,17 +371,21 @@ There is no `perf` on macOS. Use `xctrace`, which ships with Xcode.
 
 ```bash
 xcrun xctrace list templates
-xcrun xctrace record --template 'CPU Counters' --output bench.trace --launch -- ./bench
-xcrun xctrace record --template 'Time Profiler' --output bench.trace --launch -- ./bench
+xcrun xctrace record --template 'CPU Counters' --output counters.trace --launch -- ./bench
+xcrun xctrace record --template 'Time Profiler' --output timeprofile.trace --launch -- ./bench
 ```
+
+Give each template its own output file. `xctrace` refuses to write a second run
+into an existing trace without `--append-run`, and with it the appended run
+silently reuses the first run's template.
 
 `--attach <pid|name>` records a running process; `--time-limit 10s` bounds the
 run. Read the trace by opening it in Instruments, or extract it from the
 command line:
 
 ```bash
-xcrun xctrace export --input bench.trace --toc
-xcrun xctrace export --input bench.trace --xpath '/trace-toc/run[@number="1"]/data/table[@schema="SCHEMA_FROM_TOC"]'
+xcrun xctrace export --input counters.trace --toc
+xcrun xctrace export --input counters.trace --xpath '/trace-toc/run[@number="1"]/data/table[@schema="SCHEMA_FROM_TOC"]'
 ```
 
 The `--toc` output lists the schema names; paste the one you want into the
