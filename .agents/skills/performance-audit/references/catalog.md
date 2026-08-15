@@ -75,11 +75,16 @@ into a likely cache miss.
 
 ### Pointer chasing
 
-**Symptom.** `backend bound` with low IPC. Level 2 may put it in `core bound`
-as readily as `memory bound`, because the stall is a dependency, not a
-bandwidth shortfall. Memory bandwidth sits far below the machine's streaming
-peak while latency is high. The profile concentrates on a load whose address
-came from the previous load.
+**Symptom.** `backend bound` with low IPC. The profile concentrates on a load
+whose address came from the previous load.
+
+**This entry owns the chase even when level 2 says `core bound`.** The stall is
+a dependency, not a bandwidth shortfall, so level 2 will call it `core bound`
+as readily as `memory bound`, and a chase that stays resident in L1 or L2 will
+call it `core bound` every time. Do not follow that label into the
+dependency-chain entry in the core-bound section: that entry's confirming
+measurement passes on a load chain and its fix does not apply to one. The test
+is what the chain is made of, not which label level 2 printed.
 
 **Cause.** Dependent loads serialize. The core cannot start load *n+1* until
 load *n* returns, so out-of-order execution has nothing to overlap, and the
@@ -90,13 +95,21 @@ nodes from an arena so that traversal order matches address order and the
 prefetcher can see a stream. Where the structure must stay linked, prefetch the
 next-but-`D` node — but read the software-prefetch entry below before you do.
 
-**Confirming measurement.** Two parts, and you need both. First, establish
-that it is latency-bound and not bandwidth-bound: `perf stat` memory bandwidth
-against the machine's measured streaming peak from `cost-model.md`; idle
-bandwidth with a high stall count is the signature. Second, break the
-dependency in a scratch copy of the loop — precompute the visit order into an
-index array and traverse that instead, doing identical work per node. If the
-stall does not move, the chase is not the cause and this entry is out.
+**Confirming measurement.** Break the dependency in a scratch copy of the loop.
+Precompute the visit order into an index array, traverse that instead, and do
+identical work per node — same nodes, same order, same arithmetic, only the
+address dependency removed. If the stall does not move, the chase is not the
+cause and this entry is out. This runs on any machine, needs no PMU, and is the
+part you must do.
+
+Supporting evidence where the host allows it: show that the loop is
+latency-bound rather than bandwidth-bound by comparing its achieved memory
+bandwidth against the machine's streaming peak. Neither number comes from plain
+`perf stat` — `cost-model.md` gives the uncore IMC and UMC events for achieved
+bandwidth and the STREAM/MLC commands for the peak, and both need `-a` plus
+elevated privileges. Far below peak with a high stall count is the signature.
+If you cannot run these on this host, say which half of the measurement you
+have; the index-array experiment alone still confirms or kills the entry.
 
 **Cost.** An arena changes the ownership and lifetime model of the whole data
 structure, which is a design decision, not an optimization. Indices are weaker
@@ -202,8 +215,10 @@ service. `hugetlbfs` is Linux-only and needs pages reserved at boot.
 ### NUMA-remote access
 
 **Symptom.** `memory bound` at the DRAM level, and per-thread performance
-depends on which socket the thread landed on. `numastat` shows growth in
-`numa_foreign` and `other_node`.
+depends on which socket the thread landed on. Bare `numastat`, which prints
+node-level kernel counters, shows growth in `numa_foreign` and `other_node`
+across the run — that is a machine-wide signal and it does not attribute to
+your process.
 
 **Cause.** The pages were faulted in on the wrong node. Linux allocates on
 first touch, so the node is decided by whichever thread wrote the memory
@@ -218,10 +233,15 @@ bandwidth-bound rather than latency-bound.
 
 **Confirming measurement.** The cheap one first: run the unmodified binary
 under `numactl --membind=0 --cpunodebind=0` and see whether the time moves. If
-it does not, placement is not your problem. Then `numastat -p <pid>` for the
-local/remote split, `perf mem report` whose data-source column distinguishes
-local from remote DRAM, and `perf c2c report`'s remote-HITM column for the
-shared-line case.
+it does not, placement is not your problem. Then attribute it: `numastat -p
+<pid>` is a *different* report from bare `numastat` — it prints this process's
+resident MB per node, so it tells you where your pages ended up, not how many
+foreign accesses the machine served. Use the bare form for the access signal
+and the `-p` form for the placement, and do not treat one as evidence for the
+other. Then `perf mem report`, whose data-source column distinguishes local
+from remote DRAM and is the only one of these that attributes remote *accesses*
+to your code, and `perf c2c report`'s remote-HITM column for the shared-line
+case.
 
 **Cost.** First touch couples the initialization loop's decomposition to the
 compute loop's. Change one and you must change the other — with no compiler
@@ -265,7 +285,7 @@ inconsistently; check yours rather than assuming.
 
 ### Regular strided misses the hardware prefetcher cannot see
 
-**Read the caution at the end of this entry before you read the fix.**
+**Read the caution that closes this entry before you read the fix.**
 
 **Symptom.** `memory bound` at the DRAM level, latency-bound rather than
 bandwidth-bound, on an access pattern that is *regular* but outside what the
@@ -293,17 +313,32 @@ re-measure each under the full gate-1 protocol with spread, and keep the change
 only if the win exceeds the run-to-run spread at every distance around the
 best one. A win at exactly one distance and nowhere near it is noise.
 
+**Cost.** Readability: a `__builtin_prefetch` with a bare distance constant is
+opaque at the call site. Nothing in the source says which microarchitecture the
+constant was tuned on, and no reader can tell by inspection whether it still
+earns its place. Portability: the builtin is GCC and Clang only — MSVC spells
+it `_mm_prefetch`, Rust reaches it through `core::arch::x86_64::_mm_prefetch`
+or the unstable `core::intrinsics::prefetch_read_data` — and the locality hint
+argument, the useful distance, and the underlying instruction all differ across
+x86, Arm, and generations within each. Maintenance: the constant is tuned once
+against one part, one line size, and one memory configuration; no test
+exercises it; when the machine changes it silently stops helping and keeps
+costing. And it is a *permanent* tax for a *conditional* benefit — the prefetch
+occupies an issue slot and a load port on every iteration whether or not it
+helped that iteration.
+
 **Caution — Drepper's, and it is the point of this entry.** In *What Every
 Programmer Should Know About Memory*, §6.3, Drepper's conclusion about software
 prefetching is that it is difficult to use correctly and frequently makes
-things slower. The mechanisms are all still true today: the prefetch instruction
-occupies an issue slot and a load port on every iteration whether or not it
-helps; a prefetch that lands too early evicts a line that was still live; a
-prefetch of a bogus address can trigger a page walk for nothing; and on some
-parts a stream of software prefetches disrupts the hardware prefetcher's own
-stream tracking, so you lose the prefetching you already had. The tuned
-distance is specific to one microarchitecture and one memory configuration and
-nobody re-tunes it. Treat this as the entry you reach last, after the layout
+things slower. The mechanisms hold today. A prefetch that lands too early
+evicts a line that was still live. A prefetch that runs `D` elements past the
+end of an array — the ordinary consequence of a fixed distance — reads a valid
+but unrelated page, so it walks the page table and fills a line for data
+nobody wants; that is the common waste, not the exotic one. (A genuinely
+invalid address is the harmless case: the walk aborts, the prefetch is dropped,
+and no fault is raised.) On some parts a stream of software prefetches
+disrupts the hardware prefetcher's own stream tracking, so you lose prefetching
+you already had. Treat this as the entry you reach last, after the layout
 entries above have been tried and measured, and expect it to lose.
 
 ---
@@ -313,25 +348,56 @@ entries above have been tried and measured, and expect it to lose.
 Execution resources, not memory. Level 2 has to say `core bound` before you
 open this section; low IPC alone does not.
 
+Two carve-outs to the gate, because two problems present outside it:
+
+- **A dependency chain made of loads is not in this section.** If the serial
+  chain is a load whose *address* came from the previous load, that is the
+  pointer-chasing entry under memory bound, whatever level 2 called it — a
+  chase that hits in L1 or L2 reads as `core bound` because it is a latency
+  chain, and the dependency-chain entry below will appear to confirm on it and
+  then fix nothing. See the exclusion in that entry.
+- **Denormals present as `retiring` and as `bad speculation`, never as
+  `core bound`.** The entry lives here because the fix is arithmetic, but you
+  will arrive from one of those two buckets. `retiring` and `bad speculation`
+  both point at it.
+
 ### Long loop-carried dependency chain
 
 **Symptom.** `core bound` with low IPC and execution ports *not* saturated —
 the machine is idle, waiting. The hot loop has a serial chain: one FP
-accumulator summed across iterations, or any `x = f(x)`.
+accumulator summed across iterations, or any `x = f(x)` where `f` is an
+arithmetic operation.
+
+**Not this entry if the chain is made of loads.** `p = p->next`,
+`x = a[x]`, or anything else where the next *address* depends on the last
+load, is the pointer-chasing entry under memory bound. It matches this
+symptom — a chase resident in L1 or L2 has cycles per iteration equal to the
+load latency, so the confirming measurement below *passes* — and the fix here
+does not apply to it, because splitting a serial address dependency into
+independent accumulators is not a thing you can do. Check what the chain is
+made of before you go further. If it is loads, go back.
 
 **Cause.** Throughput is set by the chain's latency, not the machine's
-throughput. An FP add is 3–4 cycles of latency and can issue two per cycle; a
-single accumulator therefore uses roughly an eighth of what the core can do,
-and adding cores or widening vectors changes nothing.
+throughput. An FP add is 3–4 cycles of latency and two can issue per cycle, so
+a single accumulator leaves roughly seven eighths of the add capacity idle, and
+adding cores or widening vectors changes nothing. That ratio is what the fix
+recovers *inside the chain*; it is not the speedup. The gain you can actually
+report is still capped by the `core bound` slot share and by Amdahl on the
+region — `cost-model.md` does that arithmetic.
 
-**Fix.** Split into N independent accumulators and combine at the end. N is
-roughly chain latency divided by issue throughput — 4 to 8 for FP add, 8 to 10
-for FMA on a part with two FMA units.
+**Fix.** Split into N independent accumulators and combine at the end. N is the
+chain latency divided by the reciprocal throughput in cycles per op —
+equivalently, latency times the number of units that can execute it. FP add at
+4 cycles latency on two ports gives N = 8; FMA at 4–5 cycles on two FMA units
+gives N = 8 to 10. Read both numbers off an instruction table for your part;
+they are not the same across microarchitectures.
 
 **Confirming measurement.** Compute cycles per iteration from
 `perf stat -e cycles` divided by the trip count, and compare against the chain
 latency per iteration from an instruction-latency table. Equality is the
-confirmation. Cross-check with `llvm-mca -mcpu=native -timeline` on the loop
+confirmation — *after* you have ruled out the load-chain case above, which
+produces the same equality for a different reason. Cross-check with
+`llvm-mca -mcpu=native -timeline` on the loop
 body, which reports both the critical-path length and per-resource pressure;
 if resource pressure rather than the chain is binding, this is the wrong entry
 and the port-saturation entry below is the right one. `llvm-mca` is a static
@@ -362,9 +428,13 @@ already strength-reduce this when the constant is visible, and hand-rolling it
 adds unreadable code for nothing.
 
 **Confirming measurement.** `perf stat -e arith.divider_active,cycles` on
-Intel; the number is divider-active cycles over total cycles. AMD has no direct
-equivalent, so use `llvm-mca -mcpu=native` on the loop body and read the
-divider port's pressure. A small share means this is not the cause.
+Intel; the number is divider-active cycles over total cycles. On Zen, use
+`ex_div_busy` against `cycles`, with `ex_div_count` for the operation count —
+but note these are *integer* divider counters, so they confirm the
+integer-division-by-constant case and say nothing about scalar FP divide. For
+FP divide on AMD, and for any part with neither counter, use
+`llvm-mca -mcpu=native` on the loop body and read the divider port's pressure.
+Under about 5% of cycles, this is not the cause and the entry is out.
 
 **Cost.** Reciprocal multiplication is not the same operation as division.
 `x * (1/y)` differs from `x / y` in the low bits, and it differs a great deal
@@ -381,7 +451,9 @@ which is a far larger and less reviewable change than doing it at one site.
 **Symptom.** `core bound` with *high* IPC. Not a stall — a throughput ceiling.
 One execution port is pegged while others idle. The classic shapes are too many
 shuffles for the single shuffle port, too many stores for the store-data port
-on pre-Ice-Lake parts, and more loads than the two load ports can serve.
+on pre-Ice-Lake parts, and more loads than the load ports can serve — two on
+Skylake-era parts, three on Golden Cove and later, which is itself a reason to
+check the port map for your part rather than reusing a remembered one.
 
 **Cause.** The loop's µop mix concentrates on one port, and the core cannot
 issue past it no matter how much parallelism is available.
@@ -399,6 +471,12 @@ alternative: `llvm-mca -mcpu=native -timeline` prints per-port pressure and
 names the binding resource. Same caveat as above — static model, perfect cache,
 perfect prediction.
 
+The number that decides it: µops dispatched to the busiest port, divided by
+total cycles. One port at or above about 0.9 dispatches per cycle while the
+others sit well below is saturation. Below about 0.7 on every port, nothing is
+pegged and this entry is out — the loop is limited by something else and you
+should be in the dependency-chain entry or back at level 2.
+
 **Cost.** This is the least portable work in the catalog. The port map is
 per-microarchitecture, so a mix tuned for Skylake can be neutral or worse on
 Golden Cove and on Zen 4, and there is no warning when it goes stale. If the
@@ -407,6 +485,10 @@ its maintenance cost. If you own the fleet and the fleet is homogeneous, it can
 be.
 
 ### Denormals
+
+**You arrive here from `retiring` or from `bad speculation`, not from
+`core bound`.** The entry sits in this section because the fix is arithmetic.
+The symptom is not.
 
 **Symptom.** Performance collapses on specific inputs — decaying signals,
 values converging toward zero, an audio tail — while the instruction count is
@@ -443,6 +525,14 @@ you. If the code has an accuracy contract near zero, this fix violates it.
 ---
 
 ## `bad speculation`
+
+Two entries here, and one elsewhere. If level 2 puts the weight on *machine
+clears* rather than branch mispredicts, the two entries below do not apply —
+machine clears are memory-ordering violations, self-modifying code, and FP
+assists. For the FP-assist case go to the **Denormals** entry in the core-bound
+section above; it presents from here and from `retiring`, never from
+`core bound`. For memory-ordering clears from cross-thread sharing, go to
+**False sharing** under memory bound. `tma.md` covers the split.
 
 ### Unpredictable data-dependent branch
 
@@ -497,10 +587,13 @@ loop by grouping objects by type and running a monomorphic loop per group; a
 tagged variant with a switch.
 
 **Confirming measurement.** `perf stat -e br_misp_retired.indirect` against
-`br_inst_retired.indirect` on Intel for the indirect miss rate — check
-`perf list`, the names vary — and `perf record -e branch-misses:pp -g` to
-confirm the site. Portable fallback: `valgrind --tool=cachegrind
---branch-sim=yes` and read `Bim` per call site. If the site turns out to be
+`br_inst_retired.indirect` on Intel for the indirect miss rate. These are Ice
+Lake and later; on Skylake-era parts they are *absent*, not renamed, so
+`perf list | grep -i indirect` coming back empty means you have no indirect
+breakdown on this host and must use the fallback. Then
+`perf record -e branch-misses:pp -g` to confirm the site. Portable fallback:
+`valgrind --tool=cachegrind --branch-sim=yes` and read `Bim` per call site,
+which simulates an indirect predictor and works everywhere. If the site turns out to be
 effectively monomorphic on this workload, the predictor is already handling it
 and your cost is lost inlining, not misprediction — a different problem needing
 `final` or LTO, not a redesign.
@@ -529,8 +622,11 @@ correlates with an inlining-threshold change or a header full of templates
 instantiated everywhere.
 
 **Cause.** Inlining duplicates code. Once the hot working set of *instructions*
-exceeds the 32 KiB L1i, every call fetches from L2 or further, and the front
-end starves a back end that has nothing wrong with it.
+exceeds the L1i, every call fetches from L2 or further, and the front end
+starves a back end that has nothing wrong with it. L1i is 32 KiB on Skylake,
+Golden Cove, and all Zen, 48 KiB on Ice Lake-SP, and 64 KiB on Granite Rapids —
+read yours from `lscpu -C` rather than assuming, because the whole calculation
+is a comparison against that one number.
 
 **Fix.** PGO is the principled version — it inlines by measured hotness instead
 of by heuristic. Failing that, inline discipline by hand:
@@ -554,9 +650,12 @@ re-measures them, so they become superstition in the codebase.
 ### µop-cache misses from huge unrolled bodies
 
 **Symptom.** `frontend bound` / fetch bandwidth. `idq.dsb_uops` low relative to
-`idq.mite_uops`, `dsb2mite_switches.penalty_cycles` meaningful. Intel only —
-the DSB is an Intel structure, AMD's op cache behaves differently and these
-counters do not exist there.
+`idq.mite_uops`, `dsb2mite_switches.penalty_cycles` meaningful. Those counter
+names are Intel-only, but the problem is not: Zen 3 and later have an op cache
+with the same failure mode, measured with `de_src_op_disp.op_cache` against
+`de_src_op_disp.x86_decoder` — the direct analogue of the DSB-versus-MITE
+ratio. The allocation rules and therefore the useful unroll factor differ
+between the two vendors, so re-sweep rather than porting a tuned constant.
 
 **Cause.** The µop cache holds a bounded number of µops per 32-byte code region
 under strict allocation rules. A loop body unrolled past that falls out to
@@ -568,9 +667,11 @@ Clang's `#pragma clang loop unroll_count(N)`, or `-fno-unroll-loops` on the
 specific unit. Sweep N and measure each value.
 
 **Confirming measurement.**
-`perf stat -e idq.dsb_uops,idq.mite_uops,dsb2mite_switches.penalty_cycles` —
-run `perf list` first, the names move between generations. The number is DSB
-µops as a share of total delivered µops; a high share rules the entry out.
+`perf stat -e idq.dsb_uops,idq.mite_uops,dsb2mite_switches.penalty_cycles` on
+Intel, or `perf stat -e de_src_op_disp.op_cache,de_src_op_disp.x86_decoder` on
+Zen 3 and later — run `perf list` first, the names move between generations.
+The number is µops delivered from the µop cache as a share of total delivered
+µops; a high share rules the entry out.
 `llvm-mca` cannot help here: it models the scheduler and the ports and assumes
 a perfect front end, so it does not see the DSB at all.
 
@@ -630,8 +731,24 @@ Otherwise there are three roads, and they are not interchangeable:
 
 1. **A better algorithm.** Complexity beats constants, and this is the only
    one of the three whose gain is not capped by the hardware.
-2. **Do less work.** Hoist loop-invariant computation, cache results, remove
-   redundant copies and allocations, fuse a pass away.
+2. **Do less work.** Not a menu — pick the one your profile points at, and each
+   has its own discriminating measurement, because retired instruction count
+   alone cannot tell these apart:
+   - *Loop-invariant computation.* Read `perf annotate` on the loop body and
+     find the instruction that recomputes a value nothing in the loop changed.
+     If the compiler already hoisted it, it is not in the loop body and there
+     is nothing to do.
+   - *Redundant copies.* Count them directly rather than inferring: a
+     `perf record` on the allocator and `memcpy`/`memmove` symbols, or
+     `ltrace`/a `malloc` counter, gives copies and allocations per iteration.
+     The target is that number falling, not the cycle count.
+   - *Recomputation across calls.* Instrument a hit/miss counter on the value
+     you propose to cache. A cache with a low hit rate is a slowdown; measure
+     the rate before you build it.
+   - *A redundant pass.* Count passes over the data and multiply by the working
+     set. Fusing two passes should roughly halve the line fills at whichever
+     cache level the working set exceeds — check `L1-dcache-load-misses` or the
+     level's counter, not `instructions`.
 3. **Do more per instruction.** Vectorize — but check whether the compiler
    already did before you write anything: `-fopt-info-vec-missed` on GCC,
    `-Rpass-missed=loop-vectorize` on Clang. Read *why* it declined. The usual
@@ -644,9 +761,18 @@ operations. Instrument the algorithm's own unit of work — comparisons, node
 visits, bytes hashed, tuples examined — and compare the count against the
 theoretical minimum for the problem. If the constant factor is already close to
 that bound, the algorithm is not the problem and roads 2 and 3 are all that is
-left. For roads 2 and 3, retired instruction count is the measurement: if
-`instructions` did not fall, or vector-instruction count did not rise, the
-change did not do what you claimed regardless of what the wall clock says.
+left. Road 2's four cases each carry their own measurement above, because
+retired instruction count cannot discriminate among them.
+
+For road 3, `instructions` falling is necessary but not sufficient — you also
+have to show the work moved into vector lanes. On Intel, count it with
+`fp_arith_inst_retired.*`, whose unit masks are per width and per type
+(`.256b_packed_double`, `.512b_packed_single`, and so on): the packed masks
+should rise and the scalar ones fall. There is no equivalent counter for
+integer SIMD, so for that case count statically instead —
+`objdump -d ./bench | grep -cE '%[xyz]mm'` over the hot symbol, before and
+after. If neither number moved the way you predicted, the change did not do
+what you claimed regardless of what the wall clock says.
 
 **Cost.** Intrinsics are the least portable and least readable code most
 codebases contain, and they must be maintained per ISA with a scalar fallback
