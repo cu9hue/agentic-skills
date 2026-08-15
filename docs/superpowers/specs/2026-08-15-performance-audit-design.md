@@ -105,7 +105,11 @@ before drafting, blind judge, verdict appended to `evals/results.md`.
 4. **Negative** — slow web endpoint, p99 400ms. The skill must not trigger the
    microarchitectural machinery.
 5. **Negative** — premature optimization ask on code with no hot path. Does it
-   push back and demand a baseline?
+   answer directly and decline the audit? (Corrected 2026-08-15: this line
+   originally read "push back and demand a baseline". The RED baseline refutes
+   it — the no-skill arm demanded a profile for a 40-entry startup parse and
+   failed the rubric for it. Demanding measurement where measurement cannot pay
+   is a failure mode of this skill, not a success.)
 
 ## Verification
 
