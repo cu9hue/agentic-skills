@@ -17,7 +17,7 @@ plain wrong answer would. Decide which case you are in before anything else.
 
 ## First: does this ask deserve the audit?
 
-Pick one of three outcomes and say which one you picked.
+Pick one of four outcomes and say which one you picked.
 
 **Wrong layer — answer there and stop.** The time is in I/O, a database, the
 network, GC, or a managed or interpreted runtime. Name the layer and answer at
@@ -30,19 +30,27 @@ withheld — give the answer the question asked for.
 **Too small to measure — answer directly and stop.** Bound the total cost
 before you ask anyone for anything: total operations times an order-of-magnitude
 per-operation cost from `references/cost-model.md`. Work that runs once per
-process, a config parse, a bounded collection of tens of items — the bound
-lands in microseconds and no change to it can matter. Say that in a sentence,
-say which option you would pick on readability grounds, and stop. Do not
-demand a profile. Do not offer an audit. Do not open a gate. Demanding a
-profile of a 40-entry startup path is a worse answer than an unmeasured
-opinion, because it spends the reader's time to learn nothing.
+process, a bounded collection of tens of items, a path whose total operation
+count is fixed and small — the bound lands in microseconds and no change to it
+can matter. Say that in a sentence, say which option you would pick on
+readability grounds, and stop. Do not demand a profile. Do not offer an audit.
+Do not open a gate. Demanding a profile of a bounded once-per-process path is a
+worse answer than an unmeasured opinion, because it spends the reader's time to
+learn nothing.
 
-State the bound in one line — "40 entries once at startup is microseconds
-either way" — then answer the question that was asked, in a few sentences.
+State the bound in one line — "a bounded parse that runs once at startup is
+microseconds either way" — then answer the question that was asked, in a few
+sentences.
+
+**An agenda, not a fix — answer from the agenda section.** The ask is what to
+get right across a body of native code, with no named hot path, no benchmark,
+and no number to beat. The gates do not run on a whole library. Go to "When the
+ask is an agenda, not a fix" near the end of this file and answer from there.
 
 **Native and real — run the gates.** A hot loop, a slow benchmark, a data
-structure that misses cache, a native function on a path that runs enough times
-to matter.
+structure that misses cache, a named native function on a path that runs enough
+times to matter. A whole library or directory with no named hot path is the
+previous outcome, not this one.
 
 When you cannot tell the small case from the real one, ask this: at the
 workload the user actually runs, can this region's total cost reach a
@@ -56,9 +64,12 @@ one. Do not skip ahead because the source looks obvious — a pattern you
 recognize in the source is not evidence, and matching a remembered fix to
 unmeasured code is the most common way an audit goes wrong.
 
-You will often be unable to run the commands yourself. That does not lower the
-bar. Write the exact command, say what number you expect to read from it, say
-what that number would rule in and rule out, and ask the user to run it.
+Run the commands yourself when you can. That is the default, and nothing below
+substitutes for it. When you genuinely cannot reach the machine, the bar does
+not drop: write the exact command, say what number you expect to read from it,
+say what that number would rule in and rule out, and ask the user to run it.
+The claim then stands where gate 3 puts an entry nobody could confirm — a
+`hypothesis`, ranked below anything that was measured, never a finding.
 Waiting on a measurement is the correct state. Asserting past one is not.
 
 ### Gate 1 — Baseline
@@ -72,11 +83,20 @@ things, and all four go in the report:
 - a reproducible command that anyone can rerun
 - at least 5 runs, with the spread reported
 
+**One reported number is not a baseline.** A single timing handed to you fixes
+the workload, not the spread, and you cannot tell a later improvement from
+noise without the spread. Re-run it at least 5 times, or ask the user to, and
+report the spread before you build anything on it.
+
 **No benchmark exists?** Writing one is your first deliverable, not a
 prerequisite you wait on. `criterion` for Rust, Google Benchmark or `nanobench`
 for C++. Ask for the workload size and the target number in the same turn.
 Until that number exists, everything you say about the code is a `hypothesis`
 and is labeled one.
+
+While you wait on the number, you may still produce the gate-4 report shape —
+ranked items, each labeled `hypothesis`, each carrying the experiment that
+would settle it. What you may not do is call any of it a finding, or apply it.
 
 Build with optimization on plus `-g -fno-omit-frame-pointer`. Never baseline a
 debug build, and never change the build between the baseline and the
@@ -95,23 +115,18 @@ question to settle, not as a finding.
 Measure the split and name one bucket. The vocabulary is fixed and you use it
 verbatim: `retiring`, `bad speculation`, `frontend bound`, `backend bound`.
 
-Read `references/tma.md` and follow it. It carries the four buckets and their
-drill-downs, the PMU access checks, the `perf` invocations, `toplev`,
-`cachegrind`, the counter-ratio fallback for CPUs with no `--topdown`, and the
-macOS `xctrace` path.
+Read `references/tma.md` and follow it from the file, not from memory. It
+carries the buckets and their drill-downs, its own rules for entering, the
+share thresholds that decide which bucket you chase, the PMU access checks, the
+`perf` invocations, `toplev`, `cachegrind`, the counter-ratio fallback for CPUs
+with no `--topdown`, and the macOS `xctrace` path. When you fall back, keep the
+gate and follow the weaker-evidence shape it gives.
 
-Rules that bind here:
+Two rules bind with that file closed:
 
 - Do not name a bucket you did not measure. Reading the source is not
   localization.
-- Chase the largest bucket above 20%. Ignore anything below 10%.
-- Profile the same build and the same workload as the baseline.
 - One bucket. Drill into the dominant one and leave the rest alone.
-- `memory bound` without a level is not a localization. Name L1, L2, L3, DRAM,
-  or store.
-- When you fall back — no PMU, no topdown tree, Apple Silicon — keep the gate
-  and say the evidence is weaker. `tma.md` gives the exact shape, and the
-  confidence line is mandatory.
 
 Gate 2's artifact is one line: bucket, number, tool, confidence. `tma.md`
 closes with the shape. Never write a bucket with no number and no tool beside
@@ -131,24 +146,19 @@ section header before you read any entry:
 - `frontend bound`
 - `retiring`
 
-Enter at the section, never at an entry. Two headers carry carve-outs that
-reroute you, and an entry read on its own hides them. A serial chain built out
-of loads is a pointer chase and belongs under memory bound, even when level 2
-called it `core bound` — the dependency-chain entry will appear to confirm and
-will fix nothing. Denormals sit under core bound but are only ever reached from
-`retiring` or `bad speculation`. Land straight on an entry and you take the
-wrong one.
+Enter at the section, never at an entry. The core-bound header and the
+`bad speculation` header both carry carve-outs that route you out to an entry
+filed under a different section, and an entry read on its own hides them. Land
+straight on the entry whose symptom matches the source and you will confirm a
+cause that cannot be yours. Read the header first, every time.
 
-Rules that bind here:
+`catalog.md`'s own header states the rules for entering. Two of them survive
+with the file closed:
 
-- The confirming measurement is mandatory. Its job is to separate this cause
-  from its neighbours in the same section, and the after-the-fix benchmark does
-  not replace it.
 - If the confirming measurement does not fire, the entry is wrong. Drop it. Do
   not weaken it to a maybe and keep it in the report.
 - If you cannot run the confirming measurement on this machine, the entry is
   not available to you. Say so, and rank it below every entry you confirmed.
-- `retiring` has no fix list, and that is the finding. Read the section anyway.
 
 ### Gate 4 — Report
 
@@ -182,8 +192,8 @@ tell the reader what they will get.
 
 The user picks what to apply. You do not pick for them.
 
-- One change at a time. No batches, ever. A stacked SoA rewrite plus new
-  compiler flags plus threading teaches you nothing about any of the three.
+- One change at a time. No batches, ever. A layout rewrite plus new compiler
+  flags plus threading teaches you nothing about any of the three.
 - Re-measure after each change with gate 1's exact command and run count.
 - Keep or revert on the number. A delta inside the spread is not an
   improvement — revert it and keep the simpler version.
@@ -207,8 +217,10 @@ These hold across all five gates.
 
 ## When the ask is an agenda, not a fix
 
-Sometimes the question is "what should I get right in this code?" rather than
-"make this faster". Answer with the discipline, not with the catalog.
+Triage outcome 3 lands here. The ask names a body of code and asks what to get
+right in it, rather than naming something to make faster. Answer with the
+discipline, not with the catalog. Do not open gate 1 and demand a benchmark for
+a library with no named hot path — there is nothing yet to baseline.
 
 Put measurement first on the agenda: a baseline and a repeatable workload
 before any change, profile-driven targeting rather than a checklist walk, and
@@ -222,8 +234,11 @@ prevent, and it is not less of one because the question was open-ended.
 
 ## Quality gate
 
-Before delivering, confirm:
+Confirm the first check on every answer. Confirm the other six when the triage
+sent you to the gates.
 
+- the triage outcome was stated, and no gate, bucket, or `perf` command appears
+  under the wrong-layer or too-small outcome
 - a baseline number with run count and spread exists before any finding
 - every finding cites a measurement; everything else is labeled `hypothesis`
   and carries its confirming experiment
