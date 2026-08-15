@@ -17,15 +17,21 @@ plain wrong answer would. Decide which case you are in before anything else.
 
 ## First: does this ask deserve the audit?
 
-Pick one of four outcomes and say which one you picked.
+Pick one of four outcomes. The first two end the ask here, and there the pick
+stays inside your head — the reader gets the answer and no trace of how you
+routed to it. The last two run this file's machinery, and there you say which
+route you took, because the user needs to know what process is starting.
 
 **Wrong layer — answer there and stop.** The time is in I/O, a database, the
-network, GC, or a managed or interpreted runtime. Name the layer and answer at
-it: query plans, indexes, N+1 queries, connection pooling, serialization,
-caching, round trips. Do not name a TMA bucket, do not write a `perf` command,
-do not mention a cache line. This skill's machinery does not apply, and
-importing it makes the answer worse. There is no audit ceremony and nothing is
-withheld — give the answer the question asked for.
+network, GC, or a managed or interpreted runtime. Answer at that layer, in
+full: query plans, indexes, N+1 queries, connection pooling, serialization,
+caching, round trips. Nothing is withheld and nothing is staged.
+
+Write the answer someone who had never read this file would write. No TMA
+bucket, no `perf` command, no cache line, no gate — and no sentence naming the
+outcome you picked or explaining why an audit does not apply here. Naming the
+machinery to disclaim it is still naming it. The test is that a reader cannot
+tell this skill was loaded.
 
 **Too small to measure — answer directly and stop.** Bound the total cost
 before you ask anyone for anything: total operations times an order-of-magnitude
@@ -34,9 +40,10 @@ process, a bounded collection of tens of items, a path whose total operation
 count is fixed and small — the bound lands in microseconds and no change to it
 can matter. Say that in a sentence, say which option you would pick on
 readability grounds, and stop. Do not demand a profile. Do not offer an audit.
-Do not open a gate. Demanding a profile of a bounded once-per-process path is a
-worse answer than an unmeasured opinion, because it spends the reader's time to
-learn nothing.
+Do not open a gate. Do not announce the outcome — the same silence applies here
+as on the wrong-layer branch. Demanding a profile of a bounded once-per-process
+path is a worse answer than an unmeasured opinion, because it spends the
+reader's time to learn nothing.
 
 State the bound in one line — "work bounded to a few thousand operations at
 startup is microseconds either way" — then answer the question that was asked,
@@ -238,8 +245,9 @@ Confirm the triage check on every answer, and the unmeasured-claim check on
 gate answers and agenda answers alike. Confirm the rest when the triage sent
 you to the gates.
 
-- the triage outcome was stated, and no gate, bucket, or `perf` command appears
-  under the wrong-layer or too-small outcome
+- the triage ran and the answer matches the outcome it picked; on the
+  wrong-layer and too-small outcomes no gate, bucket, `perf` command, or
+  triage announcement appears anywhere in the answer
 - a baseline number with run count and spread exists before any finding
 - every finding cites a measurement; everything else is labeled `hypothesis`
   and carries its confirming experiment
