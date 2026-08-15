@@ -38,9 +38,9 @@ Do not open a gate. Demanding a profile of a bounded once-per-process path is a
 worse answer than an unmeasured opinion, because it spends the reader's time to
 learn nothing.
 
-State the bound in one line — "a bounded parse that runs once at startup is
-microseconds either way" — then answer the question that was asked, in a few
-sentences.
+State the bound in one line — "work bounded to a few thousand operations at
+startup is microseconds either way" — then answer the question that was asked,
+in a few sentences.
 
 **An agenda, not a fix — answer from the agenda section.** The ask is what to
 get right across a body of native code, with no named hot path, no benchmark,
@@ -234,8 +234,9 @@ prevent, and it is not less of one because the question was open-ended.
 
 ## Quality gate
 
-Confirm the first check on every answer. Confirm the other six when the triage
-sent you to the gates.
+Confirm the triage check on every answer, and the unmeasured-claim check on
+gate answers and agenda answers alike. Confirm the rest when the triage sent
+you to the gates.
 
 - the triage outcome was stated, and no gate, bucket, or `perf` command appears
   under the wrong-layer or too-small outcome
