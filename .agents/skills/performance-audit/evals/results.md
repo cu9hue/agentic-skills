@@ -142,8 +142,9 @@ names two phrases; this is the general form of it, and it applies to every
 line of the score.
 
 **The eval covers none of the references.** At the time of these runs, 1418 of
-the skill's 1675 lines were `references/`. No rubric line tests a `perf` invocation, the choice of a
-catalog entry, the read-the-section-header rule, or the gate-4 arithmetic —
+the skill's 1675 lines were `references/`. No rubric line tests a `perf`
+invocation, the choice of a catalog entry, the read-the-section-header rule,
+or the gate-4 arithmetic —
 the arms could not execute anything, so the references were scored only where
 SKILL.md's own text reached the answer. Their correctness rests entirely on
 review, not on this eval. The pre-merge review of this branch then found five
@@ -163,7 +164,7 @@ on identical answers and nothing else.
 
 **Judge.** Both arms ran on Sonnet, stated per round above. The judge was a
 separate blind subagent, a different instance in each round, dispatched from
-the controller session with no model override recorded — so it ran on the
-controller's model, which the dispatch record
+the controller session with no model override recorded, so it ran on the
+controller's model — which the dispatch record
 (`.superpowers/sdd/2026-08-15-performance-audit/progress.md`) does not name.
-Judge and arms were therefore not the same model.
+The judge's model is therefore unrecorded.

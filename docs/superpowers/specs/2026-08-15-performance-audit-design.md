@@ -114,8 +114,9 @@ to counter ratios rather than pretending to a topdown breakdown.
 ## Quality gate (in SKILL.md)
 
 (Amended 2026-08-15: seven bullets shipped, not six. The triage bullet below
-was added with the triage section, and it is the only one checked on every
-answer — the rest are checked when the triage sent the answer to the gates.)
+was added with the triage section. It is checked on every answer, and so is
+the unmeasured-claim bullet, which binds on agenda answers as well as gate
+answers. The rest are checked when the triage sent the answer to the gates.)
 
 - the triage ran and the answer matches the outcome it picked; on the
   wrong-layer and too-small outcomes no gate, bucket, `perf` command, or

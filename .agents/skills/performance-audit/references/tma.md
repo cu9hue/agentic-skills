@@ -24,10 +24,10 @@ Rules:
   ```toml
   # Cargo.toml — debug info does not turn optimization off
   [profile.release]
-  debug = true          # or debug = 1 for line tables only, a smaller binary
+  debug = true          # or debug = "line-tables-only" for a smaller binary
 
   [profile.bench]
-  debug = true          # a separate profile; it does not inherit the line above
+  debug = true          # bench inherits release, so this is belt and braces
   ```
 
   ```bash
