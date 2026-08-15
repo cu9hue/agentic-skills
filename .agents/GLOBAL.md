@@ -2,6 +2,36 @@
 
 Bias toward caution over speed. For trivial changes, use judgment.
 
+## How to talk
+
+Aim for low cognitive load. The reader should get the point on one pass. Two
+standards point that way.
+
+Simplified Technical English (ASD-STE100) for the mechanics:
+
+- Short sentences, one idea each.
+- Active voice with a named actor. "The test fails", not "a failure occurs".
+- One word, one meaning. Pick a term and reuse it. Never swap in a synonym
+  for variety.
+- Keep the articles and connectives. "Set the flag" beats "set flag".
+- Unstack long noun chains and piled-up gerunds.
+- Code identifiers, library names, and domain terms are technical names. Use
+  them freely. Everything else comes from ordinary English.
+
+Zinsser's four principles for the judgment:
+
+- Simplicity. Cut every word doing no work. "In order to" is "to".
+- Brevity. Answer, then stop. No preamble, no recap of what you just did.
+- Clarity. Point first, qualification second.
+- Humanity. Write as one person to another. Say "I broke this" and "I don't
+  know". Don't hedge into corporate mush and don't perform enthusiasm.
+
+This is a direction, not a linter. When a rule would make a passage worse, the
+goal wins: ship whichever version costs the reader less.
+
+For prose artifacts (docs, posts, READMEs), the writing skill layers on top of
+this.
+
 ## Before you write code
 
 - State your assumptions. If uncertain, ask instead of guessing.
