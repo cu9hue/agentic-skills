@@ -41,6 +41,13 @@ The bucket most audits land in. Name the level first: L1, L2, L3, DRAM, or
 store. The entries below split by level, and a fix aimed at the wrong level
 does nothing.
 
+One carve-out, because one cause presents here and is filed elsewhere. **If
+the profile's hot symbols are allocator symbols, that is the Allocator
+pressure entry under `retiring`, not a layout entry.** A high allocation rate
+manufactures exactly the miss pattern the entries below describe, so several
+of them will appear to match, and fixing layout underneath a high allocation
+rate treats the symptom. Check the top symbols before you pick a level.
+
 ### Array-of-structs when the loop touches few fields
 
 **Symptom.** `memory bound` at L2, L3, or DRAM. The hot loop reads two or
@@ -722,6 +729,22 @@ High `retiring` means nothing is stalled. The core is executing at close to
 its issue width and the microarchitecture is not the problem — the instruction
 count is. You are not going to find a stall to remove, because there isn't one.
 
+**Two carve-outs, because this is the bucket that lies.** Everything above
+assumes the retired work is your program's work. Two common cases retire µops
+at high IPC and buy nothing, and both land here looking healthy:
+
+- **A spin-wait or a contended lock.** The waiting *is* the retired work — a
+  spin loop, a CAS retry, a mutex's spin phase before it sleeps. High
+  `retiring`, high IPC, and no progress. Read the code above this line and you
+  will be sent at a better algorithm or at vectorization for a concurrency
+  problem. If the program runs more than one thread, go to **Lock contention,
+  spin-waiting, and oversubscription** at the end of this section before you
+  read the three roads.
+- **Time inside the allocator.** The instruction count is real, but it belongs
+  to `malloc` and `free`, not to your algorithm, and no amount of vectorizing
+  the loop touches it. If the profile's top symbols are allocator symbols, go
+  to **Allocator pressure**, also at the end of this section.
+
 **Check this first.** Level 2 splits `retiring` into light and heavy
 operations. A large heavy-operations share means the microcode sequencer is
 running — denormal assists, `rep movsb`, gather and scatter — and those are
@@ -784,3 +807,105 @@ wrapper (`std::experimental::simd`, `std::simd` where available, Highway;
 `std::arch` behind `is_x86_feature_detected!` in Rust); then intrinsics.
 Algorithm changes cost review time and carry real correctness risk, but per
 unit of gain they are usually the cheapest thing on this page.
+
+### Lock contention, spin-waiting, and oversubscription
+
+**You arrive here from `retiring`, and the bucket is lying.** The three roads
+above do not apply: the retired instructions are the wait, not the work.
+
+**Symptom.** High `retiring` with high IPC, and the program is still slow.
+Throughput does not scale with threads, or falls as threads are added, while
+the single-threaded run is fine. The profile concentrates in a lock acquire, an
+atomic compare-exchange retry loop, a `while (flag)` poll, or the busy-wait
+inside a thread pool or a parallel runtime. `task-clock` is close to
+threads × wall time — every core is busy and nothing is finishing.
+
+**Cause.** Three shapes, and they need separating because the fixes differ. A
+*contended mutex*: the critical section is long, or held often enough that
+arrivals queue. A *CAS retry loop*: the losers of each race redo their work,
+so retired instructions rise with the contention. *Oversubscription*: more
+runnable threads than cores, so the scheduler deschedules a lock holder and
+every waiter spins against a holder that is not running — the convoy. All
+three also cost outside this bucket, because the shared lock word ping-pongs
+between cores; that part is the **False sharing** entry's mechanism, on a line
+you meant to share.
+
+**Fix.** Reduce the time the lock is held before you touch the lock itself:
+move allocation, I/O, and formatting out of the critical section; compute into
+a local and take the lock only to publish. Then reduce contention: a
+per-thread accumulator combined once at the end, sharding the lock by key, or
+a read-mostly structure where readers do not serialize. Then match the thread
+count to the cores you actually have — `nproc`, or the cgroup CPU quota if you
+are in a container, not the hardware count. Prefer a blocking mutex to a spin
+wherever the critical section can be long; back off inside CAS loops rather
+than retrying flat out.
+
+**Confirming measurement.** Sweep the thread count over the same total work —
+1, 2, 4, up to the core count — and record retired instructions per unit of
+work at each point, with `perf stat -e instructions,task-clock,context-switches`.
+Instructions per unit of work *rising* with the thread count is the signature:
+the real work is fixed, so the extra retired instructions are spin. Flat
+instructions with falling throughput points at the ping-pong instead, and
+`perf c2c` on the lock word confirms that. If instructions per unit of work
+stay flat and throughput scales, this entry is out. Where the host allows it,
+attribute the waiting directly: `perf trace -e 'syscalls:sys_enter_futex'` or
+`strace -c -f -e trace=futex` counts the sleeps a blocking mutex takes, and a
+large `context-switches` count with low throughput is the oversubscription
+case rather than the spin case.
+
+**Cost.** Per-thread state multiplies footprint and needs padding to a cache
+line, which is the **False sharing** entry's cost paid deliberately. Sharding
+a lock changes the data structure's invariants — anything that needed a
+consistent view across shards now needs its own protocol, and that is a
+correctness change, not a performance one. Replacing a spin with a blocking
+wait adds syscall and wake-up latency to the uncontended path, which is a bad
+trade when the critical section is genuinely short. Lowering the thread count
+leaves cores idle during the phases that were not contended, so it optimizes
+one region at the whole program's expense.
+
+### Allocator pressure
+
+**Symptom.** The profile's top symbols are allocator symbols — `malloc`,
+`free`, `operator new`, `_int_malloc`, `tcache_get`, `__rust_alloc` — often
+with `memcpy` or `memmove` beside them from container growth. Retired
+instructions are dominated by allocation rather than by the algorithm. It
+usually presents as `retiring`; with many small short-lived objects it can
+present as `memory bound` as well, because allocator metadata and
+freshly-faulted pages miss.
+
+**Cause.** Per-object allocation is real work: size-class lookup, free-list or
+bin manipulation, and under threads a lock or a per-thread cache refill. The
+allocation *rate* also destroys locality — objects a loop walks were handed
+out wherever the allocator had room, so a high rate manufactures the access
+pattern that the layout entries under memory bound try to fix. Fixing layout
+without fixing the rate treats the symptom.
+
+**Fix, cheapest first.** Stop allocating: `reserve` / `with_capacity` before a
+known-size fill, reuse a buffer across iterations instead of constructing one
+per call, take a `std::string_view` or `&str` instead of an owning copy, move
+instead of copy. Then allocate in bulk: an arena or bump allocator for objects
+that share a lifetime, or a fixed-size pool for one hot type. Swap the
+allocator wholesale (jemalloc, tcmalloc, mimalloc) only after those — it
+lowers the per-allocation cost without lowering the rate, and it is a
+deployment change wearing a code change's clothes.
+
+**Confirming measurement.** Count allocations and bytes per unit of work on
+the unmodified baseline, before you change anything.
+`valgrind --tool=dhat` reports total blocks, total bytes, and block lifetimes
+and is the direct instrument; `ltrace -c -e malloc+free` or an `LD_PRELOAD`
+counter does the same job more cheaply, and glibc's `malloc_info(0, stderr)`
+gives arena-level totals. Cross-check the share: `perf record` and read
+samples landing in allocator symbols. Under a few percent of samples, this
+entry is out. After the fix the number that must fall is allocations per unit
+of work, measured the same way — not the cycle count on its own, which moves
+for other reasons.
+
+**Cost.** An arena changes the ownership and lifetime model of everything in
+it, which is a design decision rather than an optimization — the same cost the
+pointer-chasing entry names. A reused buffer is shared mutable state across
+iterations: aliasing bugs that the per-call allocation could not have, and a
+resident footprint pinned at the high-water mark for the process's life. Pools
+fragment when the size distribution shifts, and the failure is a slow leak of
+capacity rather than an error. Replacing the allocator changes footprint and
+tail latency program-wide, adds a per-platform build and deploy dependency,
+and resets every baseline you have taken so far.

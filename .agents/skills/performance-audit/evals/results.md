@@ -128,3 +128,42 @@ Caveats, recorded so a later reader can weigh them:
   rounds, so little rides on the second.
 - Arms could not execute anything. The rubrics score the process each answer
   demands and the order it demands it in, not measurements taken.
+
+## 2026-08-15 — what the 21/21 does not establish (pre-merge review)
+
+Nothing above is withdrawn. This section adds what the number does not cover,
+so a later reader does not read it for more than it says.
+
+**The 21/21 is training-set accuracy.** The skill was drafted against the
+recorded RED failures, revised twice, then tuned against S4 specifically after
+GREEN round 1, and rerun on those same five scenarios. No scenario in the set
+was ever unseen by the skill body. The "scenario token leak" caveat above
+names two phrases; this is the general form of it, and it applies to every
+line of the score.
+
+**The eval covers none of the references.** At the time of these runs, 1418 of
+the skill's 1675 lines were `references/`. No rubric line tests a `perf` invocation, the choice of a
+catalog entry, the read-the-section-header rule, or the gate-4 arithmetic —
+the arms could not execute anything, so the references were scored only where
+SKILL.md's own text reached the answer. Their correctness rests entirely on
+review, not on this eval. The pre-merge review of this branch then found five
+factual errors in `references/tma.md` — a miscount, a wrong
+`perf_event_paranoid` rung, an unhedged AMD claim, a wrong privilege rationale
+for `perf c2c`, and a penalty table built from low-end figures that called
+itself an upper bound and would falsely eliminate the most common bucket. That
+is the shape of error this gap predicts, and finding them by reading is not a
+substitute for testing them.
+
+**The obsolescence check in GREEN is a rescore, not a fresh probe.** The
+baseline arm was reused from RED rather than rerun, which the round-1 entry
+discloses. The consequence: "the no-skill arm passed 9 of 21" is a second
+judge's score of the *same RED text*, not new evidence about what a no-skill
+agent does today. The 8/21-vs-9/21 gap between rounds measures judge variance
+on identical answers and nothing else.
+
+**Judge.** Both arms ran on Sonnet, stated per round above. The judge was a
+separate blind subagent, a different instance in each round, dispatched from
+the controller session with no model override recorded — so it ran on the
+controller's model, which the dispatch record
+(`.superpowers/sdd/2026-08-15-performance-audit/progress.md`) does not name.
+Judge and arms were therefore not the same model.

@@ -38,6 +38,16 @@ hypotheses is worth testing first. The test is what tells you which one is
 true. If a report sentence would still stand with the table deleted, it is a
 finding; if it collapses, it was never one.
 
+**One carve-out: deciding there is nothing to audit.** The rule above governs
+audit findings. Bounding a path's total cost to conclude that no change to it
+can matter is not a finding — it is the triage answer that stops the audit
+before gate 1, and this table is the right input to it. Total operations times
+an order-of-magnitude per-operation figure from a row above, for work that
+runs once per process or over a bounded handful of items, is exactly what
+these anchors are for. Report it as an order of magnitude and as a bound
+("microseconds either way"), never as a time, and do not carry the row forward
+into anything about the code itself.
+
 The rows are not equally soft. The wide ones: contended atomic RMW spans 3x
 inside one socket, and the page-walk row is bimodal — 20–50 cycles with the
 page-table entries cached against 500 or more without, a 25x split inside a

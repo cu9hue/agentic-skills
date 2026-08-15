@@ -23,6 +23,38 @@ number before it produces a fix. The evals judge that, not recall.
 - Not for: web, database, or I/O latency; not for code with no measurable hot
   path.
 
+## Triage — four outcomes, ahead of the gates
+
+(Amended 2026-08-15, after the GREEN rounds. The approved design opened the
+skill at gate 1. What shipped opens with this triage, and it is the largest
+structural feature of the file — recorded here so the spec describes the
+skill that exists.)
+
+Most "make it faster" asks do not deserve the audit. The RED baseline failed
+S5 by demanding a profile for a 40-entry startup path, so a skill that only
+adds rigor would fail that scenario harder than no skill at all. SKILL.md
+therefore opens by picking one of four outcomes:
+
+1. **Wrong layer** — the time is in I/O, a database, the network, GC, or a
+   managed runtime. Answer there, in full, and stop.
+2. **Too small to measure** — bound the total cost first (operations times an
+   order-of-magnitude per-operation figure from `cost-model.md`). If the bound
+   lands in microseconds, say so, answer the question asked, and stop.
+3. **An agenda, not a fix** — a body of native code with no named hot path, no
+   benchmark, and no number to beat. The gates do not run on a whole library.
+4. **Native and real** — run the five gates below.
+
+The two refusal outcomes are **internal**: the reader gets a direct answer with
+no gate, no bucket, no `perf` command, and no statement of which outcome was
+picked. GREEN round 1 failed S4 because an earlier draft required the outcome
+to be stated, which put TMA vocabulary on a Node/Postgres answer;
+`evals/results.md` carries the round and the fix.
+
+Outcome 3 is answered from a separate section, "When the ask is an agenda, not
+a fix", near the end of SKILL.md: measurement first on the agenda, the memory
+cost model running through the whole answer, and no catalog entries dumped as
+claims about unprofiled code.
+
 ## Audit protocol — five gates, in order
 
 1. **Baseline.** Requires a workload, a metric, a reproducible command, and at
@@ -81,6 +113,13 @@ to counter ratios rather than pretending to a topdown breakdown.
 
 ## Quality gate (in SKILL.md)
 
+(Amended 2026-08-15: seven bullets shipped, not six. The triage bullet below
+was added with the triage section, and it is the only one checked on every
+answer — the rest are checked when the triage sent the answer to the gates.)
+
+- the triage ran and the answer matches the outcome it picked; on the
+  wrong-layer and too-small outcomes no gate, bucket, `perf` command, or
+  triage announcement appears anywhere in the answer
 - a baseline number with run count and spread exists before any finding
 - every finding cites a measurement; everything else is labeled `hypothesis`
   and carries its confirming experiment

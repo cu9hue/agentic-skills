@@ -16,6 +16,28 @@ Rules:
 - Profile the same build and the same workload as the baseline. Build with
   optimization on plus `-g -fno-omit-frame-pointer`. Never profile a debug
   build.
+
+  In Rust the optimized build carries no debug info: `cargo build --release`
+  strips it, so the profile comes back with addresses and no symbols. Put it
+  back, and keep the frame pointers, before you record anything:
+
+  ```toml
+  # Cargo.toml — debug info does not turn optimization off
+  [profile.release]
+  debug = true          # or debug = 1 for line tables only, a smaller binary
+
+  [profile.bench]
+  debug = true          # a separate profile; it does not inherit the line above
+  ```
+
+  ```bash
+  RUSTFLAGS="-C force-frame-pointers=yes" cargo build --release
+  ```
+
+  `cargo bench`, and therefore `criterion`, builds under the `bench` profile,
+  which is why both entries are there. Set `RUSTFLAGS` for the baseline run as
+  well as the profiling run — it changes the binary, so a baseline taken
+  without it is a different build.
 - Chase the largest bucket above 20%. Ignore anything below 10%.
 - Record which tool produced the split. If you used a fallback, say so.
 
@@ -111,7 +133,7 @@ bound" without a level is not a localization.
 
 ### 0. Check the PMU is exposed
 
-Run this first. Four different walls block `perf`, and they have different
+Run this first. Five different walls block `perf`, and they have different
 fixes.
 
 ```bash
@@ -125,7 +147,8 @@ giving you the PMU. Work out which wall you hit before you move machines:
 
 - **Permissions.** `perf_event_paranoid` gates access. The ladder: `2` allows
   user-space per-process measurement; `1` adds kernel events; `0` adds
-  system-wide (`-a`) collection and raw tracepoints; `-1` is unrestricted.
+  system-wide (`-a`) collection; `-1` is unrestricted and is the level that
+  allows raw and ftrace tracepoint access.
   Lower it with `sudo sysctl -w kernel.perf_event_paranoid=0`, which is what
   section 1 needs. System-wide collection needs `0` or lower, `root`, or
   `CAP_PERFMON`.
@@ -180,6 +203,10 @@ Vendor situation:
   slot-based metric group through recent perf builds; the `perf list
   metricgroup` grep above tells you whether this kernel and this perf have it.
   Older Zen does not.
+- **Arm (aarch64)** — Graviton, Ampere, Neoverse, Apple, Asahi. No
+  `--topdown`, and Intel's tree does not port. Arm publishes its own top-down
+  methodology and tool; see "Other hosts" below before you reach for
+  fallback A, whose numbers are x86.
 - **Anything else, or the grep comes back empty** — you have no TMA tree. Go to
   fallback A.
 
@@ -219,7 +246,11 @@ Record the event that matches the bucket you found, so the profile ranks by
 that bucket rather than by time:
 
 For `memory bound`, use `perf mem`. It picks the right precise event for the
-vendor, so it works on both Intel and AMD:
+vendor — PEBS load-latency on Intel, IBS on AMD — so it is the portable entry
+point. The AMD side is the one to check first: it needs an IBS-backed
+`perf mem`, and per-process (non-`-a`) IBS sampling only arrived in recent
+kernels. On an older AMD host `perf mem record -- ./bench` fails outright; add
+`-a` with `perf_event_paranoid` at `0` or root, or move to a newer kernel.
 
 ```bash
 perf mem record -- ./bench
@@ -263,8 +294,11 @@ offsets on one line, touched by different PIDs or TIDs, is false sharing. Same
 offset from several threads is true sharing, which is a different fix.
 
 `perf c2c` needs PEBS load-latency events on Intel, or IBS on AMD with a recent
-kernel. It samples across CPUs, so give it `perf_event_paranoid` at `0` or
-lower, or run it as root.
+kernel. `perf c2c record` does not imply `-a` — the man page's own example
+passes it explicitly — but it does add `--phys-data` implicitly, and the kernel
+gates physical addresses behind `perf_allow_kernel`. So it needs
+`perf_event_paranoid` at `1` or lower (for `--phys-data`), or `0`/root if you
+add `-a`.
 
 ### 5. Full multi-level TMA
 
@@ -342,20 +376,28 @@ perf's `LLC-*` aliases map to different underlying events across Intel
 generations and often miss prefetch traffic, so treat these three as
 order-of-magnitude counts, not exact ones.
 
-Multiply each by its penalty and compare the total against `cycles`:
+Multiply each by its penalty and compare the total against `cycles`. Take the
+penalties from `cost-model.md`, which is the source of truth for them — L2 hit,
+L3 hit, local DRAM, branch mispredict, and the dTLB rows are all there, as
+ranges. This file keeps no second copy, because two copies drift and the copy
+that drifts low is the one that eliminates a bucket you should have chased.
 
-| Event | Penalty, order of magnitude |
-|---|---|
-| L2 hit | 12 cycles |
-| L3 hit | 40 cycles |
-| DRAM access | 200 cycles |
-| Branch mispredict | 20 cycles |
-| TLB page walk | 30 cycles |
+Two rules for reading a range into this arithmetic:
 
-Out-of-order execution hides much of this latency, so the sum is an upper bound
-and it usually overshoots. That is exactly what makes it useful for elimination:
-if branch mispredicts cannot account for 5% of cycles even at full penalty,
-`bad speculation` is not the story. If nothing accounts for more than about a
+- **Use the high end of each range.** The sum is only useful as an upper bound,
+  and a sum built from low ends is not one.
+- **For local DRAM, use the loaded figure `cost-model.md` tells you to
+  re-derive, not the idle figure in its table.** Feeding the idle number in
+  under-ranks every DRAM hypothesis systematically — and `backend bound` /
+  `memory bound` at the DRAM level is the bucket most audits land in, so the
+  bias is not random. `cost-model.md` says the same thing at gate 4; it applies
+  here for the same reason.
+
+Out-of-order execution hides much of this latency, so a sum built that way
+overshoots. That is exactly what makes it useful for elimination: if branch
+mispredicts cannot account for 5% of cycles even at the top of their range,
+`bad speculation` is not the story. Run it in that direction only. It rules
+buckets out; it never rules one in. If nothing accounts for more than about a
 quarter of the cycles, do not name a bucket — say the counters do not explain
 the time and escalate to `toplev` or a bare-metal host.
 
@@ -364,6 +406,48 @@ cannot see `frontend bound`, and it cannot separate `core bound` from
 `memory bound` inside `backend bound`. Low IPC that none of the memory or
 branch rows explain leaves `frontend bound` and `core bound` as the surviving
 candidates, and you cannot choose between them here.
+
+**Fallback A is x86-calibrated.** The IPC row's issue widths are x86 issue
+widths, and the penalties it sends you to `cost-model.md` for are stamped
+x86-64 server class. On any other architecture the *ratios* still compute and
+the *thresholds* do not transfer. Read the next section before you use them.
+
+## Other hosts — aarch64, and Windows
+
+### aarch64
+
+`perf` works on Linux/aarch64 and the generic events in section 2 — `cycles`,
+`instructions`, `branches`, `branch-misses`, `L1-dcache-load-misses`,
+`iTLB-load-misses` — are there. Everything calibrated to x86 is not:
+
+- The IPC row's issue widths are Intel and AMD widths. A Neoverse N1 is 4-wide
+  at rename, N2 and V1 are wider; read the width for your part from Arm's
+  optimization guide and use that as the ceiling, not the 4/5/6 in the table.
+- `cost-model.md` is stamped x86-64 server class. Cache and DRAM latencies on
+  Graviton, Ampere, and Apple parts are their own numbers. Re-derive on the
+  target machine — that file's pointer-chase and `lat_mem_rd` recipes are
+  architecture-neutral even though its table is not.
+- Every vendor-specific event name in this file — `mem_load_retired.*`,
+  `idq.*`, `arith.divider_active`, `l2_rqsts.*` — is Intel. Arm's equivalents
+  live in the PMU event set for your core; `perf list` on the target is the
+  only list that counts.
+
+Do not run fallback A's thresholds on an Arm part and present them as
+thresholds. Arm publishes its own top-down methodology, in two stages: a small
+set of stage-1 topdown metrics, then per-resource stage-2 "effectiveness"
+metric groups. The tool is `topdown-tool`, in Arm's telemetry-solution
+repository, driven by per-CPU metric definitions (Neoverse N1, N2, V1, V2 and
+later). On Arm server hardware that is the tool to use, and its vocabulary is
+not this file's — say which methodology produced your split when you report it.
+
+### Windows and MSVC
+
+There is no path in this file. Everything here is `perf`, `toplev`,
+`valgrind`, or `xctrace`, and none of them is a Windows tool. Use Intel VTune,
+AMD µProf, or Windows Performance Analyzer over ETW, and report in that tool's
+vocabulary — VTune does implement TMA, so the bucket names carry over there and
+nowhere else on the platform. WSL2 is not the workaround it looks like: it has
+no PMU at all (see the VM wall in section 0).
 
 ## Fallback B — macOS
 
