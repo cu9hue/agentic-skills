@@ -67,6 +67,13 @@ actually understood from your read. **If nothing clears the bar, make no cards.*
 - **Source-qualify findings** — "What does Vaswani 2017 claim about path length…",
   not a bare fact, when it is a specific result that could be wrong.
 - **Understanding over recall** — prefer "why does X help?" to "what is X?".
+- **Images** — default to text. Text forces you to reconstruct the idea; an image
+  invites recognition without understanding. Add one only when the answer is
+  inherently spatial and you must reproduce or label it: a diagram, a memory or
+  struct layout, a protocol header layout, a topology, a state machine. For
+  those, prefer Anki's Image Occlusion — hide the labels, fields, or states and
+  recall them — over a static picture on the back. Never use an image as
+  decoration, or to stand in for a mechanistic or causal explanation.
 - **Plain language** — phrase every card by the `writing` skill's anti-slop rules:
   concrete, no filler, no hedging, no inflated abstractions. A card you have to
   reread to parse is a card you will dread.
@@ -101,5 +108,8 @@ Before delivering, confirm:
 - no two cards test the same idea — near-duplicates merged
 - every card is atomic; zero yes/no questions
 - specific findings are source-qualified
+- images appear only for spatial answers (layouts, topologies, state machines),
+  preferably via Image Occlusion, never as decoration or a substitute for
+  reconstruction
 - if nothing cleared the bar, you made no cards
 - phrasing follows the `writing` skill's anti-slop rules
