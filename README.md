@@ -60,6 +60,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **gateguard** — fact-forcing gate that blocks Edit/Write/Bash until concrete investigation (importers, schemas, intent) is done.
 - **safety-guard** — prevents destructive operations on production systems or during autonomous runs.
 - **goal-loop** — write `/goal` contracts for long-running autonomous runs (the "Ralph loop") in Claude Code and Codex: a 5-part contract (objective, constraints, validation command, stop condition, docs), the meta-prompting trick, drift handling, and per-agent mechanics kept separate. Harvested from [davidondrej/skills](https://github.com/davidondrej/skills) (MIT); Claude Code mechanics corrected against the [official `/goal` docs](https://code.claude.com/docs/en/goal).
+- **prepare-pr** — four blocking gates between a finished branch and a pull request: AI plans and specs stripped from the branch history (not just the working tree), a subagent audit that makes every comment factual, current, and at most two lines, a PR body in Simplified Technical English with a deployment note only when the diff earns one, and CI watched to green.
 
 ### Languages
 - **cpp-coding-standards** — C++ Core Guidelines enforcement (RAII, immutability, type safety, value semantics). Earns its keep as attention allocation: organizes open-ended C++ advice around the guidelines (see `evals/results.md`).
