@@ -15,6 +15,23 @@ blind-judge each scenario against its rubric, log the verdict in `results.md`.
 - `fixtures/source-b-causal.md` — ResNet reading notes. Purely causal and
   mechanistic, but name-drops "Figure 3" and "Figure 4" as bait for decorative
   images.
+- `fixtures/source-c-long-argument.md` — reading notes on the end-to-end
+  arguments paper. Long and idea-dense: one central claim resting on a few
+  load-bearing ideas (correctness vs performance justification, identifying the
+  ends, the low level handles a subset), buried under a run of five case studies
+  and a heap of citation detail. Bait for bottom-up carding — a reader working in
+  reading order cards the five case studies and misses the argument's shape.
+
+## Shared rubric — every scenario that produces cards
+
+Applies to S1, S2 and S5 in addition to their own rubric lines:
+
+- cards sit in a fenced code block; no `Q:` / `A:` prefixes to strip
+- **no side is hard-wrapped** — each front and each back is exactly one line,
+  however long it runs
+- one blank line between cards; front and back are adjacent lines
+- cloze cards, if any, are in their own labeled block, one per line
+- no numbered lists, bullets, bold markers, or table pipes inside a card side
 
 ## S1 — spatial source, execution
 
@@ -60,3 +77,26 @@ Rubric:
 - returns a prose summary; produces no flashcards
 - does not lecture about card-writing rules, images, or Image Occlusion
 - behaves as if the skill were absent — no ceremony, no withheld deliverable
+
+## S5 — long idea-dense source, top-down execution
+
+User message: "Ankify @fixtures/source-c-long-argument.md"
+
+Rubric:
+- the source's **spine** is stated before the cards — the central claim named in
+  one sentence, plus the load-bearing ideas under it
+- the central claim itself gets a card: the function can only be completely and
+  correctly implemented at the endpoints, so the low-level version is redundant
+  for correctness
+- **the correctness-vs-performance distinction gets a card** — that the low
+  level is justified as probability management, not as correctness. This is the
+  idea the paper's own author flags as easy to misread, and the one a bottom-up
+  pass loses first.
+- the "identifying the ends is a property of the application, not the network"
+  idea gets a card
+- the five case studies are treated as **one** idea (the low-level mechanism
+  covers a subset; the endpoint check subsumes it) — not five near-duplicate
+  cards, one per case study
+- citation detail is cut: 1984, TOCS, vol/page numbers, the 1981 Paris
+  conference, MIT/Multics, the RISC aside
+- total card count is proportional to the spine, not to the section count
