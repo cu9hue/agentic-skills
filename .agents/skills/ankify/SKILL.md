@@ -24,9 +24,18 @@ ankify understanding, not text.
 
 1. Read the source. For a research paper, run the `digest-paper` skill first if
    you have not — its passes surface what is worth keeping. Otherwise read directly.
-2. Draft cards that clear the value bar (below), following the writing rules.
-3. Present them as markdown for keep / cut / edit. Open with one line on why
-   these cards earn their place. The editing is where the learning happens — say so.
+2. **Map the spine before you write a single card.** Name the source's central
+   claim in one sentence, then list the load-bearing ideas holding it up — the
+   ones you could not understand the claim without. Build it from the whole
+   source at once, never section by section: a spine assembled a section at a
+   time is just the table of contents, and that is exactly how a big idea loses
+   to whatever detail happened to be locally vivid.
+3. Draft one card per spine node, applying the value bar and the writing rules.
+   A candidate card that maps to no node on the spine is a detail — cut it.
+4. Present the spine first, then the cards under it, for keep / cut / edit. The
+   spine is what lets you see at a glance that an idea got skipped. Open with one
+   line on why these cards earn their place. The editing is where the learning
+   happens — say so.
 
 ## The value bar (apply before writing any card)
 
@@ -47,14 +56,15 @@ Cut lookup-able trivia: dates, author names, benchmark scores, hardware,
 hyperparameters, isolated numbers — unless the number *is* the insight (a
 constant that anchors an estimate). When in doubt, cut.
 
-There is no target number. Extract the source's **core ideas** — the load-bearing
-concepts it is actually built on, the ones you would fail to understand it
-without — and make **one card per idea**. A thin source carries two or three; a
-rich one carries more. Let the count fall out of the ideas: never pad to fill a
-deck, never truncate a source that genuinely holds more. The bloat to fight is
-carding *detail, examples, and restatements* as if they were core, and splitting
-one idea across several cards — not a high count of real ideas. Card only what you
-actually understood from your read. **If nothing clears the bar, make no cards.**
+There is no target number. The spine is the list of ideas — make **one card per
+spine node**. A thin source carries two or three; a rich one carries more. Let the
+count fall out of the spine: never pad to fill a deck, never truncate a source
+that genuinely holds more. The bloat to fight is carding *detail, examples, and
+restatements* as if they were core, and splitting one idea across several cards —
+not a high count of real ideas. A long source that argues by worked example is
+the trap: several examples demonstrating one idea are **one card**, not one card
+each. Card only what you actually understood from your read. **If nothing clears
+the bar, make no cards.**
 
 ## Writing rules
 
@@ -81,33 +91,60 @@ actually understood from your read. **If nothing clears the bar, make no cards.*
 
 ## Output format
 
-Markdown, grouped by topic. Most cards are Q / A:
+These cards get retyped into Anki's Add dialog by hand, so the format serves
+exactly one goal: select a side, copy it, in a single gesture.
+
+Put the cards in a fenced code block, grouped by topic under plain markdown
+headings. One card is **two adjacent lines** — front, then back. No `Q:` / `A:`
+prefixes to strip, no indentation to sweep up. A blank line separates cards.
 
 ```
-Q: ...
-A: ...
+Why does TIME_WAIT last 2*MSL?
+So late duplicates from the dead connection expire before the same port pair is reused.
+
+What does the TCP checksum's pseudo-header bind a segment to?
+The source and destination IP addresses, so a segment cannot land on the right port of the wrong host.
 ```
 
-Use cloze sparingly, and only when the deletion lands on the load-bearing
-idea — not to blank out a stray word:
+**Never hard-wrap a side.** Each front and each back is exactly one line, however
+long it runs — let the terminal soft-wrap it. A hard-wrapped side costs a second
+selection, which is the whole reason this format exists. And if a side is too long
+to sit on one line comfortably, that is a fact about the card, not the format: it
+is not atomic, so split it.
+
+Nothing else goes inside a card side — no bullets, no numbered lists, no bold
+markers, no table pipes. Every one of them survives the paste and has to be
+cleaned out by hand.
+
+Cloze cards need Anki's Cloze note type, so they go in their own labeled block,
+one card per line. Use them sparingly, and only when the deletion lands on the
+load-bearing idea — never to blank out a stray word:
+
+Cloze:
 
 ```
-Cloze: The Transformer drops {{c1::recurrence}} so computation parallelizes across {{c2::positions}}.
+The Transformer drops {{c1::recurrence}} so computation parallelizes across {{c2::positions}}.
 ```
 
-No import file — copy the keepers into Anki yourself.
+No import file — you copy the keepers into Anki yourself.
 
 ## Quality gate
 
 Before delivering, confirm:
 
+- the spine is stated above the cards, and every card maps to a node on it — no
+  orphan details
+- no spine node is missing a card unless it explicitly failed the value bar
 - every card is worth its lifetime of review minutes — if you would not spend
   them on it, cut it
 - each card is one of the source's core ideas — not a detail, example, or restatement
-- the count matches the ideas — nothing padded to a quota, nothing truncated
+- repeated examples of a single idea are one card, not one card each
+- the count matches the spine — nothing padded to a quota, nothing truncated
 - no two cards test the same idea — near-duplicates merged
 - every card is atomic; zero yes/no questions
 - specific findings are source-qualified
+- no card side is hard-wrapped; no `Q:` / `A:` prefixes; no bullets, list
+  markers, or bold markup inside a card side
 - images appear only for spatial answers (layouts, topologies, state machines),
   preferably via Image Occlusion, never as decoration or a substitute for
   reconstruction
