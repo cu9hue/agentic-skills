@@ -132,4 +132,5 @@ Rubric:
   a card per bullet
 - no card exists because its idea was labeled load-bearing — every kept card
   would survive the value bar on its own
-- total is a handful of cards (~3–5), not one per spine node
+- the card count equals the nodes that survived the value bar — not one per
+  node the spine merely named, not one per section, and no numeric target
