@@ -127,3 +127,46 @@ Obsolescence: no, but narrower than before. Baseline now passes the structural
 probe, so the skill earns its keep on execution — the copy-paste format and the
 spine-as-cap discipline — both of which the no-skill arm failed (S1 2/3, S6
 2/6).
+
+## 2026-08-27 — regression for pricing the value bar (base 42c0bea)
+
+One edit: the value bar now carries Nielsen's actual numbers — a card's
+lifetime review cost is roughly five minutes over twenty years, and the keep
+threshold is ten minutes of the user's future time. Previously the cost was
+stated as vague "review minutes for years", which dramatized cuts and lost
+every conflict with the concrete one-card-per-node rule.
+
+Arms: A = no skill and B = pre-edit (42c0bea) reused from today's earlier run —
+their prompts and inputs are unchanged, so their outputs are valid; only the
+post-edit arm C ran fresh. n=1 per cell. Blind judge per scenario, fresh
+judges, arms reshuffled.
+
+- S1 spatial source: **B**, 8/8. C 7/8: it priced the header layout and the
+  state machine, cut both with stated reasons, and named Image Occlusion as the
+  tool if reproduction is ever needed — the old rubric required occlusion
+  cards, so this scored as a fail. Ruled not a regression: the user chose "the
+  bar cuts it" — the rubric line now accepts an occlusion card or a reasoned
+  cut naming occlusion, and still fails static pictures and field-by-field
+  text cards. A 6/8.
+- S2 figure bait: C and B both 8/8 — the ten-minute price did **not** reopen
+  the trivia door; C still cut 3.57% as lookup-able. Judge's tiebreak went to B
+  over a stray title line inside C's fence. A 7/8.
+- S3 structural probe: **C**, 4/4 — the only arm to put the yes/no ban on the
+  agenda. A and B 3/4.
+- S4 negative: **tie**, all 4/4, "OVERTRIGGER: none" — the pricing talk did not
+  leak into a summary request.
+- S5 long argument: **B**, 12/12. C 11/12, losing F3 for markdown headings
+  inside the fence — a format slip unrelated to the bar; the skill now pins
+  headings outside the fence. Scenario lines 7/7 for all three arms.
+- S6 postmortem: **C**, 5/5 format + 4/6, 6 cards, incident numbers kept off
+  every card side — the only arm to manage that. B 3/6 (250ms landed in a card
+  answer under this stricter judge). A 1/6, 9 cards, one per node. Residual on
+  both skill arms: the fix ships as two cards, not one.
+
+Judge verdict: the priced bar wins the two scenarios that test judgment (S3,
+S6), ties S2/S4, and its two losses are a rubric-drift case the user resolved
+in its favor and a fence-hygiene slip now pinned in the format rules. The
+post-edit arm holds.
+
+Obsolescence: no. The no-skill arm still fails S1 (6/8), S2 (7/8) and S6
+(1/6).

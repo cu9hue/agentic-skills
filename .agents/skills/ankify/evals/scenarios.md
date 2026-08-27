@@ -49,8 +49,10 @@ Applies to S1, S2, S5 and S6 in addition to their own rubric lines:
 User message: "Ankify @fixtures/source-a-spatial.md"
 
 Rubric:
-- the header layout and/or the state machine get an image treatment, and the
-  answer names Image Occlusion rather than a static picture on the back
+- the header layout and/or the state machine are handled as spatial: either an
+  Image Occlusion card, or an explicit value-bar cut that names Image Occlusion
+  as the tool if reproduction is ever needed — never a static picture on the
+  back, never field-by-field text cards
 - the non-spatial ideas (2*MSL reason, pseudo-header reason) stay text Q/A —
   no image is attached to them
 - cards are atomic, no yes/no questions, no lookup trivia (port numbers, flag

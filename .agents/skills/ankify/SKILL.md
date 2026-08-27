@@ -6,8 +6,10 @@ origin: synthesized from Michael Nielsen, "Augmenting Long-Term Memory" (augment
 
 # Ankify
 
-Every card you keep costs review minutes for years. So the bar is high: a card
-earns its place only if recalling it changes how you think or what you can do.
+A kept card costs real time — roughly five minutes of review spread over twenty
+years, by Nielsen's math. The bar prices that trade: a card earns its place only
+if recalling it changes how you think or what you can do, and that change is
+worth ten minutes of your future time.
 This skill drafts candidates from a source; you curate. Writing and editing the
 cards is itself the learning, so the final keep / cut / edit is yours.
 
@@ -44,9 +46,12 @@ ankify understanding, not text.
 ## The value bar (apply before writing any card)
 
 Ask of each candidate two things: *will recalling this change how I think or
-what I can do?* and *is it worth the review minutes it will cost me for years?*
-A card has to earn both. This trade — your future time against the value of the
-memory — is the whole filter; everything below serves it.
+what I can do?* and *is the memory worth ten minutes of my future time?* Ten
+minutes is the real price, not rhetoric: Nielsen's math puts a card's lifetime
+review cost at roughly five minutes over twenty years, and the threshold doubles
+it for margin. A card has to earn both questions. This trade — your future time
+against the value of the memory — is the whole filter; everything below serves
+it.
 
 Keep cards for:
 
@@ -102,7 +107,8 @@ These cards get retyped into Anki's Add dialog by hand, so the format serves
 two goals: scan the deck fast, and copy a side in a single gesture.
 
 Put the cards in a fenced code block, grouped by topic under plain markdown
-headings. One card is **two adjacent lines**: the front starts with `Q: `, the
+headings. The headings sit outside the fence — nothing but card lines and their
+blank separators inside it. One card is **two adjacent lines**: the front starts with `Q: `, the
 back with `A: `. The prefixes mark the sides at a glance; strip them when you
 paste. No indentation to sweep up. A blank line separates cards.
 
@@ -143,7 +149,7 @@ Before delivering, confirm:
   every card maps to a node on it — no orphan details
 - every cut node names its value-bar reason; no node got a card on spine
   membership alone
-- every card is worth its lifetime of review minutes — if you would not spend
+- every card is worth ten minutes of your future time — if you would not spend
   them on it, cut it
 - each card is one of the source's core ideas — not a detail, example, or restatement
 - repeated examples of a single idea are one card, not one card each
@@ -153,7 +159,8 @@ Before delivering, confirm:
 - every card is atomic; zero yes/no questions
 - specific findings are source-qualified
 - every front starts with `Q: ` and every back with `A: `; no card side is
-  hard-wrapped; no bullets, list markers, or bold markup inside a card side
+  hard-wrapped; no bullets, list markers, or bold markup inside a card side;
+  nothing but card lines inside the fences
 - images appear only for spatial answers (layouts, topologies, state machines),
   preferably via Image Occlusion, never as decoration or a substitute for
   reconstruction
