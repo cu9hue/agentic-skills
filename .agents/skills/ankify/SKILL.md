@@ -30,12 +30,16 @@ ankify understanding, not text.
    source at once, never section by section: a spine assembled a section at a
    time is just the table of contents, and that is exactly how a big idea loses
    to whatever detail happened to be locally vivid.
-3. Draft one card per spine node, applying the value bar and the writing rules.
-   A candidate card that maps to no node on the spine is a detail — cut it.
-4. Present the spine first, then the cards under it, for keep / cut / edit. The
-   spine is what lets you see at a glance that an idea got skipped. Open with one
-   line on why these cards earn their place. The editing is where the learning
-   happens — say so.
+3. Run every spine node through the value bar. Load-bearing for the source's
+   argument is not the same as worth your review minutes — a node can hold the
+   claim up and still be lookup-able or useless to recall. Draft one card per
+   node that passes, applying the writing rules; cut the rest. A candidate card
+   that maps to no node on the spine is a detail — cut it.
+4. Present the spine first, marking each node **carded** or **cut** with the
+   value-bar reason, then the cards under it, for keep / cut / edit. The spine
+   is what lets you see at a glance that an idea got skipped — and that no card
+   slipped in on spine membership alone. Open with one line on why these cards
+   earn their place. The editing is where the learning happens — say so.
 
 ## The value bar (apply before writing any card)
 
@@ -56,10 +60,13 @@ Cut lookup-able trivia: dates, author names, benchmark scores, hardware,
 hyperparameters, isolated numbers — unless the number *is* the insight (a
 constant that anchors an estimate). When in doubt, cut.
 
-There is no target number. The spine is the list of ideas — make **one card per
-spine node**. A thin source carries two or three; a rich one carries more. Let the
-count fall out of the spine: never pad to fill a deck, never truncate a source
-that genuinely holds more. The bloat to fight is carding *detail, examples, and
+There is no target number, and the spine is not a quota. The spine caps the
+deck — **at most one card per node** — and the value bar decides which nodes get
+one. "Load-bearing" earns an idea its place on the spine, not a card: the node
+still has to change how you think and be worth its review minutes. A thin source
+carries two or three cards; a rich one carries more. Never pad to fill a deck,
+never card a node just because it made the spine, never truncate a source that
+genuinely holds more. The bloat to fight is carding *detail, examples, and
 restatements* as if they were core, and splitting one idea across several cards —
 not a high count of real ideas. A long source that argues by worked example is
 the trap: several examples demonstrating one idea are **one card**, not one card
@@ -92,29 +99,29 @@ the bar, make no cards.**
 ## Output format
 
 These cards get retyped into Anki's Add dialog by hand, so the format serves
-exactly one goal: select a side, copy it, in a single gesture.
+two goals: scan the deck fast, and copy a side in a single gesture.
 
 Put the cards in a fenced code block, grouped by topic under plain markdown
-headings. One card is **two adjacent lines** — front, then back. No `Q:` / `A:`
-prefixes to strip, no indentation to sweep up. A blank line separates cards.
+headings. One card is **two adjacent lines**: the front starts with `Q: `, the
+back with `A: `. The prefixes mark the sides at a glance; strip them when you
+paste. No indentation to sweep up. A blank line separates cards.
 
 ```
-Why does TIME_WAIT last 2*MSL?
-So late duplicates from the dead connection expire before the same port pair is reused.
+Q: Why does TIME_WAIT last 2*MSL?
+A: So late duplicates from the dead connection expire before the same port pair is reused.
 
-What does the TCP checksum's pseudo-header bind a segment to?
-The source and destination IP addresses, so a segment cannot land on the right port of the wrong host.
+Q: What does the TCP checksum's pseudo-header bind a segment to?
+A: The source and destination IP addresses, so a segment cannot land on the right port of the wrong host.
 ```
 
 **Never hard-wrap a side.** Each front and each back is exactly one line, however
 long it runs — let the terminal soft-wrap it. A hard-wrapped side costs a second
-selection, which is the whole reason this format exists. And if a side is too long
-to sit on one line comfortably, that is a fact about the card, not the format: it
-is not atomic, so split it.
+selection. And if a side is too long to sit on one line comfortably, that is a
+fact about the card, not the format: it is not atomic, so split it.
 
-Nothing else goes inside a card side — no bullets, no numbered lists, no bold
-markers, no table pipes. Every one of them survives the paste and has to be
-cleaned out by hand.
+The `Q: ` / `A: ` prefixes are the only markup a card side carries — no bullets,
+no numbered lists, no bold markers, no table pipes. Every one of them survives
+the paste and has to be cleaned out by hand.
 
 Cloze cards need Anki's Cloze note type, so they go in their own labeled block,
 one card per line. Use them sparingly, and only when the deletion lands on the
@@ -132,19 +139,21 @@ No import file — you copy the keepers into Anki yourself.
 
 Before delivering, confirm:
 
-- the spine is stated above the cards, and every card maps to a node on it — no
-  orphan details
-- no spine node is missing a card unless it explicitly failed the value bar
+- the spine is stated above the cards with every node marked carded or cut, and
+  every card maps to a node on it — no orphan details
+- every cut node names its value-bar reason; no node got a card on spine
+  membership alone
 - every card is worth its lifetime of review minutes — if you would not spend
   them on it, cut it
 - each card is one of the source's core ideas — not a detail, example, or restatement
 - repeated examples of a single idea are one card, not one card each
-- the count matches the spine — nothing padded to a quota, nothing truncated
+- the count never exceeds the spine — at most one card per node, nothing padded
+  to a quota, nothing truncated
 - no two cards test the same idea — near-duplicates merged
 - every card is atomic; zero yes/no questions
 - specific findings are source-qualified
-- no card side is hard-wrapped; no `Q:` / `A:` prefixes; no bullets, list
-  markers, or bold markup inside a card side
+- every front starts with `Q: ` and every back with `A: `; no card side is
+  hard-wrapped; no bullets, list markers, or bold markup inside a card side
 - images appear only for spatial answers (layouts, topologies, state machines),
   preferably via Image Occlusion, never as decoration or a substitute for
   reconstruction

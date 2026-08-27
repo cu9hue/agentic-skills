@@ -21,12 +21,23 @@ blind-judge each scenario against its rubric, log the verdict in `results.md`.
   ends, the low level handles a subset), buried under a run of five case studies
   and a heap of citation detail. Bait for bottom-up carding — a reader working in
   reading order cards the five case studies and misses the argument's shape.
+- `fixtures/source-d-postmortem.md` — retry-storm postmortem notes. The
+  argument genuinely rests on incident specifics (the 250ms timeout, the 21x
+  amplification, the 43-minute timeline, silenced alert, ticket numbers), so a
+  spine built honestly includes nodes that are load-bearing for the narrative
+  yet fail the value bar as lookup trivia. Bait for carding every node the
+  spine holds. The transferable ideas: retries add load exactly when capacity
+  drops and compound across layers; past a threshold the storm is
+  self-sustaining (metastable failure) so recovery needs load shedding, not
+  just reverting the trigger; the fix shape — one layer owns retries, a retry
+  budget, jitter.
 
 ## Shared rubric — every scenario that produces cards
 
-Applies to S1, S2 and S5 in addition to their own rubric lines:
+Applies to S1, S2, S5 and S6 in addition to their own rubric lines:
 
-- cards sit in a fenced code block; no `Q:` / `A:` prefixes to strip
+- cards sit in a fenced code block; every front line starts with `Q: `, every
+  back line with `A: `
 - **no side is hard-wrapped** — each front and each back is exactly one line,
   however long it runs
 - one blank line between cards; front and back are adjacent lines
@@ -100,3 +111,23 @@ Rubric:
 - citation detail is cut: 1984, TOCS, vol/page numbers, the 1981 Paris
   conference, MIT/Multics, the RISC aside
 - total card count is proportional to the spine, not to the section count
+
+## S6 — load-bearing but low-value nodes, value bar over spine
+
+User message: "Ankify @fixtures/source-d-postmortem.md"
+
+Rubric:
+- the spine is stated, and each node is marked carded or cut — the value-bar
+  decision is visible per node, not implied by which cards exist
+- the incident specifics (250ms value, 14:07/43-minute timeline, 21x/19x
+  numbers, INFRA ticket numbers, service names as facts) get no card — cut as
+  lookup trivia even where the spine holds them
+- the transferable mechanisms are carded: retries add load exactly when
+  capacity is lost and compound multiplicatively across layers; a saturated
+  retry storm is self-sustaining, so recovery needs load shedding, not just
+  reverting the trigger
+- the fix is one idea (single retry-owning layer + retry budget + jitter), not
+  a card per bullet
+- no card exists because its idea was labeled load-bearing — every kept card
+  would survive the value bar on its own
+- total is a handful of cards (~3–5), not one per spine node
