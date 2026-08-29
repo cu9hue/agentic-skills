@@ -109,3 +109,45 @@ panel — iteration recheck, noted honestly).
 
 Verdict: edit holds after one fix round; voice win carries. New S1 rubric
 line added (voice-match) so future regressions keep scoring it.
+
+## 2026-08-29 — regression: ear layer / spoken modality (pre-edit d806940 vs post-edit)
+
+Edit under test: new references/writing-for-the-ear.md (sentence shape,
+information order, reference, numbers, redundancy inversion, homographs,
+TTS punctuation, read-aloud test) plus a SKILL.md modality switch (ear
+layer stacks on Layers 1–2 and wins conflicts; two named inversions:
+redundancy required, precision yields to processability), description and
+quality-gate lines extended. New scenario S5 (video voiceover,
+underspecified probe: names the medium, no ear technique).
+
+RED first: pre-edit skill ran S5 before drafting. It failed by ear — bare
+"This is a JSON log, live" opener (bare-This + the homograph *live*),
+`cargo install ttail` and `--filter` kept as typed syntax inside the
+spoken text, no spoken/on-screen separation. Gap confirmed, section
+drafted against it.
+
+Regression: pre-edit vs post-edit, five scenarios, uniform harness (arms
+read the skill files; references loaded only when the loaded SKILL.md
+calls for them), blind judge, per-line PASS/FAIL, mechanical dash check
+(zero in all ten outputs). n=1 per cell — signal, not proof.
+
+- S1: tie — both arms fail the same voice line once (an honesty
+  framing-announcement: "Full honesty:" vs "Being honest about where this
+  stands:"); no fabrications either side
+- S2: tie — both clean 5/5
+- S3: tie — both 7/7; both owned the stat in first person, no laundering
+- S4: **post-edit** — pre-edit colon-spliced a third clause past the
+  two-sentence cap; post-edit answered in two real sentences. Either way:
+  no over-triggering, the ear layer left the negative case alone
+- S5: **post-edit, decisive** — 10/10: numbers as spoken ("fifty megabytes
+  a second"), CLI moved to separated [ON SCREEN] cues, spoken form ("the
+  filter flag"), redundancy applied, no homographs. Pre-edit arm put a raw
+  `--filter` and the homograph "live" into the voice's mouth (same two
+  failure classes as the RED run, so the gap is stable across runs)
+
+Judge verdict: post-edit 2–0–3 by scenario, 2 vs 3 on total rubric-line
+failures. The target scenario separates the arms cleanly; no regression
+anywhere else. Edit committed. Obsolescence: no — the pre-edit arm failed
+the ear lines twice in two independent S5 runs. **Watch item:** the S1
+honesty framing-announcement ("Full honesty:" / "Being honest:") failed in
+both arms; if it recurs, add it to the voice guide's banned frames.
