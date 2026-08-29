@@ -59,6 +59,12 @@ Self-directed imperatives are native: "Toughen up." "Reread every time there
 is an urge." No fake vulnerability arcs; the honesty is operational, not
 confessional.
 
+**Never announce the honesty.** "Full honesty:", "To be honest,", "Being
+honest about where this stands:" are framing-announcements the author edits
+out before publishing. The disclosure stays, the preamble dies: "Nobody
+uses this yet." lands flat, with no wind-up telling the reader that honesty
+is about to happen.
+
 **6. Structure habits.** Bold-label bullets ("**What drives me:**"),
 "Actionable:" callouts, question headers that do real thinking ("What's
 going to spark the next crash?"), numbered taxonomies ("6 ways to say no").

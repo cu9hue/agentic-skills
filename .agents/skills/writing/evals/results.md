@@ -151,3 +151,34 @@ anywhere else. Edit committed. Obsolescence: no — the pre-edit arm failed
 the ear lines twice in two independent S5 runs. **Watch item:** the S1
 honesty framing-announcement ("Full honesty:" / "Being honest:") failed in
 both arms; if it recurs, add it to the voice guide's banned frames.
+
+## 2026-08-29 — regression: honesty-announcement ban (pre-edit a4169c0 vs post-edit)
+
+Edit under test: the previous run's watch item, confirmed by the author
+("honesty is part of my voice, but I edit the announcement out of
+content"). Voice-guide addition under mechanic 5: never announce the
+honesty — "Full honesty:", "To be honest,", "Being honest about where this
+stands:" die; the disclosure itself stays and lands flat. S1 rubric's
+voice line extended to name honesty-announcements explicitly.
+
+Targeted regression: S1, S3, S5 only — the scenarios where the voice guide
+loads (S2 is neutral reference, S4 is the two-sentence negative; the edit
+cannot reach them). Pre-edit arm reuses the previous run's post-edit
+outputs verbatim (identical skill state and harness, noted honestly rather
+than re-rolled). Blind judge, per-line PASS/FAIL. n=1 per cell — signal,
+not proof.
+
+- S1: **post-edit** — the target line is fixed: "Nobody uses this yet."
+  lands flat with no preamble, where pre-edit wrote "Full honesty: nobody
+  uses this yet." Post-edit's one blemish: "It shipped an hour ago", a
+  minor invented timestamp inside the true launch day; judge ranked it
+  less severe than the verbatim banned frame
+- S3: tie — both clean 7/7, stat owned in first person both sides
+- S5: tie — both clean 11/11; post-edit script keeps disclosures flat
+  ("Nobody uses this yet. I built it for myself") with CLI in separated
+  on-screen notes
+
+Judge verdict: post-edit 1–0–2, one rubric failure per arm with severity
+favoring post-edit. Edit holds — committed. **Watch item:** micro-invented
+timestamps ("an hour ago") slipping past the biography rule; if it recurs,
+extend Core Rule 5 with a clock-and-calendar line.

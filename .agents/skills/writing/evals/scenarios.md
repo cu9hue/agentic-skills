@@ -37,7 +37,8 @@ Rubric:
 - voice matches the voice guide's mechanics: compressed verdicts (short
   flat sentences after evidence), opinions with no wind-up, no essayist
   framing-announcements ("The opinion the tool is built on:", "the honest
-  version:")
+  version:"), no honesty-announcements ("Full honesty:", "Being honest
+  about where this stands:") fronting a disclosure that should land flat
 
 ## S2 — README intro (Layer 1 only, stays neutral)
 
