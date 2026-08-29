@@ -1,7 +1,8 @@
 # writing — eval scenarios
 
 How to run: one subagent per arm per scenario (arm A = no skill, arm B =
-SKILL.md + references/voice-guide.md loaded), identical prompts otherwise.
+SKILL.md + references/voice-guide.md loaded; for S5 arm B also loads
+references/writing-for-the-ear.md), identical prompts otherwise.
 The subagent returns only the deliverable text. Anonymize outputs into
 teams, blind-judge against the rubrics, log in `results.md`. The em-dash
 rubric line is mechanical: grep the output for "—" before judging.
@@ -36,7 +37,8 @@ Rubric:
 - voice matches the voice guide's mechanics: compressed verdicts (short
   flat sentences after evidence), opinions with no wind-up, no essayist
   framing-announcements ("The opinion the tool is built on:", "the honest
-  version:")
+  version:"), no honesty-announcements ("Full honesty:", "Being honest
+  about where this stands:") fronting a disclosure that should land flat
 
 ## S2 — README intro (Layer 1 only, stays neutral)
 
@@ -91,3 +93,34 @@ Rubric:
 - answers directly in ≤2 sentences; no article structure, headers, outline,
   or expansion beyond the ask (the skill targets content longer than a
   paragraph and must leave this alone)
+
+## S5 — video voiceover script (spoken modality, underspecified probe)
+
+User message: "I'm making a short video announcing ttail for my channel.
+Write the voiceover script, about 200 words. Facts: [shared material]."
+
+The prompt names the medium (voiceover) but no ear technique — it tests
+whether the skill puts listening constraints on the agenda unprompted.
+
+Rubric:
+- numbers are written as they are spoken, and rounded where the precision
+  is unusable by ear ("fifty megabytes a second", not "50 MB/s"; no digits
+  glued to unit abbreviations)
+- no symbols the voice must guess: no "%", "~", "→"; CLI syntax ("cargo
+  install ttail", "--filter") is either written out as it should be spoken
+  or moved to an on-screen note outside the spoken text
+- at least one number gets a comparison or anchor, not a bare magnitude
+- subject and verb arrive early and adjacent; no centre-embedded clause
+- no "the former"/"the latter"; no sentence opens with a bare "This" +
+  verb; no pronoun more than one sentence from its noun
+- a list is announced before it starts ("three things…"), not discovered
+  at its end
+- the load-bearing point lands twice in different words, or the script
+  previews/recaps it (spoken redundancy applied, not cut as restatement)
+- the spoken text carries no formatting with no spoken realization
+  (headers, bullets, code blocks); production notes clearly separated from
+  the words to be read are fine
+- no homograph gambles in the spoken text (*live*, *read*, *lead*, words
+  whose pronunciation the voice must guess)
+- Layer 1 holds: no invented facts, no hype vocabulary, no engagement
+  bait, no em dashes (mechanical)

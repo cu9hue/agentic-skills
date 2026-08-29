@@ -1,6 +1,6 @@
 ---
 name: writing
-description: Write articles, posts, essays, launch notes, newsletters, guides, and docs in a direct, concrete, anti-slop style. Anti-slop rules apply to all prose; a fixed first-person voice layers on for personal and opinion pieces. Use when the user wants written content longer than a paragraph and cares about specificity, credibility, and not sounding like an LLM.
+description: Write articles, posts, essays, launch notes, newsletters, guides, docs, and spoken scripts (video voiceovers, podcasts, talks, TTS narration) in a direct, concrete, anti-slop style. Anti-slop rules apply to all prose; a fixed first-person voice layers on for personal and opinion pieces; an ear layer applies when the text will be heard. Use when the user wants written content longer than a paragraph and cares about specificity, credibility, and not sounding like an LLM.
 origin: adapted from ECC article-writing; sourcing rule and the references/ai-tells.md catalog harvested from blader/humanizer (github.com/blader/humanizer, built on Wikipedia's "Signs of AI writing")
 ---
 
@@ -15,11 +15,14 @@ specific to say, not an LLM smoothing itself into paste.
 - turning notes, transcripts, or research into finished writing
 - tightening structure, pacing, and evidence in already-written copy
 - writing READMEs, design docs, or other reference material (anti-slop layer only)
+- writing anything to be read aloud: video scripts, voiceovers, podcast
+  scripts, talks, TTS narration (add the ear layer)
 
 ## The Two Layers
 
-This skill has two layers. Always apply Layer 1. Add Layer 2 only for personal
-and opinion pieces.
+This skill has two layers plus a modality switch. Always apply Layer 1. Add
+Layer 2 only for personal and opinion pieces. Add the ear layer whenever the
+text will be heard rather than read.
 
 ### Layer 1: Anti-slop (always)
 
@@ -51,6 +54,25 @@ short version:
 
 Skip Layer 2 for reference docs, API documentation, and anything that should
 read as neutral.
+
+### The ear layer (spoken scripts only)
+
+When the text will be heard, not read (video voiceover, podcast script,
+talk, TTS narration), load
+[references/writing-for-the-ear.md](references/writing-for-the-ear.md) and
+follow it. It stacks on whichever layers apply, and where it conflicts
+with them, the ear wins. The two deliberate inversions:
+
+- Redundancy is required, not slop. Say the load-bearing thing twice in
+  different words; preview and recap. "Every paragraph adds new
+  information" does not bind on a script.
+- Precision yields to processability. Round the numbers hard, write
+  symbols and abbreviations as they are spoken, and keep typed syntax
+  (commands, flags, code) out of the spoken text: say it speakably or
+  move it to a clearly separated on-screen note.
+
+Before delivering a script, read it aloud in one take. Anything that trips
+your mouth fails.
 
 ## Core Rules
 
@@ -127,4 +149,6 @@ Before delivering, check:
 - short sentences, concrete nouns, plain verbs
 - for personal pieces: voice matches the voice guide, and every qualifier passes
   the diagnostic test (naming a condition, not buying insurance)
+- for spoken scripts: the draft survives a read-aloud in one take; numbers,
+  symbols, and commands are written as spoken or moved to on-screen notes
 - formatting matches the intended medium
