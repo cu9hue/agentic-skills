@@ -83,6 +83,9 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **ankify** — turn a paper/article/doc/notes into Anki flashcards biased toward conceptual understanding over rote recall: drafts candidates against a value bar (keep only what changes how you think), you curate. Synthesized from Michael Nielsen's "Augmenting Long-Term Memory"; pairs with **digest-paper**.
 - **socratic** — a Socratic questioning session over material you've read: extracts the core ideas as a private coverage checklist, interrogates one idea at a time (one question per turn, probe-then-reveal on misses), closes with a per-idea gap report and hands everything to **ankify**. Question taxonomy from [UConn CETL's "Socratic Questions"](https://cetl.uconn.edu/resources/teaching-your-course/leading-effective-discussions/socratic-questions/); pairs with **digest-paper**.
 
+### Personal knowledge
+- **second-brain-retrieval** — read-only retrieval from the curated second-brain HTTP service (env-configured, over Tailscale): `/search` → retrieve the chunk or note → cite note path, heading, and chunk ID, with note-backed claims kept separate from inference. `/recent` for recency questions, `/related` to expand context, `/health` for diagnostics only; `_sources/` is off-limits, and `/capture` fires only on an explicit ask with the capturer token present. Fails gracefully without leaking tokens.
+
 ### Security
 - **security-review** — checklist + patterns for auth, user input, secrets, API endpoints, payments; bundles `cloud-infrastructure-security.md`.
 
