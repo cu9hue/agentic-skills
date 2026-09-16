@@ -306,3 +306,47 @@ fails it, the ear layer needs the clarification too); post-edit S1 drafts
 leaning on derivable-but-unstated opinions ("the part I trust least");
 "X, not Y" sitting exactly at the cap of one in every post-edit piece
 (the cap is being used, not avoided).
+
+## 2026-09-16 — regression: "rather than" joins the contrast cap; closings must state the mechanism (pre-edit 8545ac2 vs post-edit)
+
+Trigger: first real-world run of the rebuilt skill, a voice rewrite of a
+published 1,600-word post. Facts, tables, images and links preserved,
+meter clean, punchlines gone. Two residues by eye: the model swapped "X,
+not Y" for "rather than" four times (the meter did not count it), and the
+closing section kept the original's slogans joined with "and" and "so".
+The author's own part-2 finding in miniature: a ban relocates the pattern.
+
+Edit under test: "X rather than Y" counted toward the one-contrast cap in
+voice-guide.md, ai-tells.md, the S6 rubric, and rhythm.py's CONTRAST
+regex (the first-pass rewrite now meters at 5 contrasts, not 1); cadence
+limit 7 extended: joining two slogans with "and"/"so" is the same close,
+the closing section must state the mechanism.
+
+Arms: pre-edit = 8545ac2 outputs from the earlier run (reused), post-edit
+= worktree, S1 and S6 only (the scenarios the edit can reach). Blind
+judge, per-line PASS/FAIL, meter on both arms, dashes zero. n=1 per cell.
+Note: the first judge run stalled with no output after ten minutes and
+was relaunched with a length cap; the retry's verdict is the one logged.
+
+Meter, post-edit: S1 fragments 0, x_not_y 0, connectives 25.4/k; S6
+fragments 0, x_not_y 1, connectives 24.9/k. Pre-edit unchanged (S1 3/1/
+9.8, S6 3/2/9.6).
+
+- S1: **post**, narrowly. Pre lands "That is the whole pitch." and the
+  "No X, no Y" device and fails cadence, voice and texture. Post invents a
+  reaction ("I was surprised it held up at that rate!") and a usage
+  history ("only been run against the logs I had on hand"); judge ranked
+  the verbatim punchline worse but called the fabrications top-severity.
+- S6: **post**, clearly. Pre fails seven of nine lines with two banned
+  examples verbatim; post fails two soft lines (a padded "Neither one is
+  memory... Both are caches" contrast, a self-answered question).
+
+Verdict: edit holds, committed. **Watch item, now seen in three rounds
+(r4 "the part I trust least", r5 "I was surprised", "logs I had on
+hand"):** the texture push (exclamation at surprise, verdicts with
+evidence) invites invented reactions and usage history on S1. If it
+recurs, add "reactions are biography too" under the brief's-facts rule
+and rerun S1. Second watch item: "Neither one is memory... Both are
+caches" is the model's favourite opening for S6 in every round; the
+banned-example quote in the rubric may be steering it rather than
+deterring it.

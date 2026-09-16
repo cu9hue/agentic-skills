@@ -3,10 +3,9 @@
 
 Usage: python3 rhythm.py FILE [FILE...]
 
-Counts the cadence tells that a rubric judge scores inconsistently. Only
-prose paragraphs count (bullets, headers, code, tables and quotes are
-skipped). Reference values come from the author's own notes, measured
-2026-09-16 over ~29k words of English prose:
+Counts the cadence tells that a rubric judge scores inconsistently.
+Reference values come from the author's own notes, measured 2026-09-16
+over ~29k words of English prose:
 
   connectives   ~20 per 1000 words
   X-not-Y       ~1  per 1000 words
@@ -14,8 +13,7 @@ skipped). Reference values come from the author's own notes, measured
   parentheses   ~4  per 1000 words
   end-fragment  ~19% of paragraphs (casual asides, not verdicts)
 
-The skill's pre-fix drafts sat at 10-15 connectives, 3-7 X-not-Y, 0
-exclamation. The thresholds in scenarios.md are derived from these numbers.
+The thresholds in scenarios.md are derived from these numbers.
 """
 import re
 import statistics
@@ -30,8 +28,9 @@ CONNECTIVES = re.compile(
     re.I,
 )
 CONTRAST = re.compile(
-    r"(,\s*not\s+\w"                                  # "X, not Y"
-    r"|\bnot\s+[\w' ]{1,25}\.\s+[A-Z]"                 # "not X. Y."
+    r"(,\s*not\s+\w"
+    r"|\brather than\b"                               # no "not", same contrast move
+    r"|\bnot\s+[\w' ]{1,25}\.\s+[A-Z]"
     r"|\b(is|are|was|were|isn't|aren't|wasn't|weren't)\s+(not\s+)?"
     r"[\w' ]{1,20}\.\s+(It's|It is|They're|They are|That's|That is)\b"
     r"|\b(isn't|aren't|wasn't|weren't|doesn't|don't|never)\s+[\w' ]{1,20}"

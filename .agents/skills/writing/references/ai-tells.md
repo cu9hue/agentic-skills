@@ -45,8 +45,9 @@ words. They are the strongest current signal of machine prose.
 - the punchline paragraph: a sentence of evidence, then a verdict of three
   to six words, then a paragraph break ("Everything got quieter. Nothing
   got resolved.")
-- the two-beat contrast as a device: "X. Y." or "X, not Y" ("They aren't
-  guessing. They're recalling." "It's the attractor, not the budget.")
+- the two-beat contrast as a device: "X. Y.", "X, not Y", or "X rather than
+  Y" ("They aren't guessing. They're recalling." "It's the attractor, not
+  the budget." "a package rather than a feature")
 - the grand pronouncement: "That is the finding worth building on", "This
   isn't a budget. It's a statement of intent.", "The honest names."
 - one-word and two-word paragraphs ("Numbers.")

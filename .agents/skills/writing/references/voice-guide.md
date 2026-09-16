@@ -154,9 +154,11 @@ The moves, each now a hard limit in personal pieces:
 
 1. A paragraph ending on a fragment of six words or fewer: at most one per
    piece, and only as a casual aside ("Hard to set up."), never a verdict.
-2. The two-beat contrast, "X. Y." or "X, not Y", as a rhetorical device:
-   at most one per piece. The author writes "Bitcoin is pseudonymous, not
-   anonymous", so the construction is hers, but once.
+2. The two-beat contrast, "X. Y.", "X, not Y", or "X rather than Y", as a
+   rhetorical device: at most one per piece, all spellings counted
+   together. The author writes "Bitcoin is pseudonymous, not anonymous", so
+   the construction is hers, but once. Rewording a banned contrast into
+   "rather than" relocates the tell; say the mechanism instead.
 3. "That is the..." / "That's what..." / "The honest X" pronouncements:
    none.
 4. One-word or two-word paragraphs: none.
@@ -164,8 +166,11 @@ The moves, each now a hard limit in personal pieces:
    announcement into the sentence that carries the content.
 6. Rule-of-three fragment lists ("Tests that fail. Code that throws. A
    transaction that will not reconcile."): none.
-7. A closing line that restates the thesis as an epigram: none. End on the
-   last consequence, the open question, or what the author would do next.
+7. A closing line that restates the thesis as an epigram: none. Joining two
+   slogans with "and" or "so" is the same close with softer punctuation;
+   the closing section has to state the mechanism ("since the model has to
+   land somewhere and I haven't said where"), then end on the last
+   consequence, the open question, or what the author would do next.
 
 Why the model does this: Layer 1 strips the intensifiers and cuts every
 word that does no work, so the only way left to signal a verdict is to

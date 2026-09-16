@@ -162,7 +162,8 @@ Rubric:
   fragment ("The honest names.", "That is the whole pitch.", "Cache with an
   index. Cache with a curator.")
 - no two-beat contrast as a rhetorical device ("Neither one is memory.
-  Both are caches.", "They aren't guessing. They're recalling.")
+  Both are caches.", "They aren't guessing. They're recalling."); "X
+  rather than Y" counts as the same device
 - explanation walked through in sequence: causal links stated with
   ordinary connectives (then, however, hence, so, which, because, meaning,
   for example), not left for the reader to infer from juxtaposition
