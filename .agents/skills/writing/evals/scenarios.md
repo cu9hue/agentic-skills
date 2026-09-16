@@ -5,7 +5,9 @@ SKILL.md + references/voice-guide.md loaded; for S5 arm B also loads
 references/writing-for-the-ear.md), identical prompts otherwise.
 The subagent returns only the deliverable text. Anonymize outputs into
 teams, blind-judge against the rubrics, log in `results.md`. The em-dash
-rubric line is mechanical: grep the output for "—" before judging.
+rubric line is mechanical: grep the output for "—" before judging. The
+cadence lines in S1 and S6 are mechanical too: run `python3 rhythm.py
+<output>` and read the numbers off before judging.
 
 ## Shared material
 
@@ -34,11 +36,18 @@ Rubric:
   the brief
 - qualifiers name conditions, not insurance ("works on JSON lines only",
   not "this might not be for everyone")
-- voice matches the voice guide's mechanics: compressed verdicts (short
-  flat sentences after evidence), opinions with no wind-up, no essayist
-  framing-announcements ("The opinion the tool is built on:", "the honest
+- voice matches the voice guide: verdicts sit in the sentence that
+  carries the evidence or follow it as a casual aside, opinions with no
+  wind-up, no essayist framing-announcements ("The opinion the tool is built on:", "the honest
   version:"), no honesty-announcements ("Full honesty:", "Being honest
   about where this stands:") fronting a disclosure that should land flat
+- cadence (mechanical, rhythm.py): at most one paragraph ends on a
+  sentence of six words or fewer; `x_not_y` at most 1; `pronouncements`
+  0; `announcements` 0; no one-word paragraphs ("Numbers.")
+- texture: at least one of a parenthetical aside, a plain intensifier
+  verdict ("really", "super", "annoying", "pretty"), or an exclamation at
+  a genuine surprise; the piece reads as an explanation walked through,
+  not a stack of claims
 
 ## S2 — README intro (Layer 1 only, stays neutral)
 
@@ -121,6 +130,47 @@ Rubric:
   (headers, bullets, code blocks); production notes clearly separated from
   the words to be read are fine
 - no homograph gambles in the spoken text (*live*, *read*, *lead*, words
-  whose pronunciation the voice must guess)
+  whose pronunciation the voice must guess; a modal or inflection that
+  fixes the reading, as in "can read" or "reads", is not a gamble)
 - Layer 1 holds: no invented facts, no hype vocabulary, no engagement
   bait, no em dashes (mechanical)
+
+## S6 — long opinion post (Layer 2 applies; cadence probe)
+
+User message: "Write a ~500 word opinion post for my blog. Thesis: most
+'agent memory' features are a cache with a marketing name, and the real
+problem is that nobody has decided what an agent should be allowed to
+forget. Facts I can give you: I have built two memory layers for coding
+agents this year, one file-based (one fact per markdown file with an index
+loaded each session) and one backed by an HTTP retrieval service over my
+curated notes. The file-based one drifts: stale facts survive because
+nothing ever deletes them. The retrieval one is read-only by design, so it
+can't drift but also can't learn. I don't have numbers beyond that."
+
+Long enough for the punchline cadence to surface. The prompt says nothing
+about rhythm, so it tests whether the voice guide keeps the model off the
+epigram unprompted.
+
+Rubric:
+- Layer 1 holds: no invented facts (no numbers, users, timelines, or tools
+  beyond the brief), no unnamed authority, no engagement bait, no em
+  dashes (mechanical)
+- cadence (mechanical, rhythm.py): `paragraphs_ending_on_fragment` at
+  most 1; `x_not_y` at most 1; `pronouncements` 0; `announcements` 0;
+  `one_word_paragraphs` 0; `connectives_per_k` between 15 and 30 (the author measures ~20; 50 is a parody)
+- no punchline closes: no paragraph or the piece ends on a verdict
+  fragment ("The honest names.", "That is the whole pitch.", "Cache with an
+  index. Cache with a curator.")
+- no two-beat contrast as a rhetorical device ("Neither one is memory.
+  Both are caches.", "They aren't guessing. They're recalling.")
+- explanation walked through in sequence: causal links stated with
+  ordinary connectives (then, however, hence, so, which, because, meaning,
+  for example), not left for the reader to infer from juxtaposition
+- verdicts use plain intensifiers or casual asides ("really annoying",
+  "super clear", "Hard to set up.") rather than aphorisms; at least one
+  such verdict present
+- texture present: at least one parenthetical aside, and at least one
+  question that does real work or an exclamation at a genuine surprise
+- first person from inside the work; the author's two layers are described
+  as built things with specific failure modes, not as abstractions
+- qualifiers name conditions, not insurance; no honesty-announcements

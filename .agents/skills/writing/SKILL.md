@@ -1,7 +1,7 @@
 ---
 name: writing
 description: Write articles, posts, essays, launch notes, newsletters, guides, docs, and spoken scripts (video voiceovers, podcasts, talks, TTS narration) in a direct, concrete, anti-slop style. Anti-slop rules apply to all prose; a fixed first-person voice layers on for personal and opinion pieces; an ear layer applies when the text will be heard. Use when the user wants written content longer than a paragraph and cares about specificity, credibility, and not sounding like an LLM.
-origin: adapted from ECC article-writing; sourcing rule and the references/ai-tells.md catalog harvested from blader/humanizer (github.com/blader/humanizer, built on Wikipedia's "Signs of AI writing")
+origin: adapted from ECC article-writing; sourcing rule and the references/ai-tells.md catalog harvested from blader/humanizer (github.com/blader/humanizer, built on Wikipedia's "Signs of AI writing") and the how-to-ai.guide "You sound like AI" list; voice guide derived from the author's own notes
 ---
 
 # Writing
@@ -43,14 +43,24 @@ For posts, essays, launch notes, and newsletters, load
 [references/voice-guide.md](references/voice-guide.md) and write to it. The
 short version:
 
-- First person, from inside the work. "Here's what broke when I built X," not
-  "a common pitfall is."
-- State the framework with full rigor. Keep the verdict revisable. Provisional
-  about conclusions, rigorous about reasoning.
-- Lead with an opinion about quality when you have one. Taste is content.
-- Don't pre-hedge. The diagnostic test for any qualifier: is it naming *when the
-  claim holds*, or *buying insurance against being wrong*? Keep the first, cut
-  the second.
+- Explain in sequence with ordinary connectives (then, however, hence, so,
+  which, because, e.g.). State the causal link; do not leave it to be
+  inferred from two sentences placed side by side.
+- First person, from inside the work. "Here's what broke when I built X,"
+  not "a common pitfall is."
+- Verdicts use plain intensifiers ("really annoying", "super clear") and
+  sit in the sentence with the evidence. No aphorisms, no verdict fragments
+  closing a paragraph, no "X. Y." two-beat contrasts as a device.
+- Don't pre-hedge. The diagnostic test for any qualifier: is it naming
+  *when the claim holds*, or *buying insurance against being wrong*? Keep
+  the first, cut the second.
+
+Layer 2 overrides Layer 1's compression. In personal pieces sentence length
+varies, connectives and parenthetical asides stay in, and the author's
+discourse markers (basically, actually, super, pretty) are voice, not
+slop. The guide's "cadence to avoid" section lists the hard limits. On a
+tightening or de-slop task Layer 2 adds nothing: cut the tells, keep the
+brief's facts, connect what remains. No new reasons, no rescued statistics.
 
 Skip Layer 2 for reference docs, API documentation, and anything that should
 read as neutral.
@@ -147,8 +157,11 @@ Before delivering, check:
 - no banned patterns survive (sweep against references/ai-tells.md)
 - no em dashes
 - short sentences, concrete nouns, plain verbs
-- for personal pieces: voice matches the voice guide, and every qualifier passes
-  the diagnostic test (naming a condition, not buying insurance)
+- for personal pieces: voice matches the voice guide, every qualifier passes
+  the diagnostic test (naming a condition, not buying insurance), and the
+  cadence limits hold: at most one paragraph ends on a fragment, at most
+  one "X, not Y", no pronouncements, no one-word paragraphs, connectives
+  between fifteen and thirty per thousand words (`evals/rhythm.py` measures this)
 - for spoken scripts: the draft survives a read-aloud in one take; numbers,
   symbols, and commands are written as spoken or moved to on-screen notes
 - formatting matches the intended medium
