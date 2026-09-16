@@ -3,7 +3,10 @@
 The full catalog of patterns that mark prose as machine-written. Merged from
 this skill's original banned list, blader/humanizer
 (github.com/blader/humanizer, itself built on Wikipedia's "Signs of AI
-writing"), and the slopdetector.org taxonomy. SKILL.md carries the core
+writing"), the slopdetector.org taxonomy, the how-to-ai.guide "You sound
+like AI" list (adverb abuse, negative parallelism, the grand
+pronouncement), and the cadence failures observed in this skill's own
+drafts. SKILL.md carries the core
 rules; load this file when de-slopping, auditing, or writing anything long
 enough to drift.
 
@@ -34,10 +37,33 @@ enough to drift.
 - rule-of-three overuse: ideas forced into triples for fake comprehensiveness
 - "The real question is…" / "at its core, what really matters" framing theater
 
+## Cadence
+
+The rhythm tells survive every word ban, because they are made of ordinary
+words. They are the strongest current signal of machine prose.
+
+- the punchline paragraph: a sentence of evidence, then a verdict of three
+  to six words, then a paragraph break ("Everything got quieter. Nothing
+  got resolved.")
+- the two-beat contrast as a device: "X. Y.", "X, not Y", or "X rather than
+  Y" ("They aren't guessing. They're recalling." "It's the attractor, not
+  the budget." "a package rather than a feature")
+- the grand pronouncement: "That is the finding worth building on", "This
+  isn't a budget. It's a statement of intent.", "The honest names."
+- one-word and two-word paragraphs ("Numbers.")
+- colon-fronted announcements: "So:", "Side by side:", "The result:"
+- rule-of-three fragment lists ("Tests that fail. Code that throws. A
+  transaction that will not reconcile.")
+- the epigram close: a last line that restates the thesis as a slogan
+- adverb-verb pairs that fake precision: "quietly runs", "neatly sidesteps"
+- missing glue: causal links left for the reader to infer from
+  juxtaposition instead of stated with then, so, which, because, hence
+
 ## Vocabulary and grammar
 
 - the AI word cluster: delve, tapestry, landscape, underscore, foster,
-  crucial, vibrant, interplay, showcase, boast, enhance
+  crucial, pivotal, vibrant, interplay, showcase, boast, enhance, robust,
+  seamless, realm, foundational
 - copula avoidance: "serves as", "stands as", "marks", "features" where
   "is" belongs
 - superficial "-ing" tails that fake analysis: "…, highlighting the
