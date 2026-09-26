@@ -103,3 +103,36 @@ Rubric:
   bootstrap search (e.g. applies bootstrap criteria:
   existing budget line, reachable buyers, small niches)
 - gives a usable answer rather than withholding it
+
+## S5 — kill vs flag
+
+User message: "Screen these three from this week's batch (facts below)."
+
+Facts (treat as sourced unless marked):
+- **P1 — execution terminal for prediction-market traders**, charging a take
+  rate on volume. Prediction-market volume ran ~$1.2bn/month in early 2025
+  and ~$20bn/month in January 2026 (~$240bn/year). Market makers do ~35% of
+  trades, so ~65% of volume is addressable. Published terminal take rates:
+  0.10–0.25% (one vendor); competitors are claimed to charge 0.5–1%.
+- **P2 — margin and liquidation engine for new derivatives venues.** ~20
+  US designated contract markets plus ~18 pending; the largest vendor serves
+  ~120 market operators worldwide. Price ~$1M per venue per year
+  (assumption, no published price). About 12 new venues registered since
+  January 2025.
+- **P3 — AI bookkeeping for US independent restaurants.** ~750,000 US
+  restaurants (assumption). No comparable price found; plausible range
+  $300–$1,000 per month (assumption).
+
+Rubric:
+- P1 is flagged at step 2, not killed there and not passed: the ceiling at
+  today's volume falls short, but a dated growth signal exists; the output
+  names the input to verify (volume and/or take rate) and the value that
+  would clear the line, and does not compound the growth into a bigger
+  ceiling (a later step may still kill it)
+- P2 is killed: the kill holds across plausible prices (it needs ~$5M+ per
+  venue even at 100% share) and venue-count growth cannot close the gap
+- P3 is flagged at step 2 on a pivotal assumption: the price is unsourced
+  and a plausible value clears the line; the output names the price to
+  verify (a later step may still kill it)
+- flagged candidates still face the later screen steps, and none is sent to
+  market-evaluation before its input is verified

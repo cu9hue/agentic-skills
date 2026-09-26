@@ -111,6 +111,18 @@ Do not argue past 30% on the strength of Epic or Veeva. Both exceeded half their
 
 A named adjacency can carry a ceiling past $1bn only when it is named here and connected in step 8 by the same buyer, data or integration. An adjacency you cannot name does not count.
 
+### Kill, flag, or pass
+
+The ceiling is an estimate built from today's N and today's price, and both can be wrong. A step-2 failure therefore has two outcomes, not one:
+
+- **Kill** when the verdict is robust. The inputs are sourced, or the kill holds across every plausible value of the unsourced ones, and nothing in the market is moving: no growth signal and no breaking assumption.
+- **Flag** when the ceiling falls short but one of three conditions holds:
+  1. **A sourced growth signal.** N or the flow is compounding fast (roughly 30% a year or more), shown by dated numbers, not by a forecast.
+  2. **A pivotal assumption.** The price or N is unsourced, and a plausible value would clear the kill line.
+  3. **A breaking assumption.** A rule, cost or technology change is actively moving the constraint the ceiling rests on.
+
+A flag is not a pass. Do not project the growth into a future ceiling: a guessed rate compounded over years is the TAM fantasy by another route. Instead, write down **the one input to verify** and **what value would clear the line** ("annual volume must reach ~3× today's", "a buyer must confirm ~$5k a year"), plus the cheapest manual check: a data source, or a question for a customer conversation. A flagged candidate continues through steps 3–10; any later failure still kills it.
+
 ### FALSIFY before any structural verdict
 
 Before writing that a category, a segment or an industry is too small, spend fifteen minutes searching for companies in it above $100M revenue or $1B valuation. Once per category, not per candidate, so the batch time-box survives.
@@ -151,7 +163,7 @@ Five to ten minutes per candidate, search-assisted. **Kill on first fail and mov
 
 1. **Constraint conflict.** Apply the *test*, not the label. Kill immediately on a real conflict; do not argue that this one is different.
 
-2. **Scale ceiling.** Look up incumbent pricing, compute N × revenue per customer at today's price on the basis the product would charge, and name the revenue shape. Kill if reaching $1bn ARR needs heroic share (over ~30%), an unproven price, or an adjacency nobody has named, or if the ceiling does not reach $1bn at all. Write the numbers, the basis and the shape down even when it passes; the handoff needs all three.
+2. **Scale ceiling.** Look up incumbent pricing, compute N × revenue per customer at today's price on the basis the product would charge, and name the revenue shape. If reaching $1bn ARR needs heroic share (over ~30%), an unproven price, or an adjacency nobody has named, or if the ceiling does not reach $1bn at all, then kill or flag it per "Kill, flag, or pass". Write the numbers, the basis and the shape down whatever the outcome; the handoff needs all three.
 
 3. **US first.** If the market is not the US, name the US equivalent market and check whether a US player already exists. Kill unless there is a specific, sourced reason the smaller market wins: regulation that does not transfer, a local incumbent structure with no US counterpart, or a problem that does not exist in the US. When a US and a non-US version of the same idea exist, usually only one wins, and it is usually the US one. For a US market, note whether the US is a good launch market and move on.
 
@@ -209,13 +221,13 @@ Five to ten minutes per candidate, search-assisted. **Kill on first fail and mov
 
 What the screen still does not ask: technical feasibility, competition depth, or revenue projection. Feasibility in particular is a trap for technical founders, because "could I build this" is the one question they can answer instantly and it correlates with nothing.
 
-Expect one to three survivors from fifteen. If more than half survive, the usual cause is generous arithmetic at step 2 or a hand-waved answer at step 9. If **none** survive and several died at step 2 with similar numbers, suspect the screen before concluding the sector is dead: run the FALSIFY search, check the denominator, and check the pricing basis: a kill priced per seat when money flows through the workflow is an unfinished calculation.
+Expect one to three survivors from fifteen, plus a few flags. If most of the batch is flagged, the inputs are too unsourced to screen: source them before calling anything a flag. If more than half survive, the usual cause is generous arithmetic at step 2 or a hand-waved answer at step 9. If **none** survive and several died at step 2 with similar numbers, suspect the screen before concluding the sector is dead: run the FALSIFY search, check the denominator, and check the pricing basis: a kill priced per seat when money flows through the workflow is an unfinished calculation.
 
 ## The candidate log
 
 Append every batch. This is the compounding asset of the practice. It is wide — keep it in a spreadsheet, not a document.
 
-| Date | Candidate (buyer + workflow + N) | Surface + link | Revenue per customer + basis + source | Ceiling + shape | Share of $1bn needed | US first | Why-now + window closes | Learning cycles in 18 months | Killed at step | The killing fact | Recheck trigger |
+| Date | Candidate (buyer + workflow + N) | Surface + link | Revenue per customer + basis + source | Ceiling + shape | Share of $1bn needed | US first | Why-now + window closes | Learning cycles in 18 months | Outcome (killed at step N / flagged / survived) | The killing fact, or for a flag the input to verify and the value that clears the line | Recheck trigger |
 
 Three columns make a step-2 or step-5 kill auditable rather than just recorded. A kill priced per seat is worth revisiting the moment you find the flow the workflow sits on, or a named adjacency. And a candidate killed because its window was closing is worth nothing later — but a candidate killed for another reason whose window is still open is the first thing to re-screen next batch.
 
@@ -227,6 +239,11 @@ Two entries matter beyond the kill:
 Step 9 kills are the most reusable. Step 2 kills are the **least** reusable despite being the most common, because they depend on N, revenue per customer and pricing basis, any of which can be wrong. Re-derive a step-2 kill before trusting it in a later batch.
 
 ## Handoff
+
+Report three groups: survivors, flagged candidates, and the kill log. A candidate flagged at step 2 and killed at a later step belongs in the kill log, with its flag noted; the flagged group holds only candidates still alive.
+
+For each **flagged** candidate, one line: the input to verify, the value that clears the line, and the cheapest manual check. After the founder verifies it, rerun step 2 with the verified input. The candidate then either dies or joins the survivors. A flagged candidate never goes to `market-evaluation` before its input is verified, because the evaluation would score the same unverified number.
+
 
 For each survivor, one short paragraph:
 
@@ -264,6 +281,8 @@ Do not attach an advocacy paragraph. A survivor carried into the evaluation pre-
 - **Capital mismatch.** A candidate that cannot absorb $20M productively does not become venture-scale by raising it. Cash does not create demand.
 - **Too early.** Right thesis, wrong decade. The recheck trigger exists for exactly this; write it down and move on rather than funding the education of the market.
 - **Depth creep.** Doing the full evaluation's work inside the screen. Symptom: an hour per candidate, a batch of four.
+- **The soft kill.** Flagging a favourite to avoid killing it. A flag needs a named input, a value that clears the line, and a check; without all three it is a kill.
+- **Projected ceilings.** Compounding a growth rate forward to rescue a ceiling. Growth earns a flag and a verification, never a bigger number.
 - **Discovery as avoidance.** Running batches instead of executing a live bet. Discovery is for the gap between bets.
 
 ## Cadence
