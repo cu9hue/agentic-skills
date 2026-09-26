@@ -86,3 +86,26 @@ the rubrics; the S3 arm had both skills available.
 - S3: **holds** — batch of 12–15 from eight origins with the quotas, then
   the ten-step screen at $1bn, then market-evaluation and customer calls.
   It did not name the revenue shape in the scale step.
+
+## 2026-09-26 — regression for the flagged outcome (base efdccaa)
+
+A step-2 shortfall now ends in **kill** (robust: sourced inputs or a kill
+that holds across plausible values, and nothing moving) or **flag** (a dated
+growth signal, a pivotal unsourced input, or a breaking assumption). A flag
+names the input to verify and the value that clears the line, never projects
+growth into a bigger ceiling, continues through steps 3–10, and reaches
+market-evaluation only after verification. New scenario S5 (kill vs flag).
+Arms: **F** = pre-edit, **G** = post-edit; n=1; blind judge on S5.
+
+- S5: **G** — F killed P1 at step 2 ("neither kill is close") and passed P3
+  conditionally without a flag; G flagged P1 (growth: clears at ~$171bn a
+  month of volume at 0.25%, ~8.5× January 2026) and P3 (pivotal price),
+  killed P2 as robust (~$28M per venue needed), and carried both flags
+  through later steps, where they died at steps 9 and 5. Neither arm
+  projected growth or sent a flag to market-evaluation. G's headline said
+  "nothing is flagged" while its body recorded two flags; the handoff now
+  says a flag killed later belongs in the kill log with its flag noted.
+- S1 (G only, regression): **holds** — all four kills robust; K3 explicitly
+  not flagged because its inputs are sourced and no growth signal exists.
+
+Post-edit arm holds.
