@@ -37,3 +37,15 @@ Rerun of S1 on the follow-up (arm **C'**, n=1): named a shape for all four
 candidates, kept 1.0× where no comparable existed, and used a borrowed
 multiple only to confirm a kill, flagging that it came from a different
 buyer. US-first and learning-speed kills held. Post-edit arm holds.
+
+## 2026-09-26 — regression for removing the startup-idea-discovery references (base 1bd55ab)
+
+The skill no longer names `startup-idea-discovery`: the comparison section
+became "What this screen does not kill", the description's boundary reads
+"a side business meant to pay the founder", and an island niche is logged
+instead of handed off. Only S4 exercises the changed boundary, so only S4
+was rerun (arm **D** = post-edit, n=1), compared against C's S4.
+
+- S4: **holds** — D applied no venture screen and no $1bn bar, used
+  bootstrap criteria (who pays today, reachable buyers, deposits before
+  building), and gave a usable answer, matching C.

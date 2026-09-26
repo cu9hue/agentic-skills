@@ -1,6 +1,6 @@
 ---
 name: venture-bet-discovery
-description: "Use when hunting for venture-scale startup candidates rather than judging one: \"find me a venture bet\", \"what should I build that could return a fund\", a batch of ideas to screen, or the gap after a bet dies. Not for a bootstrapped side business (startup-idea-discovery) or for evaluating a single named market (market-evaluation)."
+description: "Use when hunting for venture-scale startup candidates rather than judging one: \"find me a venture bet\", \"what should I build that could return a fund\", a batch of ideas to screen, or the gap after a bet dies. Not for a side business meant to pay the founder, or for evaluating a single named market (market-evaluation)."
 ---
 
 # Venture Bet Discovery
@@ -23,15 +23,13 @@ Generate many candidates. Kill anything that cannot absorb capital or cannot rea
 
 Kill a candidate when the evidence found in the screen would score its axis at -3 or lower. That is the point where `market-evaluation` fails the test.
 
-## When to use this instead of `startup-idea-discovery`
+## What this screen does not kill
 
-That skill is calibrated for a solo or bootstrapping founder aiming at $10-20k MRR beneath the notice of incumbents. Three of its seven screen steps are structurally anti-venture and will kill the bets that actually return a fund:
+Three rules that sound prudent are structurally anti-venture. They kill the bets that actually return a fund, so this screen does not use them:
 
-- It kills candidates with no existing budget line, which excludes every category-creating bet.
-- It kills candidates whose buyers cannot be reached async by writing, which excludes sales-led and consumer.
-- It kills candidates where an industry insider could execute better, when outsiders out-executing incumbents with capital and talent is a standard venture pattern.
-
-Use that skill when the goal is a business that pays the founder. Use this one when the goal is a business that pays back a fund. They are not the same search and they do not share a screen.
+- No existing budget line. That excludes every category-creating bet.
+- Buyers who cannot be reached async by writing. That excludes sales-led and consumer.
+- An industry insider could execute better. Outsiders out-executing incumbents with capital and talent is a standard venture pattern.
 
 ## The three failure modes
 
@@ -248,7 +246,7 @@ Five to ten minutes per candidate, search-assisted. **Kill on first fail and mov
 
 7. **Feature or company.** Is the natural home for this a checkbox in a product that already owns the buyer relationship? If a platform with existing distribution would ship it the quarter after you prove demand, kill. Your funding round is a public announcement of the opportunity, so "incumbents are slow" is not protection.
 
-8. **Wedge and year-3 asset.** A beachhead narrow enough to win outright, adjacent enough to expand from. Name the wedge, the **asset the company will own in year 3** (data, workflow position, distribution, trust, or installed base), and the next one or two products that asset makes inevitable. Name the mechanism connecting wedge to next product: the same buyer, the same data, the same integration. Kill if the wedge is an island, if the expansion is opportunistic, if the asset does not transfer, or if an incumbent already owns the adjacency. A defensible niche with no adjacency is a fine business and a bad venture bet; hand it to `startup-idea-discovery` rather than throwing it away.
+8. **Wedge and year-3 asset.** A beachhead narrow enough to win outright, adjacent enough to expand from. Name the wedge, the **asset the company will own in year 3** (data, workflow position, distribution, trust, or installed base), and the next one or two products that asset makes inevitable. Name the mechanism connecting wedge to next product: the same buyer, the same data, the same integration. Kill if the wedge is an island, if the expansion is opportunistic, if the asset does not transfer, or if an incumbent already owns the adjacency. A defensible niche with no adjacency is a fine business and a bad venture bet; log it as a niche and move on.
 
    Note that the expansion mechanism you name here is the same one the expansion multiple in step 2 and any adjacency in the ceiling assume. If they disagree, one of them is wrong.
 
@@ -327,7 +325,7 @@ Do not attach an advocacy paragraph. A survivor carried into the evaluation or t
 - **The big flat market.** Mistaking a large current market for an accessible one. Large and static is worse than small and compounding.
 - **The anchor.** Falling for candidate three and screening the rest as formalities. Symptom: later candidates get shorter screens.
 - **Feature mistaken for company.** Especially dangerous here, because the funding round advertises the opportunity to everyone positioned to ship it as a feature.
-- **Wedge as destination.** A defensible niche is a real business. It is not this search. Hand it to `startup-idea-discovery` and keep going.
+- **Wedge as destination.** A defensible niche is a real business. It is not this search. Log it and keep going.
 - **Capital mismatch.** A candidate that cannot absorb $20M productively does not become venture-scale by raising it. Cash does not create demand.
 - **Too early.** Right thesis, wrong decade. The recheck trigger exists for exactly this; write it down and move on rather than funding the education of the market.
 - **Depth creep.** Doing stress-test work inside the screen. Symptom: an hour per candidate, a batch of four.

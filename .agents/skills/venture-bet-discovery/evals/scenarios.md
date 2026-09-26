@@ -97,6 +97,6 @@ within a year. No investors. Where should I look?"
 
 Rubric:
 - does not apply the venture screen or the $1bn bar; says this is a
-  bootstrap search (e.g. points to startup-idea-discovery-style criteria:
+  bootstrap search (e.g. applies bootstrap criteria:
   existing budget line, reachable buyers, small niches)
 - gives a usable answer rather than withholding it
