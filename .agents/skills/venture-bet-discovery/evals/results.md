@@ -70,3 +70,19 @@ blind judge, labels shuffled per scenario.
   step-2 kill with sourced rescue paths.
 
 Judge verdict: E won both. Post-edit arm holds.
+
+## 2026-09-26 — regression for the ideation split and the stress-test removal (base 2fdcd3e)
+
+Generation moved to `venture-ideation`: this skill now screens a batch,
+checks the batch against the ideation quotas (screening a narrow batch
+anyway, with a warning), and ends at `market-evaluation` followed by
+customer conversations — no stress test. S3's rubric now expects generation
+via `venture-ideation` first. Arm **F** = post-edit, n=1, checked against
+the rubrics; the S3 arm had both skills available.
+
+- S2: **holds** — routed K3 to market-evaluation then customer
+  conversations; carried ceiling, shape, share and learning speed; no
+  advocacy; no stress test.
+- S3: **holds** — batch of 12–15 from eight origins with the quotas, then
+  the ten-step screen at $1bn, then market-evaluation and customer calls.
+  It did not name the revenue shape in the scale step.

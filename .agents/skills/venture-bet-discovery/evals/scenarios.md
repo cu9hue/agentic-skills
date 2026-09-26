@@ -13,8 +13,7 @@ Anonymize outputs into teams, blind-judge against the rubrics, log in
 rubrics check that discovery screens against the same bar ($1bn ARR in under
 10 years, Janz shapes ×10, heroic share above ~30%), pre-checks the
 market-evaluation axes that can kill cheaply (US first, learning speed,
-year-3 asset), and hands survivors to `market-evaluation` before the stress
-test.
+year-3 asset), and hands survivors to `market-evaluation`.
 
 ## Shared material: candidate facts (S1, S2)
 
@@ -75,7 +74,7 @@ only that K3 survived a venture screen with the facts above.)
 
 Rubric:
 - routes the survivor to the full `market-evaluation` (nine axes, bull/bear,
-  -5..+5, gate per test) before any stress test or build
+  -5..+5, gate per test) before any build
 - the handoff carries the ceiling arithmetic, the Janz shape, the year-3
   asset / adjacency, and the learning-speed estimate forward
 - does not present an advocacy pitch for K3
@@ -90,7 +89,8 @@ Rubric:
   bar with bottom-up sizing and revenue shape, a why-now with a date, a
   year-3 asset/adjacency, US-first, and learning speed all appear as
   screen steps, not one bullet
-- names many candidates before screening (10–15) and kill-on-first-fail
+- generation comes first as a batch of 12–15 candidates from distinct
+  origins (via `venture-ideation`), then the kill-on-first-fail screen
 - ends with the hand-off to `market-evaluation` for survivors
 
 ## S4 — negative: bootstrapped side business

@@ -1,11 +1,11 @@
 ---
 name: venture-bet-discovery
-description: "Use when hunting for venture-scale startup candidates rather than judging one: \"find me a venture bet\", \"what should I build that could return a fund\", a batch of ideas to screen, or the gap after a bet dies. Not for a side business meant to pay the founder, or for evaluating a single named market (market-evaluation)."
+description: "Use when screening startup candidates for venture scale: \"screen these ideas\", \"which of these could return a fund?\", a batch from venture-ideation, or re-screening a log after a bet dies. Not for generating ideas (venture-ideation), a side business meant to pay the founder, or evaluating a single named market (market-evaluation)."
 ---
 
 # Venture Bet Discovery
 
-Generate many candidates. Kill anything that cannot absorb capital or cannot reach **$1bn+ ARR in under 10 years**. Keep two or three, and hand them to `market-evaluation`.
+Screen a batch of candidates. Kill anything that cannot absorb capital or cannot reach **$1bn+ ARR in under 10 years**. Keep two or three, and hand them to `market-evaluation`.
 
 ## Same bar as `market-evaluation`
 
@@ -41,9 +41,8 @@ Three rules that sound prudent are structurally anti-venture. They kill the bets
 
 Counter all three:
 
-- Ten to fifteen candidates before screening any of them. No more than two per domain.
-- At least three from a surface the founder does not personally inhabit.
-- An idea the founder arrives with is candidate zero. It competes; it does not seed.
+- A batch of 12–15 candidates from distinct origins before screening any of them (see "The batch it screens").
+- An idea the founder arrives with is one candidate. It competes; it does not seed.
 - Every market number is built from the bottom, from a countable N. A number sourced from a report is a citation, not an estimate.
 - Time-box the batch: half a day for generation plus screening.
 
@@ -126,62 +125,15 @@ When the verdict rests on an industry's total size, check the denominator before
 
 The most common way this step fails is asymmetry: a generous ceiling for the candidate you find interesting, stingy ones for the candidates you are killing. Recompute the survivors' ceilings last, with the same sources and the same scepticism, and check specifically whether the survivor's category has a *sourced* market size smaller than the ceiling you constructed for it.
 
-## Where candidates come from
+## The batch it screens
 
-Two classes of surface, and a batch needs both. Existing-spend surfaces are higher signal and lower ceiling. Emerging-market surfaces are noisier and are where the outsized outcomes live.
+The screen takes a batch from `venture-ideation`. If the founder has no batch, run that skill first. If they bring their own candidates, check the batch against the same rules before screening, because a narrow batch makes every screen result look like a sector verdict:
 
-### Existing spend, visible today
+- 12–15 candidates, each one sentence naming a countable buyer, what they get, and the population N, with a source link or an *(assumption)* label. "AI for logistics" is not a candidate.
+- The batch spans distinct origins: no single lens (edge, thesis, expired dogma, hard idea, maze, overlooked market, fringe behaviour, visible spend) supplies more than a third.
+- No more than two candidates per domain, at least three outside the founder's own industries, and any idea the founder arrived with sits in the batch as one candidate among the rest.
 
-| Surface | The signal to look for | Ceiling risk |
-| --- | --- | --- |
-| Job ads at scale | The same role posted by hundreds of companies, description mostly one workflow | N is countable from postings; ACV anchors to salary |
-| "We built this in-house" | How many separate well-resourced teams say it | High signal; check the count is large, not three |
-| Money already moving | A flow someone already takes a percentage of | The flow-priced ceiling lives here; find the flow's size |
-| Published pricing pages | What the category actually charges, tier by tier | The single best ACV anchor; read it before estimating |
-| Deprecations, forced migrations | The date, and the installed base stranded | Often a one-time event, not a market |
-| Regulatory deadlines | Who must comply, by when, and the penalty | Budget appears on a known date; check it recurs |
-| Churn and migration threads | "We moved off X because" at volume | Confirms switching cost was worth paying |
-| Vendor unbundling, pricing-page moves | A feature moving into a higher tier | The incumbent just told you where value sits |
-| Services firms scaling headcount | Revenue per head flat while headcount grows | A productisable process with a proven price |
-| Two- and three-star reviews of paid tools | Complaints about a missing job, not price | Reliable, but usually feature-sized |
-
-### Emerging, where the market is not yet legible
-
-| Surface | The signal to look for |
-| --- | --- |
-| Cost-curve collapses | A unit cost down 10x or more in 24 months, and the workflows that were uneconomic above the old price |
-| Behaviour at scale with no product | Spreadsheets, group chats, shared docs or manual coordination doing a job for a large, countable population |
-| Shadow IT and unsanctioned tools | Employees paying personally or routing around procurement; budget exists but is not yet a line item |
-| Platform shifts | A new distribution surface with an early, uncrowded install base |
-| Newly possible supply | A capability that existed in research and just became productionisable |
-| Structural shifts | Demographic, labour-supply or capital-cost changes that make a workflow unsustainable |
-| Aggregation gaps | A fragmented supply side with no demand aggregator, where the fragmentation is the moat |
-
-Distrust trend pieces, funding announcements and "top N ideas" lists. They are downstream of everything and selected for shareability. Distrust the founder's own tooling annoyances: real, n=1, and rarely attached to a buyer.
-
-## Generation
-
-Ten to fifteen. Each candidate is **one sentence naming a countable buyer, the workflow, and the population size** you believe exists.
-
-Good: "The ~30,000 US mid-market logistics brokers who reconcile carrier invoices against rate confirmations by hand, currently at 2-4 FTE per firm."
-
-Bad: "AI for logistics."
-
-The first can be falsified in an afternoon. The second cannot be falsified at all, which is why it will still be alive in six weeks.
-
-Record for each: the surface, the link, the date, and the first-pass guess at N. A candidate with no source link is a hunch and does not enter the log.
-
-### Before fixing N: who else buys this?
-
-A generative step, not a check, and it belongs here rather than in the screen because it creates candidates rather than killing them. For each workflow, ask who the buyer could be **outside** the industry the workflow sits in:
-
-- The end customer's customer, at consumer-like volume and price.
-- Brands, agencies and content teams, out of marketing budget.
-- Platforms and AI developers, out of legal, data or trust-and-safety budget.
-- Insurers, lenders and auditors, out of risk budget.
-- Multi-site operators in retail, hospitality or healthcare, out of facilities and compliance budget.
-
-This matters because a vertical's own software budget is usually small and its adjacent budgets usually are not. Selling something music-shaped to a video creator, or something logistics-shaped to an insurer, changes N by orders of magnitude and changes which budget the money comes from. Write down the two or three most plausible buyers and screen the best one. If two are both credible, they are two candidates, not one.
+If the batch fails these, say which rule it breaks, screen it anyway, and say that zero or one survivors from a narrow batch says little about the sectors. Offer a `venture-ideation` run to fill the gaps.
 
 ### Restate every constraint as a test before applying it
 
@@ -288,12 +240,9 @@ For each survivor, one short paragraph:
 - Learning speed: the buyer, the user, the sourced sales cycle, and the estimated cycles in 18 months.
 - The single fact that would kill it, and the cheapest way to check it.
 
-Then run the pipeline in this order:
+Then run **`market-evaluation`** on each survivor, with the paragraph above as its starting evidence. It runs all nine axes with sourced bull and bear cases, scores each from -5 to +5, and gates each test. A survivor that fails any of the three tests stops there; log the failing axis as its killing fact. A survivor that passes all three goes to the founder's customer conversations, not to more desk work.
 
-1. **`market-evaluation`** on each survivor, with the paragraph above as its starting evidence. It runs all nine axes with sourced bull and bear cases, scores each from -5 to +5, and gates each test. A survivor that fails any of the three tests stops here; log the failing axis as its killing fact.
-2. **`startup-idea-stress-test`** only on survivors that pass all three tests, with one correction: its market sizing is written for a solo or bootstrapping founder and will size the wedge rather than the market. Override that by giving it the ceiling arithmetic and asking it to red-team the adjacency mechanism, the window's expiry and the accruing advantage specifically, not the wedge's near-term revenue.
-
-Do not attach an advocacy paragraph. A survivor carried into the evaluation or the stress test pre-argued corrupts the red-team, which is the part of the pipeline doing the real work.
+Do not attach an advocacy paragraph. A survivor carried into the evaluation pre-argued corrupts the bear cases, which are the part of the evaluation doing the real work.
 
 ## Anti-patterns
 
@@ -314,9 +263,9 @@ Do not attach an advocacy paragraph. A survivor carried into the evaluation or t
 - **Wedge as destination.** A defensible niche is a real business. It is not this search. Log it and keep going.
 - **Capital mismatch.** A candidate that cannot absorb $20M productively does not become venture-scale by raising it. Cash does not create demand.
 - **Too early.** Right thesis, wrong decade. The recheck trigger exists for exactly this; write it down and move on rather than funding the education of the market.
-- **Depth creep.** Doing stress-test work inside the screen. Symptom: an hour per candidate, a batch of four.
+- **Depth creep.** Doing the full evaluation's work inside the screen. Symptom: an hour per candidate, a batch of four.
 - **Discovery as avoidance.** Running batches instead of executing a live bet. Discovery is for the gap between bets.
 
 ## Cadence
 
-A standing surface list, a half-day batch when a bet ends or the queue runs dry, and the log connecting them. Emerging surfaces reward re-scanning on a schedule, because the interesting ones move: a cost curve you checked eighteen months ago is now somewhere else, and the recheck triggers and still-open windows in the log tell you which ones to look at first.
+A half-day batch — `venture-ideation`, then this screen — when a bet ends or the queue runs dry, and the log connecting them. Batches reward re-running on a schedule, because the interesting ones move: a cost curve you checked eighteen months ago is now somewhere else, and the recheck triggers and still-open windows in the log tell you which ones to look at first.
