@@ -1,11 +1,27 @@
 ---
-name: "venture-bet-discovery"
-description: "Generate and screen startup candidates for venture-scale outcomes: a credible bottom-up path to $100M+ ARR. Use instead of startup-idea-discovery when the bet must absorb venture capital."
+name: venture-bet-discovery
+description: "Use when hunting for venture-scale startup candidates rather than judging one: \"find me a venture bet\", \"what should I build that could return a fund\", a batch of ideas to screen, or the gap after a bet dies. Not for a bootstrapped side business (startup-idea-discovery) or for evaluating a single named market (market-evaluation)."
 ---
 
 # Venture Bet Discovery
 
-Generate many candidates. Kill anything that cannot absorb capital or cannot reach $100M+ ARR. Keep two or three.
+Generate many candidates. Kill anything that cannot absorb capital or cannot reach **$1bn+ ARR in under 10 years**. Keep two or three, and hand them to `market-evaluation`.
+
+## Same bar as `market-evaluation`
+
+`market-evaluation` is the source of truth for what a venture market is. This skill is its cheap pre-screen: it runs across many candidates the checks that can kill in minutes, so the full nine-axis evaluation only runs on survivors. The two skills must never disagree about the bar. A screen at $100M that feeds an evaluation at $1bn passes candidates the evaluation will fail.
+
+| Screen step | `market-evaluation` axis it pre-checks |
+| --- | --- |
+| 2. Scale ceiling | 1. $1bn ARR path |
+| 3. US first | 2. US first |
+| 4. Where the money is | 4. Market dynamics (crowded or untapped), 5. Problem size, 6. Pain depth |
+| 5. Why now | 8. Tailwinds |
+| 8. Wedge and year-3 asset | 3. Adjacencies |
+| 9. Accruing advantage | 4. Market dynamics (what a funded competitor cannot copy) |
+| 10. Learning speed | 9. Learning speed |
+
+Kill a candidate when the evidence found in the screen would score its axis at -3 or lower. That is the point where `market-evaluation` fails the test.
 
 ## When to use this instead of `startup-idea-discovery`
 
@@ -65,7 +81,21 @@ ceiling = max(
 
 **But do not read that as "flow businesses are better."** The two formulas are not symmetric in how they fail. A flow figure is a market-scale number that already contains growth and expansion. `N x ACV` is a snapshot at today's price, which silently assumes every customer pays the same amount forever. That single asymmetry, not any real advantage of take-rate businesses, is why an unguarded screen keeps surfacing payments and marketplaces and keeps killing software. The guard is the next section, and it is not optional.
 
-Also ask how fast N or the flow is growing. A $400M ceiling growing 25% a year is a better bet than an $800M one that is flat.
+Also ask how fast N or the flow is growing. A $2bn ceiling growing 25% a year is a better bet than a $4bn one that is flat.
+
+### Name the revenue shape
+
+For every candidate, killed or not, state which of Janz's five shapes, scaled ×10 for $1bn, the ceiling follows. This is the same table `market-evaluation` uses, so the survivor arrives with its shape named:
+
+| Shape | Customers for $1bn | Revenue per customer / year |
+| --- | --- | --- |
+| Elephants | 10,000 | $100k |
+| Deer | 100,000 | $10k |
+| Rabbits | 1M | $1k |
+| Mice | 10M | $100 |
+| Flies | 100M active users | $10 (ads) |
+
+If the candidate's N falls far short of its shape's customer count at its mature ACV, the arithmetic has already answered the question.
 
 ### ACV is the highest-variance input in the screen
 
@@ -82,25 +112,21 @@ mature ACV = today's entry ACV x expansion multiple
 expansion multiple = (comparable's net retention) ^ (years to maturity)
 ```
 
-State the comparable you took the retention figure from. If you cannot find one, say the multiple is unsourced and use 1.0 — but then record that the ceiling is a floor, not a ceiling, and do not kill a candidate on it alone.
+State the comparable you took the retention figure from. A comparable must sell to the same kind of buyer; the Snowflake and Figma figures above show the method, and they are not a default or a "best case" for an unrelated category. If you cannot find one, say the multiple is unsourced and use 1.0 — but then record that the ceiling is a floor, not a ceiling, and do not kill a candidate on it alone.
 
 **3. Write down both numbers.** Entry ACV and mature ACV, with the multiple between them. A kill computed on entry ACV is not a kill; it is an unfinished calculation.
 
 This is what makes the screen basis-agnostic. Seat-priced, usage-priced and flow-priced businesses all reach scale; they differ in *where* the growth shows up. Flow businesses grow with the flow, usage businesses grow with consumption per customer, seat businesses grow by adding seats, modules and tiers. Only the first of those is captured for free by the arithmetic. The other two have to be put in by hand, and a screen that does not put them in will reliably conclude that software is too small.
 
-### The share threshold is not a constant
+### Heroic share is the kill line
 
-Ask what share of the ceiling is winnable, then compare against the right bar:
+Ask what share of the ceiling $1bn ARR requires. Kill when the math reaches $1bn only with **heroic share (over ~30%)**, an **unproven price**, or **adjacencies nobody has named**. These are `market-evaluation`'s bear conditions for axis 1, and they are the same three here.
 
-| Market shape | Threshold | Why |
-| --- | --- | --- |
-| Fragmented, low switching costs, many substitutes | **15%** | Share is hard to hold; a funded follower takes it back |
-| Standard vertical SaaS | **25%** | The default when nothing else is evidenced |
-| System of record with data gravity and multi-year switching costs | **40%** | Concentrated categories really do consolidate |
+A fragmented market with low switching costs and many substitutes holds less than 30%: a funded follower takes share back. Treat its practical line as lower, and say so in the log.
 
-Use the 40% tier only with **evidence** of switching costs: migration horror stories, multi-year contracts, integration depth, regulatory certification. Not because the category sounds infrastructural.
+Do not argue past 30% on the strength of Epic or Veeva. Both exceeded half their categories, and both took fifteen to twenty years to get there. Assuming you hold a third of a category inside a 10-year horizon is exactly the unfalsifiable assumption this step exists to stop.
 
-Do not go above 40% on the strength of Epic or Veeva. Both exceeded half their categories and both took fifteen to twenty years to get there. Assuming you hold half a system-of-record category inside a venture horizon is exactly the unfalsifiable assumption this step exists to stop.
+A named adjacency can carry a ceiling past $1bn only when it is named here and connected in step 8 by the same buyer, data or integration. An adjacency you cannot name does not count.
 
 ### FALSIFY before any structural verdict
 
@@ -189,11 +215,15 @@ Five to ten minutes per candidate, search-assisted. **Kill on first fail and mov
 
 1. **Constraint conflict.** Apply the *test*, not the label. Kill immediately on a real conflict; do not argue that this one is different.
 
-2. **Scale ceiling.** Look up incumbent pricing, set entry and mature ACV with a sourced expansion multiple, compute both ceilings, take the larger, pick the threshold from the table above, and kill if clearing $100M ARR needs more than that threshold, or if neither formula reaches $100M at all. Write the numbers, the basis and the multiple down even when it passes; the handoff needs all three.
+2. **Scale ceiling.** Look up incumbent pricing, set entry and mature ACV with a sourced expansion multiple, compute both ceilings, take the larger, and name the revenue shape. Kill if reaching $1bn ARR needs heroic share (over ~30%), an unproven price, or an adjacency nobody has named, or if neither formula reaches $1bn at all. Write the numbers, the basis, the multiple and the shape down even when it passes; the handoff needs all four.
 
-3. **Where the money is.** Name the pool: a budget line, an adjacent budget, a labour cost, a flow you can take a percentage of, or a measurable cost borne in time and workarounds. Unlike the bootstrap screen, "nobody pays for this today" is **not** an automatic kill; it is how category creation looks at the start. It is a kill only when no cost is being borne at all. If the pain is real but costless, there is no business.
+3. **US first.** If the market is not the US, name the US equivalent market and check whether a US player already exists. Kill unless there is a specific, sourced reason the smaller market wins: regulation that does not transfer, a local incumbent structure with no US counterpart, or a problem that does not exist in the US. When a US and a non-US version of the same idea exist, usually only one wins, and it is usually the US one. For a US market, note whether the US is a good launch market and move on.
 
-4. **Why now: a changed number, and a window.** Both required. This is the step most worth being strict about, because it is the easiest in the screen to fake — every domain has something that changed, at all times.
+4. **Where the money is.** Name the pool: a budget line, an adjacent budget, a labour cost, a flow you can take a percentage of, or a measurable cost borne in time and workarounds. Unlike the bootstrap screen, "nobody pays for this today" is **not** an automatic kill; it is how category creation looks at the start. It is a kill only when no cost is being borne at all. If the pain is real but costless, there is no business.
+
+   Then classify the market as crowded, untapped, or both. **Crowded** proves the demand and demands a wedge (step 8) and an uncopyable asset (step 9). **Untapped** demands a sourced reason the gap exists: the technology only just became possible, a regulation changed, or a cost curve crossed a threshold. That reason is usually the why-now in step 5. If you cannot name one, kill: the likeliest explanation is that the demand is not there.
+
+5. **Why now: a changed number, and a window.** Both required. This is the step most worth being strict about, because it is the easiest in the screen to fake — every domain has something that changed, at all times.
 
    *The changed number.* Name the price, deadline, volume, rate or date that moved, with a source. "AI got good" is a mood. "Article 50 took effect on 2 August 2026" and "AI tracks passed 50% of daily uploads in June 2026" are why-nows, because something countable moved and you can be wrong about it. No number, no why-now, and no why-now means the market has had years to solve this and something you have not found prevented it.
 
@@ -212,41 +242,53 @@ Five to ten minutes per candidate, search-assisted. **Kill on first fail and mov
 
    Finally, be suspicious of a why-now that is fully legible. If the trade press has written it up, it is priced in, and the people best placed to act on it already have. The why-nows worth acting on are usually mechanical rather than narrative, because mechanical ones are boring enough that nobody writes about them.
 
-5. **Commoditising layer.** If the value delivered is analysis, drafting or generic insight, its price is collapsing toward zero. Kill unless the durable part is data access, workflow lock-in, distribution, trust, or regulatory position.
+   Record, beside the why-now, the structural forces that grow the market without the company's help: regulation, demographics, cost curves, platform shifts. They are `market-evaluation`'s tailwinds axis. Note any force that helps incumbents as much as entrants, and any visible headwind.
 
-6. **Feature or company.** Is the natural home for this a checkbox in a product that already owns the buyer relationship? If a platform with existing distribution would ship it the quarter after you prove demand, kill. Your funding round is a public announcement of the opportunity, so "incumbents are slow" is not protection.
+6. **Commoditising layer.** If the value delivered is analysis, drafting or generic insight, its price is collapsing toward zero. Kill unless the durable part is data access, workflow lock-in, distribution, trust, or regulatory position.
 
-7. **Wedge to market.** A beachhead narrow enough to win outright, adjacent enough to expand from. Name both the wedge and the second market, and the mechanism connecting them (the same buyer, the same data, the same integration). Kill if the wedge is an island: a defensible niche with no adjacency is a fine business and a bad venture bet, and should be handed to `startup-idea-discovery` rather than thrown away.
+7. **Feature or company.** Is the natural home for this a checkbox in a product that already owns the buyer relationship? If a platform with existing distribution would ship it the quarter after you prove demand, kill. Your funding round is a public announcement of the opportunity, so "incumbents are slow" is not protection.
 
-   Note that the expansion mechanism you name here is the same one the expansion multiple in step 2 assumes. If they disagree, one of them is wrong.
+8. **Wedge and year-3 asset.** A beachhead narrow enough to win outright, adjacent enough to expand from. Name the wedge, the **asset the company will own in year 3** (data, workflow position, distribution, trust, or installed base), and the next one or two products that asset makes inevitable. Name the mechanism connecting wedge to next product: the same buyer, the same data, the same integration. Kill if the wedge is an island, if the expansion is opportunistic, if the asset does not transfer, or if an incumbent already owns the adjacency. A defensible niche with no adjacency is a fine business and a bad venture bet; hand it to `startup-idea-discovery` rather than throwing it away.
 
-8. **Accruing advantage.** Assume a competitor with $30M and a good team enters eighteen months after you launch. What do you have then that they cannot buy? Proprietary data that improves the product, network effects, switching costs, supply locked under contract, a regulatory or certification position. "We execute better" is not an answer. This step kills more candidates than any other and should.
+   Note that the expansion mechanism you name here is the same one the expansion multiple in step 2 and any adjacency in the ceiling assume. If they disagree, one of them is wrong.
+
+9. **Accruing advantage.** This is `market-evaluation`'s year-3 test for a crowded market: what will the company have that a well-funded competitor starting today cannot copy? Assume a competitor with $30M and a good team enters eighteen months after you launch. What do you have then that they cannot buy? Proprietary data that improves the product, network effects, switching costs, supply locked under contract, a regulatory or certification position. "We execute better" is not an answer. This step kills more candidates than any other and should.
 
    **Pricing is a wedge, not a moat — unless.** A competitor changes a pricing page in a week, so "we charge differently" is not an answer to this step on its own. A pricing model counts here only when one of these holds:
 
-   - *Incumbent-incompatible.* Matching you would wreck their revenue recognition, their salesforce comp or their existing book — consumption pricing against perpetual licences, free-seat bottom-up against an enterprise channel. The incumbent is not slow, they are structurally unable. Real, but it is an innovator's-dilemma window with an expiry like any other: it closes when they get desperate enough to eat the transition. Date it in step 4.
+   - *Incumbent-incompatible.* Matching you would wreck their revenue recognition, their salesforce comp or their existing book — consumption pricing against perpetual licences, free-seat bottom-up against an enterprise channel. The incumbent is not slow, they are structurally unable. Real, but it is an innovator's-dilemma window with an expiry like any other: it closes when they get desperate enough to eat the transition. Date it in step 5.
    - *Capability-gated.* The model requires something the competitor does not have. A take-rate requires moving the money, which requires licences, rails and payee onboarding. Outcome pricing requires measuring outcomes. Note that the barrier is the capability, not the price.
 
    And in both cases the model must **accumulate** something, because that is what the moat turns out to be. Take-rate accumulates transaction history and payee relationships; consumption accumulates workload lock-in; a free tier accumulates a user graph. Snowflake's durable advantage became data gravity, Figma's the multiplayer file as the organisation's source of truth, CrowdStrike's the sensor and threat graph — in each case the pricing got them in and something else kept them there. A pricing model that accumulates nothing is a discount with a story attached.
 
+10. **Learning speed.** Every market comes with a go-to-market attached, and the go-to-market sets how many learning cycles fit in 18 months. Name the buyer and the user, source the typical sales cycle, and estimate the cycles:
+
+    | Fast loop — about 30 cycles in 18 months | Slow loop — 1 to 2 cycles in 18 months |
+    | --- | --- |
+    | A user can try it without asking anyone | The buyer is not the user; procurement gates entry |
+    | The value is obvious in hours | The value is obvious in quarters |
+    | Retention shows in week one | Each customer costs as much as the last |
+
+    Kill when the loop is slow on all three rows and the founders have no named network into the buyers. That is -3 on `market-evaluation`'s speed test. A slow loop with a named network survives, but say what the network would have to be, and do not assume the founder has one.
+
 What the screen still does not ask: technical feasibility, competition depth, or revenue projection. Feasibility in particular is a trap for technical founders, because "could I build this" is the one question they can answer instantly and it correlates with nothing.
 
-Expect one to three survivors from fifteen. If more than half survive, the usual cause is generous arithmetic at step 2 or a hand-waved answer at step 8. If **none** survive and several died at step 2 with similar numbers, suspect the screen before concluding the sector is dead: run the FALSIFY search, check the denominator, check whether every kill was computed on entry ACV with no expansion multiple, and check whether every kill was computed buyer-priced when a flow existed.
+Expect one to three survivors from fifteen. If more than half survive, the usual cause is generous arithmetic at step 2 or a hand-waved answer at step 9. If **none** survive and several died at step 2 with similar numbers, suspect the screen before concluding the sector is dead: run the FALSIFY search, check the denominator, check whether every kill was computed on entry ACV with no expansion multiple, and check whether every kill was computed buyer-priced when a flow existed.
 
 ## The candidate log
 
 Append every batch. This is the compounding asset of the practice. It is wide — keep it in a spreadsheet, not a document.
 
-| Date | Candidate (buyer + workflow + N) | Surface + link | Entry ACV + source | Expansion multiple + comparable | Ceiling + basis | Share needed | Why-now + window closes | Killed at step | The killing fact | Recheck trigger |
+| Date | Candidate (buyer + workflow + N) | Surface + link | Entry ACV + source | Expansion multiple + comparable | Ceiling + basis + shape | Share of $1bn needed | US first | Why-now + window closes | Learning cycles in 18 months | Killed at step | The killing fact | Recheck trigger |
 
-Three columns make a step-2 or step-4 kill auditable rather than just recorded. A kill computed buyer-priced is worth revisiting the moment you find the flow the workflow sits on. A kill computed at entry ACV is worth revisiting as soon as you find a comparable's retention figure. And a candidate killed because its window was closing is worth nothing later — but a candidate killed for another reason whose window is still open is the first thing to re-screen next batch.
+Three columns make a step-2 or step-5 kill auditable rather than just recorded. A kill computed buyer-priced is worth revisiting the moment you find the flow the workflow sits on. A kill computed at entry ACV is worth revisiting as soon as you find a comparable's retention figure. And a candidate killed because its window was closing is worth nothing later — but a candidate killed for another reason whose window is still open is the first thing to re-screen next batch.
 
 Two entries matter beyond the kill:
 
-- **The killing fact**, specific enough to be wrong. "Market too small" is weak. "Census and two trade-association counts both put this at 4,100 firms; at a $60k ACV benchmarked from the incumbent's published pricing and a 1.0x multiple with no comparable found, the ceiling is $246M, so $100M needs 40% share" is a fact that can be overturned by better data.
+- **The killing fact**, specific enough to be wrong. "Market too small" is weak. "Census and two trade-association counts both put this at 4,100 firms; at a $60k ACV benchmarked from the incumbent's published pricing and a 1.0x multiple with no comparable found, the ceiling is $246M, so $1bn is out of reach without an adjacency, and none is named" is a fact that can be overturned by better data.
 - **The recheck trigger.** Many venture candidates die on a condition, not a principle: a cost curve not yet low enough, a rule not yet in force, an install base not yet large. Write the condition and the date. These become the strongest candidates in later batches because the work is already done.
 
-Step 8 kills are the most reusable. Step 2 kills are the **least** reusable despite being the most common, because they depend on N, entry ACV, expansion multiple, pricing basis and threshold choice, any of which can be wrong. Re-derive a step-2 kill before trusting it in a later batch.
+Step 9 kills are the most reusable. Step 2 kills are the **least** reusable despite being the most common, because they depend on N, entry ACV, expansion multiple, pricing basis and threshold choice, any of which can be wrong. Re-derive a step-2 kill before trusting it in a later batch.
 
 ## Handoff
 
@@ -254,18 +296,24 @@ For each survivor, one short paragraph:
 
 - The buyer, countably defined, with the source for N.
 - The workflow and what it costs them today, with the source.
-- Entry ACV with its pricing source, the expansion multiple with its comparable, both ceiling calculations, which one governs, the share needed to clear $100M ARR, and which threshold tier you applied and why.
-- Why now: the changed number with its date and source, the window's closing mechanism, and your estimate of when it closes.
-- The wedge, the second market, and the mechanism between them.
+- Entry ACV with its pricing source, the expansion multiple with its comparable, both ceiling calculations, which one governs, the revenue shape, and the share of the ceiling that $1bn ARR needs.
+- US first: the US equivalent market for a non-US candidate, and the sourced reason it still wins.
+- Why now: the changed number with its date and source, the window's closing mechanism, your estimate of when it closes, and the structural tailwinds.
+- The wedge, the year-3 asset, the next one or two products, and the mechanism between them.
 - What accrues, and why a funded follower cannot buy it. If pricing is part of the answer, say which of the two tests it passes and what it accumulates.
+- Learning speed: the buyer, the user, the sourced sales cycle, and the estimated cycles in 18 months.
 - The single fact that would kill it, and the cheapest way to check it.
 
-Then invoke `startup-idea-stress-test`, with one correction: its market sizing is written for a solo or bootstrapping founder and will size the wedge rather than the market. Override that by giving it the ceiling arithmetic above and asking it to red-team the expansion mechanism, the window's expiry and the accruing advantage specifically, not the wedge's near-term revenue.
+Then run the pipeline in this order:
 
-Do not attach an advocacy paragraph. A survivor carried into the stress test pre-argued corrupts the red-team, which is the part of the pipeline doing the real work.
+1. **`market-evaluation`** on each survivor, with the paragraph above as its starting evidence. It runs all nine axes with sourced bull and bear cases, scores each from -5 to +5, and gates each test. A survivor that fails any of the three tests stops here; log the failing axis as its killing fact.
+2. **`startup-idea-stress-test`** only on survivors that pass all three tests, with one correction: its market sizing is written for a solo or bootstrapping founder and will size the wedge rather than the market. Override that by giving it the ceiling arithmetic and asking it to red-team the expansion mechanism, the window's expiry and the accruing advantage specifically, not the wedge's near-term revenue.
+
+Do not attach an advocacy paragraph. A survivor carried into the evaluation or the stress test pre-argued corrupts the red-team, which is the part of the pipeline doing the real work.
 
 ## Anti-patterns
 
+- **Two bars.** Screening against $100M and evaluating against $1bn, or any other gap between this screen and `market-evaluation`. The screen then passes candidates the evaluation fails, and the pipeline wastes its most expensive step.
 - **Static ACV.** Computing a mature ceiling from today's entry price, which assumes 100% net retention. This kills expansion-driven businesses, which is most good software, and it is the reason an unguarded version of this screen keeps concluding that only payments and marketplaces are venture-scale.
 - **Inferred ACV.** Reasoning a blended price from enterprise anecdotes when the category publishes its tiers. Wrong by 6x in one real batch.
 - **Buyer-priced by default.** Computing `N x ACV` for a workflow that money flows through.
