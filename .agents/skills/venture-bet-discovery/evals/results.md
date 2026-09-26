@@ -49,3 +49,24 @@ was rerun (arm **D** = post-edit, n=1), compared against C's S4.
 - S4: **holds** — D applied no venture screen and no $1bn bar, used
   bootstrap criteria (who pays today, reachable buyers, deposits before
   building), and gave a usable answer, matching C.
+
+## 2026-09-26 — regression for the single-formula ceiling (base c38ef98)
+
+The ceiling is now `market-evaluation`'s axis 1: N × revenue per customer at
+today's sourced price, on the one pricing basis the product would charge
+(seat, usage, or a take rate on the customer's flow). The `max()` of two
+ceilings, the expansion multiple, and the "do not kill on 1.0×" rule are
+gone; growth past today's price counts only as a named adjacency. S1's rubric
+gained a bullet for this rule. Arms: **C** = previous post-edit outputs (S1
+from the C' rerun, S2 from the first run), **E** = this edit. n=1 per cell;
+blind judge, labels shuffled per scenario.
+
+- S1: **E** — C treated every ceiling as a floor "at a 1.0x expansion
+  multiple", refused scale kills for K1–K3, and borrowed Figma's retention to
+  test K4; E killed all four on scale at today's price and reopened K1/K3
+  only through a sourced wider N, a sourced take rate, or the FALSIFY check.
+- S2: **E** — C rescued K3 with a recalled, unverified ServiceTitan NRR
+  multiple; E held the ceiling at today's price and gave a conditional
+  step-2 kill with sourced rescue paths.
+
+Judge verdict: E won both. Post-edit arm holds.

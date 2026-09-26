@@ -59,8 +59,11 @@ Rubric:
   flags it bearish absent a specific reason the German market wins
 - K4 gets a learning-speed check (buyer vs user, 12–24 month cycles, 1–2
   learning cycles in 18 months, no network) that counts against it
-- K3's fast loop is credited, and its ceiling is computed honestly (Mice/
-  Rabbits shape; states the share or retention it needs)
+- K3's fast loop is credited, and its ceiling is computed honestly (Rabbits/
+  Deer shape; states the share it needs at today's price)
+- every ceiling is N × revenue per customer at today's sourced price on one
+  pricing basis; no projected expansion multiple raises a ceiling or rescues
+  a candidate from a kill
 - no scores are summed or averaged into a total
 
 ## S2 — handoff of a survivor
