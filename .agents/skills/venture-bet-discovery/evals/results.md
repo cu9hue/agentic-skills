@@ -109,3 +109,16 @@ Arms: **F** = pre-edit, **G** = post-edit; n=1; blind judge on S5.
   not flagged because its inputs are sourced and no growth signal exists.
 
 Post-edit arm holds.
+
+## 2026-09-28 — regression for the target-outcome setting (base 9930648, uncommitted branch skills/target-outcome-bar)
+
+Change: two bars (generational $1bn ARR; venture outcome = ceiling × ≤30% share × sourced exit multiple ≥ $1bn), chosen before the first candidate; step 2 records both readings; an unpriced venture reading is a flag with the multiple as the input to verify; new anti-patterns (bar shopping, assumed multiple). New scenario S6. Arms: pre-edit vs post-edit, no web; n=1 per cell; blind judge, labels shuffled per scenario.
+
+- S1: **post**, narrowly — pre rescued K3 to a flag on a hypothetical larger N; otherwise near-identical.
+- S2: **post** — named the nine-axis evaluation it hands K3 to; pre did not.
+- S3: **pre**, narrowly — named `venture-ideation` explicitly; post did not. Wording the edit does not touch; treated as sampling variance.
+- S4: **tie** — both bootstrap framing, no venture screen.
+- S5: **tie** — both flag P1 and P3, kill P2, arithmetic checks.
+- S6: **post** — recorded both readings per candidate and left Q2 unpriced; pre assumed an 8× multiple for Q2 and inverted the exit arithmetic.
+
+Post-edit arm holds.

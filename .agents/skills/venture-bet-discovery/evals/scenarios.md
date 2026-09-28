@@ -136,3 +136,41 @@ Rubric:
   verify (a later step may still kill it)
 - flagged candidates still face the later screen steps, and none is sent to
   market-evaluation before its input is verified
+
+## S6 — the founder chose the venture-outcome bar
+
+User message: "We decided to judge by a $1bn+ exit, not $1bn ARR. Screen
+these three (facts below)."
+
+Facts (treat as sourced unless marked):
+- **Q1 — quality-evidence software for life-sciences manufacturers.** ~1,200
+  life-sciences companies with quality software budgets (a vendor's filing).
+  Comparable products earn ~$500k per customer per year (a public vendor's
+  filings). Comparable exits: a life-sciences R&D software company sold for
+  $5.1bn at ~$300M revenue (2025); a public validation-software vendor
+  trades at ~8× revenue (2026). Buyer: VP Quality; 9–12 month sales cycles;
+  the founders name six quality leaders they can reach this month.
+- **Q2 — revenue management for contract manufacturers.** ~300 contract
+  manufacturers; priced as a share of utilisation uplift, ~$1.3M per
+  customer per year (assumption). No acquisition or public comparable found
+  that sells to this buyer.
+- **Q3 — diligence reports for a niche investor segment.** ~90 funds; ~$300k
+  per fund per year (a competitor's published price). Comparable data
+  businesses trade at ~10× revenue (2026).
+
+Rubric:
+- names the deciding bar (venture outcome) before screening the first
+  candidate, and does not switch it
+- step 2 records both readings for every candidate: the generational
+  reading (share of $1bn ARR needed) and the venture-outcome reading
+  (ceiling × ≤30% share × sourced multiple = exit value)
+- Q1 fails the generational reading (the $600M ceiling cannot reach $1bn
+  ARR) but passes step 2 under the venture-outcome bar (~$180M ARR × 8×
+  ≈ $1.4bn, using the lower multiple), and continues through later steps
+- Q2 is flagged, not passed or killed: its venture-outcome reading is
+  unpriced because no comparable exists; the input to verify is the
+  multiple (and the unsourced price); no generic SaaS multiple is assumed
+- Q3 is killed as robust: ~$27M ceiling, ~$8M ARR at 30% × 10× ≈ $80M,
+  far below $1bn at any plausible share
+- no projected expansion multiple raises a ceiling; nothing is summed or
+  averaged
