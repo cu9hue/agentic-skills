@@ -136,8 +136,18 @@ The ceiling is an estimate built from today's N and today's price, and both can 
   1. **A sourced growth signal.** N or the flow is compounding fast (roughly 30% a year or more), shown by dated numbers, not by a forecast.
   2. **A pivotal assumption.** The price or N is unsourced, and a plausible value would clear the kill line.
   3. **A breaking assumption.** A rule, cost or technology change is actively moving the constraint the ceiling rests on.
+  4. **A forward reading clears the line.** Pipeline math or shadow-spend conversion (see below) reaches the deciding bar within 7 years.
 
 A flag is not a pass. Do not project the growth into a future ceiling: a guessed rate compounded over years is the TAM fantasy by another route. Instead, write down **the one input to verify** and **what value would clear the line** ("annual volume must reach ~3× today's", "a buyer must confirm ~$5k a year"), plus the cheapest manual check: a data source, or a question for a customer conversation. A flagged candidate continues through steps 3–10; any later failure still kills it.
+
+### The forward reading
+
+Today's ceiling only counts spend that already exists, so a screen built on it alone selects markets incumbents already hold, and kills every "not yet a market" candidate for lack of an N. `market-evaluation` defines a forward reading built from things countable today; compute it at step 2 for any candidate that fails today's ceiling:
+
+- **Pipeline math.** Items already in motion × sourced conversion rates, dated: programs in trials × phase-transition rates, plants under construction × their start dates, filings due under a rule × its effective date.
+- **Shadow-spend conversion.** Customers × the labour, workaround or failure cost they bear today, sourced, × a share of at most ~30%.
+
+Horizon of 7 years at most, every rate and cost sourced. A forward reading that clears the deciding bar earns a flag (condition 4), never a pass: the input to verify is the conversion rate or the shadow cost that carries it. Compounding a growth rate is still banned — a cohort you can count is a fact; a rate you extend is a guess.
 
 ### FALSIFY before any structural verdict
 
@@ -301,7 +311,8 @@ Do not attach an advocacy paragraph. A survivor carried into the evaluation pre-
 - **Too early.** Right thesis, wrong decade. The recheck trigger exists for exactly this; write it down and move on rather than funding the education of the market.
 - **Depth creep.** Doing the full evaluation's work inside the screen. Symptom: an hour per candidate, a batch of four.
 - **The soft kill.** Flagging a favourite to avoid killing it. A flag needs a named input, a value that clears the line, and a check; without all three it is a kill.
-- **Projected ceilings.** Compounding a growth rate forward to rescue a ceiling. Growth earns a flag and a verification, never a bigger number.
+- **Projected ceilings.** Compounding a growth rate forward to rescue a ceiling. Growth earns a flag and a verification, never a bigger number. Pipeline math on a cohort that already exists is not this: it is a forward reading, and it earns a flag.
+- **Today-only sizing.** Killing every candidate whose spend does not exist yet, without a forward reading. The screen then only finds markets someone already holds.
 - **Discovery as avoidance.** Running batches instead of executing a live bet. Discovery is for the gap between bets.
 
 ## Cadence
