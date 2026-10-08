@@ -95,6 +95,7 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **dashboard-builder** — operator-focused monitoring dashboards for Grafana/SigNoz.
 - **seo** — technical SEO, on-page, structured data, Core Web Vitals, content strategy.
 - **landing-copy** — landing-page copy and product positioning that sells the desire, not the feature: pin the position, write the page, audit against a conversion-killer catalog. Distilled from Marc Lou's "31 Principles of a Viral Product" and Julian Shapiro's landing-page guide; pairs with **ui-design** (visuals) and **seo** (discovery).
+- **treg** — the treg tool catalog for paid external data no other tool covers: SEO and SERP data, keyword volume, backlinks, social profiles, people and company enrichment, ad libraries, and image, video and voice generation. Calls spend the team balance, so the agent quotes the price and asks first.
 
 > Skills needing external infra (e.g. AgentShield MCP, Exa MCP for lead-intelligence)
 > were left out until those servers are wired up.

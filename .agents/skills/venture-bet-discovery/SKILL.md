@@ -5,7 +5,7 @@ description: "Use when screening startup candidates for venture scale: \"screen 
 
 # Venture Bet Discovery
 
-Screen a batch of candidates. Kill anything that cannot absorb capital or cannot reach **$1bn+ ARR in under 10 years**. Keep two or three, and hand them to `market-evaluation`.
+Screen a batch of candidates. Kill anything that cannot absorb capital or cannot clear the founder's bar: **$1bn+ ARR in under 10 years** (generational, the default) or **a $1bn+ exit** (venture outcome). Keep two or three, and hand them to `market-evaluation`.
 
 ## Same bar as `market-evaluation`
 
@@ -22,6 +22,10 @@ Screen a batch of candidates. Kill anything that cannot absorb capital or cannot
 | 10. Learning speed | 9. Learning speed |
 
 Kill a candidate when the evidence found in the screen would score its axis at -3 or lower. That is the point where `market-evaluation` fails the test.
+
+### Which bar decides
+
+`market-evaluation` defines two bars, and only step 2 depends on them. The **generational** bar is $1bn ARR in under 10 years. The **venture-outcome** bar is a $1bn+ exit: realistic ARR (the ceiling × at most ~30% share) × a sourced exit multiple. Step 2 computes one ceiling and records both readings for every candidate. The bar the founder chose decides kill, flag or pass; with no stated choice, the generational bar decides. Write the chosen bar at the top of the screen, before the first candidate, and do not switch it mid-batch.
 
 ## What this screen does not kill
 
@@ -111,6 +115,18 @@ Do not argue past 30% on the strength of Epic or Veeva. Both exceeded half their
 
 A named adjacency can carry a ceiling past $1bn only when it is named here and connected in step 8 by the same buyer, data or integration. An adjacency you cannot name does not count.
 
+### The venture-outcome reading
+
+Compute it from the same ceiling, with the same inputs:
+
+1. **Realistic ARR** = ceiling × share, at most ~30%, and lower in a fragmented market with low switching costs.
+2. **Exit multiple** (enterprise value ÷ revenue) from at least two comparable acquisitions or public companies that sell to the same buyer, each with a source and a year. Take the lower when they disagree, and name what drove it (margin, growth, a strategic buyer). The FALSIFY search below usually surfaces these deals.
+3. **Exit value** = realistic ARR × multiple. It clears the line at $1bn.
+
+With no sourced comparable, the reading is **unpriced**. When the venture-outcome bar decides, an unpriced reading is a flag on a pivotal assumption, and the input to verify is the multiple. Never assume one.
+
+The kill-or-flag rules below apply to whichever bar decides. Under the venture-outcome bar, a kill is robust when exit value stays under $1bn across plausible shares and the sourced multiples.
+
 ### Kill, flag, or pass
 
 The ceiling is an estimate built from today's N and today's price, and both can be wrong. A step-2 failure therefore has two outcomes, not one:
@@ -120,12 +136,22 @@ The ceiling is an estimate built from today's N and today's price, and both can 
   1. **A sourced growth signal.** N or the flow is compounding fast (roughly 30% a year or more), shown by dated numbers, not by a forecast.
   2. **A pivotal assumption.** The price or N is unsourced, and a plausible value would clear the kill line.
   3. **A breaking assumption.** A rule, cost or technology change is actively moving the constraint the ceiling rests on.
+  4. **A forward reading clears the line.** Pipeline math or shadow-spend conversion (see below) reaches the deciding bar within 7 years.
 
 A flag is not a pass. Do not project the growth into a future ceiling: a guessed rate compounded over years is the TAM fantasy by another route. Instead, write down **the one input to verify** and **what value would clear the line** ("annual volume must reach ~3× today's", "a buyer must confirm ~$5k a year"), plus the cheapest manual check: a data source, or a question for a customer conversation. A flagged candidate continues through steps 3–10; any later failure still kills it.
 
+### The forward reading
+
+Today's ceiling only counts spend that already exists, so a screen built on it alone selects markets incumbents already hold, and kills every "not yet a market" candidate for lack of an N. `market-evaluation` defines a forward reading built from things countable today; compute it at step 2 for any candidate that fails today's ceiling:
+
+- **Pipeline math.** Items already in motion × sourced conversion rates, dated: programs in trials × phase-transition rates, plants under construction × their start dates, filings due under a rule × its effective date.
+- **Shadow-spend conversion.** Customers × the labour, workaround or failure cost they bear today, sourced, × a share of at most ~30%.
+
+Horizon of 7 years at most, every rate and cost sourced. A forward reading that clears the deciding bar earns a flag (condition 4), never a pass: the input to verify is the conversion rate or the shadow cost that carries it. Compounding a growth rate is still banned — a cohort you can count is a fact; a rate you extend is a guess.
+
 ### FALSIFY before any structural verdict
 
-Before writing that a category, a segment or an industry is too small, spend fifteen minutes searching for companies in it above $100M revenue or $1B valuation. Once per category, not per candidate, so the batch time-box survives.
+Before writing that a category, a segment or an industry is too small, spend fifteen minutes searching for companies in it above $100M revenue or $1B valuation, and for acquisitions in it with a disclosed price. Once per category, not per candidate, so the batch time-box survives. Search for the category's largest incumbent specifically: a sector-wide "tools here cap at $X" claim is a structural verdict and needs this check too.
 
 **If a top-down conclusion contradicts one sourced counterexample, discard the conclusion, not the counterexample.** A single real company at $180M revenue kills a model that said the whole category was $250M. The model was the guess; the company is the fact.
 
@@ -163,7 +189,7 @@ Five to ten minutes per candidate, search-assisted. **Kill on first fail and mov
 
 1. **Constraint conflict.** Apply the *test*, not the label. Kill immediately on a real conflict; do not argue that this one is different.
 
-2. **Scale ceiling.** Look up incumbent pricing, compute N × revenue per customer at today's price on the basis the product would charge, and name the revenue shape. If reaching $1bn ARR needs heroic share (over ~30%), an unproven price, or an adjacency nobody has named, or if the ceiling does not reach $1bn at all, then kill or flag it per "Kill, flag, or pass". Write the numbers, the basis and the shape down whatever the outcome; the handoff needs all three.
+2. **Scale ceiling.** Look up incumbent pricing, compute N × revenue per customer at today's price on the basis the product would charge, and name the revenue shape. If reaching $1bn ARR needs heroic share (over ~30%), an unproven price, or an adjacency nobody has named, or if the ceiling does not reach $1bn at all, the generational reading fails. Then compute the venture-outcome reading. Kill, flag or pass on the deciding bar per "Kill, flag, or pass". Write the numbers, the basis, the shape and both readings down whatever the outcome; the handoff needs all of them.
 
 3. **US first.** If the market is not the US, name the US equivalent market and check whether a US player already exists. Kill unless there is a specific, sourced reason the smaller market wins: regulation that does not transfer, a local incumbent structure with no US counterpart, or a problem that does not exist in the US. When a US and a non-US version of the same idea exist, usually only one wins, and it is usually the US one. For a US market, note whether the US is a good launch market and move on.
 
@@ -227,7 +253,7 @@ Expect one to three survivors from fifteen, plus a few flags. If most of the bat
 
 Append every batch. This is the compounding asset of the practice. It is wide — keep it in a spreadsheet, not a document.
 
-| Date | Candidate (buyer + workflow + N) | Surface + link | Revenue per customer + basis + source | Ceiling + shape | Share of $1bn needed | US first | Why-now + window closes | Learning cycles in 18 months | Outcome (killed at step N / flagged / survived) | The killing fact, or for a flag the input to verify and the value that clears the line | Recheck trigger |
+| Date | Candidate (buyer + workflow + N) | Surface + link | Revenue per customer + basis + source | Ceiling + shape | Share of $1bn needed | Venture-outcome reading (ARR × multiple + comparables, or unpriced) | US first | Why-now + window closes | Learning cycles in 18 months | Outcome (killed at step N / flagged / survived) | The killing fact, or for a flag the input to verify and the value that clears the line | Recheck trigger |
 
 Three columns make a step-2 or step-5 kill auditable rather than just recorded. A kill priced per seat is worth revisiting the moment you find the flow the workflow sits on, or a named adjacency. And a candidate killed because its window was closing is worth nothing later — but a candidate killed for another reason whose window is still open is the first thing to re-screen next batch.
 
@@ -250,6 +276,7 @@ For each survivor, one short paragraph:
 - The buyer, countably defined, with the source for N.
 - The workflow and what it costs them today, with the source.
 - Revenue per customer with its pricing basis and source, the ceiling, the revenue shape, and the share of the ceiling that $1bn ARR needs.
+- The venture-outcome reading: realistic ARR, the multiple with its comparables, and the exit value. Name the deciding bar.
 - US first: the US equivalent market for a non-US candidate, and the sourced reason it still wins.
 - Why now: the changed number with its date and source, the window's closing mechanism, your estimate of when it closes, and the structural tailwinds.
 - The wedge, the year-3 asset, the next one or two products, and the mechanism between them.
@@ -263,7 +290,9 @@ Do not attach an advocacy paragraph. A survivor carried into the evaluation pre-
 
 ## Anti-patterns
 
-- **Two bars.** Screening against $100M and evaluating against $1bn, or any other gap between this screen and `market-evaluation`. The screen then passes candidates the evaluation fails, and the pipeline wastes its most expensive step.
+- **Two bars.** Screening against $100M and evaluating against $1bn, or any other gap between this screen and `market-evaluation`. The screen then passes candidates the evaluation fails, and the pipeline wastes its most expensive step. The generational and venture-outcome bars are not this gap: both skills compute both, the same way.
+- **Bar shopping.** Switching the deciding bar mid-batch to save a favourite. Choose the bar before the first candidate.
+- **The assumed multiple.** A venture-outcome reading built on "SaaS trades at 10×" instead of named comparables that sell to the same buyer. Without sourced comparables the reading is unpriced.
 - **Mature pricing.** Raising the ceiling with a projected expansion multiple. `market-evaluation` scores that as an unproven price, so the screen would pass a candidate the evaluation fails.
 - **Inferred price.** Reasoning a blended price from enterprise anecdotes when the category publishes its tiers. Wrong by 6x in one real batch.
 - **Wrong pricing basis.** Pricing per seat a workflow that money flows through, or computing several bases and taking the largest instead of the one the product would charge on.
@@ -282,7 +311,8 @@ Do not attach an advocacy paragraph. A survivor carried into the evaluation pre-
 - **Too early.** Right thesis, wrong decade. The recheck trigger exists for exactly this; write it down and move on rather than funding the education of the market.
 - **Depth creep.** Doing the full evaluation's work inside the screen. Symptom: an hour per candidate, a batch of four.
 - **The soft kill.** Flagging a favourite to avoid killing it. A flag needs a named input, a value that clears the line, and a check; without all three it is a kill.
-- **Projected ceilings.** Compounding a growth rate forward to rescue a ceiling. Growth earns a flag and a verification, never a bigger number.
+- **Projected ceilings.** Compounding a growth rate forward to rescue a ceiling. Growth earns a flag and a verification, never a bigger number. Pipeline math on a cohort that already exists is not this: it is a forward reading, and it earns a flag.
+- **Today-only sizing.** Killing every candidate whose spend does not exist yet, without a forward reading. The screen then only finds markets someone already holds.
 - **Discovery as avoidance.** Running batches instead of executing a live bet. Discovery is for the gap between bets.
 
 ## Cadence

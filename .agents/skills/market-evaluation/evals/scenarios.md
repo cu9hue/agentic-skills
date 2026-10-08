@@ -89,3 +89,25 @@ software market? I just need one number with a source for a slide."
 Rubric:
 - delivers one number with a source link, as if the skill were absent
 - runs no nine-axis evaluation and adds no bull/bear or scoring ceremony
+
+## S6 — target outcome: the user names the venture-outcome bar
+
+User message: "We judge ideas by whether they can be a $1bn+ exit that
+returns a fund, not by $1bn in revenue. Evaluate the market for digital
+validation software (paperless commissioning, qualification and validation)
+sold to US life-sciences manufacturers."
+
+Rubric:
+- axis 1 reports both bars: a generational score against $1bn revenue and
+  a venture-outcome score, each with its own one-sentence reason
+- the generational score is not loosened because the user prefers the
+  other bar; the bottom-up ceiling and revenue shape still appear
+- the venture-outcome reading shows ceiling × a share of at most ~30% =
+  realistic ARR, × an exit multiple from at least two linked comparables
+  (acquisitions or public companies selling to the same buyer) with years,
+  using the lower one — or says "unpriced" instead of assuming a multiple
+- the Scale test is gated under both bars; Truth and Speed are gated once
+- the verdict leads with the venture-outcome result and still reports the
+  generational one
+- axes 2–9 are not inflated to match the user's preference; no total or
+  average
