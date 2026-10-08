@@ -56,3 +56,16 @@ arm) and grepped primary PDFs and text files where pages blocked fetching.
 
 Citation integrity across S1–S4: B 2 load-bearing mismatches + 3 minor; C 0
 load-bearing + 0 minor. No fabrications in either arm. Post-edit arm holds.
+
+## 2026-09-28 — regression for the target-outcome setting (base 9930648, uncommitted branch skills/target-outcome-bar)
+
+Change: axis 1 scored under two bars (generational $1bn revenue, always the official score; venture outcome = ceiling × ≤30% share × the lower of ≥2 linked comparable exit multiples, or "unpriced"); Scale gated under both; verdict leads with the bar the user names. New scenario S6. Arms: pre-edit vs post-edit, web on; n=1 per cell (S2 post re-run once after adding a line requiring the link check on every venture-reading input); blind judges, labels shuffled; judges fetched two load-bearing citations per output in S1–S4 and S6.
+
+- S1: **tie** — both clean on rubric and citations; post added the venture reading unasked (neutral).
+- S2: **pre**, twice — post run 1 cited a 6.7% IT-cost share its linked page does not state and built its venture +1 on it; post run 2 (after the link-check line) misread 8,569 Syndikus Steuerberater as practices, understating the ceiling ~16%, and cited competitor evidence via news-search links. Verdict unchanged by the error, but citation integrity lost both times.
+- S3: **tie** — both clean.
+- S4: **pre**, narrowly — separated the school and parent channels; buyer-reading choice, as in the 2026-09-24 run.
+- S5: **tie** — both one number, no ceremony.
+- S6: **post** — scored and gated both bars, lower of two linked multiples (Kneat 9.1×, Veeva 11.0×); pre replaced the generational bar with the user's and priced the exit off one comparable.
+
+Post-edit arm does NOT yet hold: it wins the new behaviour (S6) but loses S2 on citation integrity in both runs. Hypothesis: computing the venture reading on every run adds research load that crowds out the link check. Not committed.

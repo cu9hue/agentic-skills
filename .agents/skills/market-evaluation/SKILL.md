@@ -7,9 +7,10 @@ origin: the nine questions and three tests are paraphrased from Entrepreneurs Fi
 # Market Evaluation
 
 When a great team meets a lousy market, the market wins. This skill judges
-the market, not the team or the product. The bar is a company that can make
-**$1bn+ in annual revenue in under 10 years**. A market that cannot carry
-that is the wrong market for this ambition, however good the business is.
+the market, not the team or the product. It judges against two bars (see
+"Target outcome"): the **generational** bar, a company that can make
+**$1bn+ in annual revenue in under 10 years**, and the **venture-outcome**
+bar, a company that can be worth **$1bn+ at exit**. Every run reports both.
 
 The evaluation asks nine questions, grouped into three tests:
 
@@ -28,6 +29,61 @@ geography, and the product shape. If the user left any of these out, pick
 the most likely reading, state it as an assumption at the top, and run the
 full evaluation. Do not stop to ask clarifying questions first. Offer at the
 end to re-run on a different reading.
+
+## Target outcome: two bars
+
+Only axis 1 depends on the bar. Axes 2–9 are scored once and read the same
+under both bars.
+
+- **Generational** (the default): $1bn annual revenue in under 10 years.
+  Axis 1's score is always this score. Never loosen it because the user
+  prefers the other bar.
+- **Venture outcome:** a $1bn+ exit, the size that returns a venture fund.
+  Compute it from the same bottom-up ceiling:
+  1. Realistic ARR = ceiling × a share of at most ~30%. Use less in a
+     fragmented market with low switching costs, and say why.
+  2. Exit value = realistic ARR × an exit multiple (enterprise value ÷
+     revenue) from at least two comparable acquisitions or public
+     companies that sell to the same buyer, each linked with its year.
+     When the comparables disagree, use the lower one. Name what drove
+     each multiple (margin, growth, a strategic buyer), because a multiple
+     earned by a 40% margin does not transfer to a services business.
+  3. The reading passes when exit value reaches $1bn. With no sourced
+     comparable, the reading is **unpriced**: say so, and do not assume a
+     multiple.
+
+  Score this reading on the same -5 to +5 scale and report it beside the
+  generational score. The reading multiplies three estimates, so one bad
+  input carries straight into the verdict: run the "link the page that
+  states the number" check on the ceiling inputs and on each multiple
+  before you score it.
+
+When the user names a bar, lead the verdict with that bar's result, and
+still report the other. When they name none, lead with the generational
+result, and give the venture-outcome reading in one line from comparables
+you already found while researching. Do no extra research for it.
+
+## The forward reading
+
+Today's ceiling only sees spend that already exists, so on its own it
+selects markets that incumbents already hold. Beside it, build a forward
+ceiling from things you can count today:
+
+- **Pipeline math.** Items already in motion × sourced conversion rates,
+  dated. Example: programs in clinical trials × published phase-transition
+  rates = how many will need commercial manufacturing, and by when.
+- **Shadow-spend conversion.** Customers × the labour, workaround or
+  failure cost they bear today (salaries, consultant fees, failed runs, each
+  sourced) × a share you would convert, at most ~30%.
+
+Rules: a horizon of 7 years at most; every rate and cost linked with its
+year; label the result *(forward)*. Never compound a growth rate or an
+analyst CAGR: that is a guess, not a count.
+
+The forward reading does not change axis 1's scores, which rest on today's
+ceiling. When the forward ceiling clears a bar that today's does not, say so
+in the verdict: the market is early, and the pipeline math dates when it
+arrives.
 
 ## Research rules
 
@@ -71,6 +127,10 @@ scaled ×10 for $1bn:
 Bull: this market alone holds enough customers at a defensible price.
 Bear: the math reaches $1bn only with heroic share (over ~30%), an unproven
 price, or adjacencies nobody has named.
+
+Then give the venture-outcome reading from the same ceiling (see "Target
+outcome"): the realistic ARR, the sourced multiple, and the exit value.
+Then give the forward reading (see "The forward reading").
 
 **2. US first.** If the market is not the US, why not? When a US and a
 non-US version of the same idea exist, usually only one wins, and it is
@@ -168,6 +228,8 @@ strongest honest version of the market in its place.
 - A test **fails** if any of its axes scores -3 or lower.
 - Otherwise the test **passes**. Name its lowest axis.
 - A strong market passes all three tests.
+- Gate the Scale test twice: once with axis 1's generational score and once
+  with its venture-outcome score. Truth and Speed are gated once.
 
 Report the three test results and the weakest axis overall. Give no total
 and no mean, whether across axes or across tests.
@@ -179,22 +241,25 @@ and no mean, whether across axes or across tests.
 
 **Assumptions:** <customer, buyer, geography, product shape — one line>
 
-**Verdict:** <which tests pass or fail; the weakest axis; one line on what
+**Verdict:** <which tests pass or fail under the bar the user named (or the
+generational bar), then the other bar; the weakest axis; one line on what
 the market is good for if it misses the $1bn bar>
 
 | Test | Axis | Score | Confidence |
 |---|---|---|---|
-| Scale | 1. $1bn ARR path | +2 | medium |
+| Scale | 1. $1bn ARR path | generational -4 · venture outcome +1 | medium |
 | … nine rows … | | | |
 
-Scale: PASS (lowest: …) · Truth: FAIL (4. Market dynamics, -4) · Speed: PASS (lowest: …)
+Scale: FAIL generational (1, -4) · PASS venture outcome (lowest: …) · Truth: FAIL (4. Market dynamics, -4) · Speed: PASS (lowest: …)
 
 ## Scale
 
-### 1. $1bn ARR path — +2 (medium)
+### 1. $1bn ARR path — generational -4 · venture outcome +1 (medium)
 **Bull.** <claims with inline links>
 **Bear.** <claims with inline links>
-**Score.** <which case outweighs and why, one sentence>
+**Venture outcome.** <ceiling × share = realistic ARR; × multiple from
+linked comparables with years = exit value; or "unpriced">
+**Score.** <which case outweighs and why, one sentence per bar>
 
 … axes 2–9 in the same shape, under ## Truth and ## Speed …
 
@@ -211,6 +276,14 @@ Before you deliver, confirm:
   score, a confidence level, and a one-sentence reason
 - axis 1 shows the bottom-up arithmetic against $1bn, not $100M, and names
   the revenue shape
+- axis 1 reports both bars; the generational score was not loosened; the
+  venture-outcome multiple comes from linked comparables with years, or the
+  reading says "unpriced"
+- the Scale test is gated under both bars, and the verdict leads with the
+  bar the user named
+- axis 1 gives a forward reading from pipeline math or shadow spend, with
+  sourced rates and no compounded growth, and the verdict says when the
+  market is early
 - a non-US market gets a US-first axis that names the US equivalent
 - axis 4 names the wedge and the year-3 asset (crowded), or the reason the
   gap exists (untapped)
