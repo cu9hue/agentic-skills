@@ -22,9 +22,11 @@ the relation.
 | Email check | select | valid, valid-risky, accept_all, invalid, not found |
 | LinkedIn | url | |
 | Subject | text | |
-| Email hook | text | |
-| LinkedIn hook | text | |
-| Variant | select | A, B |
+| Sender | select | the sender's first name |
+| Credential | text | the sender's credential line, e.g. "Ex-risk quant, now at EF" |
+| Intro | text | credential line naming a connection; empty without one |
+| Email hook | text | what "puts you on that list"; empty without a work fact |
+| Personalization | select | both, connection, work, none |
 | Channel | multi-select | email, linkedin, intro |
 | Status | select | To send, Sent, Followed up, Replied, Call booked, No reply, Not a fit |
 | Sent | date | |
@@ -65,25 +67,29 @@ add by hand.
 
 ### Formulas
 
-Replace `<ONE-LINER>` with the campaign one-liner, lowercase start, no
-trailing period. Replace `<B-QUESTION>` with the confirmed Variant B
-paragraph, with every "{their customers}" written as
-`" + prop("Their customers") + "`.
+Fill these per campaign:
+
+- `<LEAD-QUESTION>`: the confirmed lead question, capital start.
+  `<LI-QUESTION>`: the same, lowercase start.
+- `<COHORT>`: the confirmed cohort, e.g. "with agents live at credit
+  unions".
+
+In each, write any "{their customers}" as `" + prop("Their customers") + "`.
 
 Email draft:
 
 ```
-if(prop("Variant") == "B",
-  "Hi " + prop("First name") + ",\n\n" + prop("Email hook") + " and thought you might have some good insight into what I am working on\n\n<B-QUESTION>\n\nWould you be open to a quick call in the next week or two? Happy to work around your schedule\n\nThanks,\nPolina",
-  "Hi " + prop("First name") + ",\n\n" + prop("Email hook") + " and thought you might have some good insight into what I am working on\n\nI'm <ONE-LINER>. You've clearly been through this with real " + prop("Their customers") + ", and I'd really value 15 minutes of your advice on how those conversations go\n\nWould you be open to a quick call in the next week or two? Happy to work around your schedule\n\nThanks,\nPolina"
-)
+"Hi " + prop("First name") + ",\n\n<LEAD-QUESTION>\n\n" + if(empty(prop("Intro")), if(empty(prop("Credential")), "", prop("Credential") + ". "), prop("Intro") + ". ") + "Talking to the few founders <COHORT> this week" + if(empty(prop("Email hook")), "", ", and " + prop("Email hook") + " puts you on that list") + ". 15 min Thu or Fri?\n\nThanks,\n" + prop("Sender")
 ```
 
 LinkedIn note:
 
 ```
-"Hi " + prop("First name") + ", " + prop("LinkedIn hook") + ". I'm <ONE-LINER> and would love 15 minutes of your advice on how you work with " + prop("Their customers") + "."
+"Hi " + prop("First name") + ", <LI-QUESTION> " + if(empty(prop("Intro")), if(empty(prop("Credential")), "", prop("Credential") + ". "), prop("Intro") + ". ") + "Talking to the few founders <COHORT> this week" + if(empty(prop("Email hook")), "", ", and " + prop("Email hook") + " puts you on that list") + ". 15 min Thu or Fri?"
 ```
+
+Sender and credential are row properties, not formula text, so one
+tracker can carry batches from different senders.
 
 After the first row is written, read its Email draft back. If `\n` shows
 as literal text instead of line breaks, tell the user and fall back to
@@ -91,53 +97,74 @@ writing the drafts as plain text into the same properties.
 
 ## Message templates
 
-The user's voice: short, casual, slightly unpolished. No em dashes. The
-signature (EF · Risk quant & AI engineer · LinkedIn) lives in the email
-client; never add it to a draft.
+The voice: short, casual, slightly unpolished. No em dashes. The sender's
+signature block lives in their email client; never add one to a draft.
 
-**Email A (advice ask)**
+Every draft does three jobs in three lines:
+
+- **Competence**: an insider question that names a real mechanism, then a
+  credential line. The question shows the sender knows the domain before
+  saying so.
+- **FOMO**: the sender is talking to the few founders in the cohort this week,
+  and their work puts them on that list.
+- **This week**: "15 min Thu or Fri?" Never "next week or two", never
+  "happy to work around your schedule", never "picking what to build".
+
+**Email**
 
 ```
 Hi {first},
 
-{email hook} and thought you might have some good insight into what I am working on
+{lead question}
 
-I'm {one-liner, lowercase start}. You've clearly been through this with real {their customers}, and I'd really value 15 minutes of your advice on how those conversations go
+{intro, or credential}. Talking to the few founders {cohort} this week[, and {email hook} puts you on that list]. 15 min Thu or Fri?
 
-Would you be open to a quick call in the next week or two? Happy to work around your schedule
+Thanks,
+{sender}
+```
+
+Example, `work`:
+
+```
+Hi Marcus,
+
+When a community bank's examiner reviews your wire agent, what do they actually ask to see?
+
+Ex-risk quant, now at EF. Talking to the few founders with agents live at community banks this week, and the Harbor Trust rollout puts you on that list. 15 min Thu or Fri?
 
 Thanks,
 Polina
 ```
 
-**Email B (pain as a question)**: Email A with the middle paragraph
-replaced by one curious question about the suspected pain, e.g. "I'm
-curious how you get {their customers} comfortable letting your agents act
-on their own and whether that part ever slows a deal down".
+**LinkedIn note** (under 300 characters): the email body on one line,
+"Hi {first}, {lead question, lowercase start} …", same fields.
 
-**LinkedIn note** (under 300 characters; no background line, since they
-see the profile):
-
-```
-Hi {first}, {LinkedIn hook}. I'm {one-liner} and would love 15 minutes of your advice on how you work with {their customers}.
-```
-
-**Follow-up** (~4 days later, on the other channel; if both channels are
-already used, reply in the same email thread):
+**Follow-up** (~3 business days later, Monday to Thursday, on the other
+channel; if both channels are already used, reply in the same email
+thread):
 
 ```
-Hi {first}, following up on my note from {day}. Totally get it if now's busy. Would 15 minutes sometime next week work?
+Hi {first}, bumping this. Wrapping up these calls in the next few days and still want your take. 15 min tomorrow or the day after?
 ```
 
 ## Copy rules
 
 - Ask for 15 minutes of advice. Never promise insights the user does not
   have. Never pitch a product during discovery.
-- Subject: "question about your {launch / customer / post / talk}". It reads
-  as an outsider asking. Never "Chartway x Ledgerline", never a partner's or
-  customer's voice, never "Re:".
-- Email hook: one sentence, starts "Saw …" or "Congrats on …", at most 22
-  words, plain, no flattery ("impressive", "love", "amazing"), no em dash,
-  no trailing period.
-- LinkedIn hook: 3–8 words, lowercase start, e.g. "saw the Chartway
-  disputes case study".
+- Lead question: at most 18 words, about their world, not the user's
+  product. Name a real mechanism (a model risk review, an examiner, a
+  sign-off) so it reads as from an insider.
+- Cohort: a group the reader is proud to be in, and true of everyone the
+  batch emails, priority 3 adjacent tooling included. If someone falls
+  outside it, broaden the cohort; never drop the person to fit it.
+- Subject: with a work fact, "question about your {launch / customer / post
+  / talk}"; with only a connection, "question from a fellow {connection}";
+  with none, "quick question about {topic}". It reads as an outsider
+  asking. Never "Chartway x Ledgerline", never a partner's or customer's
+  voice, never "Re:".
+- Intro: at most 10 words, names the connection plainly and keeps the
+  credential: "Fellow ex-Kestrel quant, now at EF", "Ex-risk quant and
+  fellow EF founder", "Fellow Columbia alum, ex-risk quant, now at EF".
+- Email hook: a noun phrase of 1–5 words, no verb, no flattery
+  ("impressive", "love", "amazing"), no em dash: "Harbor Trust", "the Clearline
+  launch", "your SR 11-7 post".
