@@ -7,8 +7,8 @@ origin: "The author's own cold-outreach pipeline, tracker schema and message tem
 # Outreach Campaign
 
 Run one batch of the user's cold-outreach pipeline for any ICP: discover
-companies, screen them, find people, find and verify emails, write hooks,
-write tracker rows, report. The goal is discovery calls: 15 minutes of a
+companies, screen them, find people, find and verify emails, personalize by
+priority, write tracker rows, report. The goal is discovery calls: 15 minutes of a
 founder's advice. Never a sale.
 
 Schema, formulas, templates and copy rules live in
@@ -23,11 +23,13 @@ Schema, formulas, templates and copy rules live in
   search engine through curl.
 - **Never guess an email address.** Only use an address a provider returned,
   and verify every one.
-- **Never use an unverified fact in a hook.** Open the source and confirm the
-  fact on the page.
+- **Never use an unverified fact or connection in a hook.** Open the source
+  and confirm it on the page.
 - **Never pitch, and never promise insights the user does not have.** No
   "I'll share what I learn", no "happy to send a summary". The ask is 15
   minutes of advice.
+- **Never create or change the tracker without a yes.** Propose the setup
+  in step 0 and build only the parts the user agreed to.
 - **Quote the cost before spending; report actual spend after.** The budget
   cap is the user's go-ahead for the batch. Stop and ask before any step that
   would cross it.
@@ -45,23 +47,50 @@ defaults instead of asking about them:
 | Buyers they sell to, as a plural noun ("credit unions") | from the ICP |
 | Geography | US only, never EU |
 | Exclusion list (companies already contacted) | none, ask; "none" is a valid answer |
-| Notion parent page URL | none, ask |
+| Tracker: a Notion parent page URL and a yes to the setup (below), or "no tracker" | none, ask |
 | treg budget cap | $2 per batch |
 | Batch size | 15–20 companies, max 2 people each |
-| Variant B question (the suspected pain, as a curious question) | draft one from the one-liner and ask the user to confirm |
+| Lead question: an insider question about the suspected pain that names a real mechanism (a model risk review, an examiner, a sign-off), ≤18 words | draft one from the one-liner and ask the user to confirm |
+| Cohort: who "the few founders …" are, true of everyone in the batch ("with agents live at credit unions") | draft one from the ICP and ask the user to confirm |
+| Sender: name and credential line ("Ex-risk quant, now at EF") | none, ask |
+| Sender background worth matching for this ICP | none, discuss (below) |
+
+**Sender background.** Ask for the sender's schools, past employers and
+field, and communities. Then name which of them a prospect in this ICP
+would care about, and say why. Agree on that short list with the user.
+"None" is a valid outcome: then priority 1 skips the connection search and
+no Intro is written.
+
+**Tracker setup.** Propose it and let the user drop parts:
+
+- **Outreach database**: the core. Dedupe and per-person tracking need it.
+- **Calls database** and its relation: skip if they log calls elsewhere.
+- **The three views**: skip if they will build their own.
+- **Draft formulas** (Email draft, LinkedIn note): skip if they write the
+  messages themselves. Rows still get Subject, Intro and Email hook.
+
+"No tracker" is a valid answer: dedupe against the exclusion list only,
+skip step 7, and give the rows in the report.
 
 Do not run discovery or spend anything until you have the exclusion list and
-the Notion page. Free reads (the Notion query in step 1) can run as soon as
-the page URL arrives.
+the tracker answer. Free reads (the Notion query in step 1) can run as soon
+as the page URL arrives.
 
 ## Step 1 — tracker and dedupe
+
+With no tracker, skip this step; the skip list is the exclusion list.
 
 1. Load the Notion tools (`ToolSearch "notion"`). If none are connected,
    stop and tell the user to connect Notion.
 2. Look under the parent page for the Outreach and Calls databases. If they
-   are missing, create them exactly as in the reference: Calls first, then
-   Outreach with the relation, the formulas filled in with this campaign's
-   one-liner and B question, then the three views.
+   are missing, create the parts the user agreed to, exactly as in the
+   reference: Calls first, then Outreach (with the relation if Calls
+   exists, and the formulas filled in with this campaign's lead question
+   and cohort if the user kept them), then the views. If the databases
+   exist from an older template (no Sender property), tell the user what
+   would change: new Personalization, Sender, Credential and Intro
+   properties, and new draft formulas that rewrite the drafts on unsent
+   rows. Change them only after a yes.
 3. Query Outreach for every existing Company. Merge them with the exclusion
    list into one **skip list**.
 
@@ -115,7 +144,8 @@ treg --json call icypeas.people.search.count --method POST --data '{"query":{"cu
    `"pagination":{"size":<n>}` set to what you need. Search CEO/founder
    first; if you need a second person, then CTO, then sales or partnerships.
 3. Keep at most 2 people per company. Drop any profile whose current company
-   or title does not match.
+   or title does not match. Keep each priority-1 person's past roles and
+   education from the row; step 6 checks them for connections.
 
 ## Step 5 — find and verify emails
 
@@ -139,55 +169,75 @@ treg --json call treg.people.email.verify --method POST \
   address from a pattern.
 - Run a handful first and check the parsed output before looping.
 
-## Step 6 — write hooks
+## Step 6 — personalize by priority
 
-For each person, find **one** fact with Exa that is:
+The depth of research follows priority. Spend it where a reply is worth the
+most.
 
-- **recent**: published in the last ~12 months
-- **verifiable**: you opened the page and the fact is on it. Primary
-  sources: the company's site, the customer's or partner's site, a news
-  outlet, the person's own post or talk. Never a directory, listicle or
-  aggregator.
-- **specific**: a named customer, a launch, funding, a partnership, a
-  certification, or the person's own post or talk. Prefer the person's own
-  post or talk; otherwise use the company fact.
+| Priority | Research | Personalization |
+| --- | --- | --- |
+| 1 | a connection **and** one work fact; work fact only if the sender background is "none" | `both`, `connection` or `work` |
+| 2 | one work fact, a quick pass | `work`, or `none` if nothing passes |
+| 3 | none | `none` |
 
-Put the source URL and its date in Notes. If no fact passes, write no row
-for that person and list them under "Check" in the report.
+- **Connection**: something the person shares with the sender background
+  agreed in step 0: a school, a past employer or field, or a community.
+  Nothing outside that list counts. Confirm it on their profile, team page or bio. A guess from a
+  name or a city does not count.
+- **Work fact**: one fact that is **recent** (published in the last ~12
+  months), **verifiable** (you opened the page and the fact is on it;
+  primary sources only: the company's site, a customer's or partner's site,
+  a news outlet, the person's own post or talk; never a directory,
+  listicle or aggregator) and **specific** (a named customer, a launch,
+  funding, a partnership, a certification, or the person's own post or
+  talk). Prefer the person's own post or talk.
+
+A priority-1 person with neither gets `none` and goes under "Check" in the
+report. Put every source URL in Notes, for connections as well as facts,
+with the fact's date.
 
 Then write, per the copy rules in the reference:
 
-- **Subject**: "question about your {launch / customer / post / talk}".
-- **Email hook**: one sentence, "Saw …" or "Congrats on …", ≤22 words, no
-  flattery, no em dash, no trailing period.
-- **LinkedIn hook**: 3–8 words, lowercase start.
+- **Subject**: with a work fact, "question about your {launch / customer /
+  post / talk}". With only a connection, "question from a fellow
+  {connection}". With none, "quick question about {topic}", the topic in
+  2–5 words.
+- **Intro**: only with a connection. The sender's credential line rewritten
+  to name it, ≤10 words, keeping the credential: "Fellow Columbia alum,
+  ex-risk quant, now at EF". Empty otherwise; the formula uses the
+  credential.
+- **Email hook**: only with a work fact. The thing that "puts you on that
+  list": a noun phrase of 1–5 words, no verb, no flattery, no em dash:
+  "Harbor Trust", "the Clearline launch", "your SR 11-7 post". Empty for
+  `none`; the formula drops the clause.
 
-Check each one before writing the row: count the hook's words, search it for
-"—", confirm the last character is not a period, and confirm the LinkedIn
-note (built from the template) is under 300 characters.
+Check each row before writing it: count the words in Intro and Email hook,
+search both for "—", and confirm the LinkedIn note (built from the
+template) is under 300 characters. If it is over, shorten the hook.
 
 ## Step 7 — write rows to Notion
+
+With no tracker, skip this step and put the rows in the report as a table.
 
 One row per person:
 
 - Status: `To send`
-- Variant: alternate A, B, A, B across priority-1 people who have an email
-  channel. The variant changes only the email, so LinkedIn-only people and
-  priority 2 and 3 get A.
+- Personalization: `both`, `connection`, `work` or `none`, from step 6.
+- Sender and Credential: from step 0, the same on every row of the batch.
 - Channel: `email` + `linkedin` if Email check is `valid`, `valid-risky` or
   `accept_all`; otherwise `linkedin` only.
-- Fill every other field from steps 3–6. Email draft and LinkedIn note are
-  formulas; they fill themselves.
+- Fill every other field from steps 3–6. If the user kept the draft
+  formulas, Email draft and LinkedIn note fill themselves.
 
-After the first row, read its Email draft back and check the line breaks
-(see the reference).
+If the draft formulas exist, read the first row's Email draft back and
+check the line breaks (see the reference).
 
 ## Step 8 — report
 
 Run `treg balance` again. Then report, in this order:
 
 1. **Companies added**: priority, why they fit, who they sell to.
-2. **People**: name, title, company, email status, channel.
+2. **People**: name, title, company, email status, channel, personalization.
 3. **Rejected**: company and one-line reason, grouped by reason.
 4. **Spend**: balance before and after, and the difference.
 5. **Check**: anything the user should look at before sending. For example,
@@ -199,10 +249,13 @@ Run `treg balance` again. Then report, in this order:
 Give this the first time the user runs a campaign, and whenever they ask
 what to get right in cold outreach:
 
-- Send in batches of ~10–20. Follow up after ~3 business days on the other
+- Send in batches of ~10–20, Monday to Wednesday, so "Thu or Fri" in the
+  draft is still this week. Follow up after ~3 business days on the other
   channel. If a batch gets zero replies, change the message before you
   spend more good prospects.
-- Don't use open tracking. Track replies by hand in Notion.
+- Don't use open tracking. Track replies by hand in Notion. After a few
+  batches, compare reply rates by Personalization: if `none` replies as
+  well as `work`, stop researching priority 2.
 - `accept_all` means the domain accepts any address, so delivery is
   unconfirmed: send the LinkedIn note too. Mark a bounce `invalid` and
   switch that person to LinkedIn.
