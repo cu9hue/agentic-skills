@@ -69,3 +69,16 @@ Change: axis 1 scored under two bars (generational $1bn revenue, always the offi
 - S6: **post** — scored and gated both bars, lower of two linked multiples (Kneat 9.1×, Veeva 11.0×); pre replaced the generational bar with the user's and priced the exit off one comparable.
 
 Post-edit arm does NOT yet hold: it wins the new behaviour (S6) but loses S2 on citation integrity in both runs. Hypothesis: computing the venture reading on every run adds research load that crowds out the link check. Not committed.
+
+## 2026-10-20 — ask the ceiling before research
+
+Edit: the skill now asks the ceiling once before research (default $1bn ARR
+in under 10 years, a $1bn exit, or a custom ARR number) unless the request
+states it. A custom ceiling rescales axis 1 and adds a one-line generational
+reading. Axes 2–9, the venture-outcome reading and the forward reading are
+unchanged.
+
+No regression run: the user judged the change minor and chose to skip it.
+S1–S4 name no ceiling, so under this edit they now pause for the question;
+rerun them as two-turn scenarios (scripted reply "$1bn ARR") at the next
+behavior change.
