@@ -113,3 +113,35 @@ per output.
   notes missing, including the FERC/ERCOT/PJM, OCC and DFAH-Bench sources),
   so domain queries returned little. The test measures the behaviour, not the
   value of a fresh index.
+
+## 2026-10-20 — proven category, underserved niche (S9 new; S3 regression)
+
+Edit: under the bootstrap bar, at least one direction is a proven category
+(leaders and prices named) with a niche defined by a buyer segment whose
+workflow differs, preferably one the shift is growing. Every niche direction
+states its ceiling as niche buyers × price; under 3× the income target is a
+named risk. Under the venture bar, a niche in a led category needs the shift
+to grow it, or the ceiling is the main risk. New anti-pattern: the feature
+niche. Output gains a Category line. Source: Starter Story's bootstrapper
+advice. No web tools, no vault. Pre-edit vs post-edit arm, n=1 each, blind
+judge.
+
+- S9: **post**. Judge, post vs pre: proven category with leaders pass vs
+  partial; buyer-segment niche pass vs partial; ceiling as buyers × price
+  pass vs fail; niche growth pass vs fail. Pre never sized a direction
+  against the $1M target and ranked second a direction whose own belief
+  (5 × $100k) is half the bar. Post sized four directions ($12M, $3M, $7M,
+  $6M, all assumed numbers) and flagged the $3M one as a named risk.
+- Structure item: partial in both arms, because the judge saw condensed
+  outputs from which I dropped the tests of directions 4–5. Both full
+  replies carried a test per direction. Runner error, not an arm difference.
+- Judge flags on post: direction 1 borrows proof of spend from fraud tools
+  while calling itself a new layer, and its main risk (platforms ship
+  refund caps) admits it may be a feature; growth claims are bare
+  assertions; "12–18 months" and "US first" were added to a brief that said
+  "US or global".
+- S3 regression (post only, against S3-venture-v2): **holds**. Venture bar
+  with ceiling assumed, dated shifts, patterns, tests, hand-off to
+  `market-evaluation`. Category lines appeared on every direction. Gap: the
+  one proven-category direction (agent-traffic risk scoring) gave no ceiling
+  and no statement on niche growth, so the venture clause was half followed.
