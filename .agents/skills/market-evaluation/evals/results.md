@@ -69,3 +69,36 @@ Change: axis 1 scored under two bars (generational $1bn revenue, always the offi
 - S6: **post** — scored and gated both bars, lower of two linked multiples (Kneat 9.1×, Veeva 11.0×); pre replaced the generational bar with the user's and priced the exit off one comparable.
 
 Post-edit arm does NOT yet hold: it wins the new behaviour (S6) but loses S2 on citation integrity in both runs. Hypothesis: computing the venture reading on every run adds research load that crowds out the link check. Not committed.
+
+## 2026-10-20 — ask the ceiling before research
+
+Edit: the skill now asks the ceiling once before research (default $1bn ARR
+in under 10 years, a $1bn exit, or a custom ARR number) unless the request
+states it. A custom ceiling rescales axis 1 and adds a one-line generational
+reading. Axes 2–9, the venture-outcome reading and the forward reading are
+unchanged.
+
+No regression run: the user judged the change minor and chose to skip it.
+S1–S4 name no ceiling, so under this edit they now pause for the question;
+rerun them as two-turn scenarios (scripted reply "$1bn ARR") at the next
+behavior change.
+
+## 2026-10-20 — query the founder's vault (S7)
+
+Edit: when `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` are set, the
+skill queries the vault through the `second-brain-retrieval` API with
+one-to-three-word queries, and cites vault claims by note path and chunk ID.
+New scenario S7; pre-edit vs post-edit arm, n=1 each, Exa calls capped equally.
+Blind judge verified chunk IDs against the service and opened two web links
+per output.
+
+- S7: **post**. Pre never queried the vault; post cited vault chunks and put
+  open vault contradictions into risks / bear cases. Web citations held in
+  both arms.
+- Gaps in the post arm, not yet fixed: a vault-backed shift cited the concept
+  page instead of the source note behind it; some vault citations were
+  decorative (heading-only chunk, framing that moved no score).
+- Confound: the service index is a snapshot from about 2026-09-26 (170 of 509
+  notes missing, including the FERC/ERCOT/PJM, OCC and DFAH-Bench sources),
+  so domain queries returned little. The test measures the behaviour, not the
+  value of a fresh index.

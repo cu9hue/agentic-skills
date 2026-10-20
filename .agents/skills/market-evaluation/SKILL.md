@@ -7,10 +7,11 @@ origin: the nine questions and three tests are paraphrased from Entrepreneurs Fi
 # Market Evaluation
 
 When a great team meets a lousy market, the market wins. This skill judges
-the market, not the team or the product. It judges against two bars (see
-"Target outcome"): the **generational** bar, a company that can make
-**$1bn+ in annual revenue in under 10 years**, and the **venture-outcome**
-bar, a company that can be worth **$1bn+ at exit**. Every run reports both.
+the market, not the team or the product. It judges against the ceiling the
+user picks (see "Target outcome"). The default is the **generational** bar, a
+company that can make **$1bn+ in annual revenue in under 10 years**; the
+other named bar is the **venture-outcome** bar, a company that can be worth
+**$1bn+ at exit**. Not every idea needs $1bn ARR, so ask first.
 
 The evaluation asks nine questions, grouped into three tests:
 
@@ -27,17 +28,31 @@ scores up or average them: a sum lets one strong axis hide a fatal one.
 Name the market in one line: the customer, the buyer (if different), the
 geography, and the product shape. If the user left any of these out, pick
 the most likely reading, state it as an assumption at the top, and run the
-full evaluation. Do not stop to ask clarifying questions first. Offer at the
+full evaluation. Apart from the ceiling (below), do not stop to ask
+clarifying questions first. Offer at the
 end to re-run on a different reading.
 
-## Target outcome: two bars
+## Target outcome: ask the ceiling first
+
+Unless the request already states a ceiling (a handoff from
+`market-selection` passes one), ask one question before any research, and
+wait for the answer:
+
+> What ceiling should this market be held to: $1bn ARR in under 10 years
+> (the default), a $1bn exit, or your own ARR number?
+
+If the user says "just go" or does not answer, use the generational bar and
+say so at the top. Ask once; never re-ask mid-run.
 
 Only axis 1 depends on the bar. Axes 2–9 are scored once and read the same
-under both bars.
+under every bar.
 
 - **Generational** (the default): $1bn annual revenue in under 10 years.
-  Axis 1's score is always this score. Never loosen it because the user
-  prefers the other bar.
+  Never loosen it because the user prefers another bar.
+- **Custom ceiling:** the user's own ARR number in under 10 years. Axis 1
+  scores against that number instead, with the shapes table divided by
+  $1bn ÷ the ceiling. Then give the generational reading in one line, so
+  the user sees what the market is short of $1bn.
 - **Venture outcome:** a $1bn+ exit, the size that returns a venture fund.
   Compute it from the same bottom-up ceiling:
   1. Realistic ARR = ceiling × a share of at most ~30%. Use less in a
@@ -59,7 +74,7 @@ under both bars.
   before you score it.
 
 When the user names a bar, lead the verdict with that bar's result, and
-still report the other. When they name none, lead with the generational
+still report the others. When they name none, lead with the generational
 result, and give the venture-outcome reading in one line from comparables
 you already found while researching. Do no extra research for it.
 
@@ -87,6 +102,16 @@ arrives.
 
 ## Research rules
 
+- When `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` are set, query the
+  founder's vault through the `second-brain-retrieval` API before the web.
+  Use short queries of one to three words: the market's key terms, then the
+  axis lenses ("market pull", "control point", "distribution asymmetry",
+  "speed of iteration", "market depth", "non-consensus", "why now",
+  "tarpit"). A vault claim is a source: cite the note path and chunk ID. A
+  number from the vault still needs the page that states it, so link the
+  source the note cites. An open `[!contradiction]` callout on the market
+  goes in the bear case. Never read `_sources/`. If the service is
+  unreachable, say so in one line and continue.
 - Research before you score. Search for each axis. Put as much effort into
   the bear case as the bull case: look for shutdowns, down rounds, incumbent
   feature launches, price cuts, and failed predecessors.
@@ -109,8 +134,8 @@ arrives.
 
 ### Scale test
 
-**1. $1bn ARR path.** Can a company in this market reach $1bn annual
-revenue in under 10 years? Build it bottom-up: (number of customers) ×
+**1. $1bn ARR path** (or the user's ceiling). Can a company in this market
+reach $1bn annual revenue (or the chosen ceiling) in under 10 years? Build it bottom-up: (number of customers) ×
 (revenue per customer). Source the customer count, for example from census
 or association data. Source the price from comparable products. Show the
 arithmetic. Then name the revenue shape. Janz's five ways to $100M ARR,
@@ -274,8 +299,10 @@ Before you deliver, confirm:
 
 - all nine axes appear, each with a bull case, a bear case, an integer
   score, a confidence level, and a one-sentence reason
-- axis 1 shows the bottom-up arithmetic against $1bn, not $100M, and names
-  the revenue shape
+- the ceiling was asked before research, or taken from the request
+- axis 1 shows the bottom-up arithmetic against the chosen ceiling ($1bn by
+  default), names the revenue shape, and, for a custom ceiling, gives the
+  generational reading in one line
 - axis 1 reports both bars; the generational score was not loosened; the
   venture-outcome multiple comes from linked comparables with years, or the
   reading says "unpriced"

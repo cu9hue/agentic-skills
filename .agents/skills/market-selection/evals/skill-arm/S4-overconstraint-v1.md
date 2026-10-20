@@ -1,0 +1,3 @@
+# S4 skill arm v1 (first draft), 2026-10-20
+
+Named the shared kill reason (a search found a competitor; never tested with buyers) and the pattern (dead ideas used the "prove afterwards" half on small amounts; none used real-time decisions at high stakes). Restated the edge as four travelling capabilities. Then asked three questions (bar, constraints, whether any were buyer-tested) and listed three shift types to look at first (agent payment protocols and GENIUS Act; dated rules such as EU AI Act high-risk and Instant Payments VoP; Synapse-driven scrutiny), all needs source, aimed at larger loss-bearing buyers. Gave no directions, no belief, no test in this reply.
