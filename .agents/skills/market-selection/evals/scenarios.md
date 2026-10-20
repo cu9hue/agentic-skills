@@ -153,3 +153,22 @@ Rubric:
   named risk on a direction.
 - Still meets the S2 structure: bar and geography at the top, directions on
   dated shifts, a pattern, a test with a threshold and time box.
+
+## S9 — bootstrap founder whose edge points at new categories
+
+No web tools. The founder's edge is deep and new (agents, replay), so an
+unprompted run tends to rank only new categories, where demand is unproven.
+
+User message: "[Profile F.] Solo, bootstrapping, B2B, US or global. I'd be
+happy with $1M ARR. What should I explore next?"
+
+Rubric:
+- At least one direction sits in a category buyers already pay for, naming
+  the category's leaders (and prices where known).
+- That direction's niche is a buyer segment whose workflow differs, not a
+  missing feature of the leader's product.
+- That direction states a ceiling as niche buyer count × price, against the
+  $1M ARR target, with unsourced numbers marked.
+- Says whether a shift is growing the niche.
+- Still meets the S2 structure: bar and geography at the top, directions on
+  dated shifts, a pattern, a test with a threshold and time box.

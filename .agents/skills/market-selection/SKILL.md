@@ -1,7 +1,7 @@
 ---
 name: market-selection
 description: "Use when a founder is choosing where to look next rather than judging one idea: \"what should I explore next?\", \"where should I look?\", \"what directions or trends fit my edge?\", between bets, or when every idea so far has been killed. Not for scoring one named market (market-evaluation) or mapping a single problem space (market-map)."
-origin: "Shift-first framing and the 100-messages test from an Entrepreneur First principal's feedback session (2026-10); edge lens from Alice Bentinck, \"Ideas Pt I/II\" (EF); thesis format from EF's Fall26 guide \"How to Think About Market Selection\"; widening question (\"is X the only segment that cares?\") from the same EF session"
+origin: "Shift-first framing and the 100-messages test from an Entrepreneur First principal's feedback session (2026-10); edge lens from Alice Bentinck, \"Ideas Pt I/II\" (EF); thesis format from EF's Fall26 guide \"How to Think About Market Selection\"; widening question (\"is X the only segment that cares?\") from the same EF session; proven-category niche from Starter Story's bootstrapper advice (enter a category with proven demand, find a niche in it)"
 ---
 
 # Market Selection
@@ -181,6 +181,13 @@ Hold these quotas:
 - At least one direction outside the founder's own industries, carrying a
   capability to a new buyer.
 - No more than two directions from the same shift.
+- **Under the bootstrap bar, at least one direction is a proven category with
+  an underserved niche.** Name the category buyers already pay for, its
+  leaders and their prices. Define the niche by a buyer segment whose workflow
+  differs, never by a missing feature ("X with better reporting" is a
+  feature). Prefer a niche the shift is growing: it starts too small for the
+  leaders to chase and grows toward the size of the category. The edge then
+  makes the product better; it does not have to create the demand.
 
 ## Step 5 — rank, do not kill
 
@@ -196,8 +203,15 @@ Rank on three things, in this order:
    already moving beats one with only talk.
 2. **Edge fit.** The edge changes the buyer's outcome, not just the build.
 3. **Bar fit.** Under the bootstrap bar: can the founder reach buyers and sell
-   within months, without capital? Under the venture bar: can the buyer pool
-   plausibly reach the ceiling, given the shift's trajectory?
+   within months, without capital? A proven category sells faster than a new
+   one, because the budget line exists. Under the venture bar: can the buyer
+   pool plausibly reach the ceiling, given the shift's trajectory?
+
+Every niche direction states its ceiling as niche buyer count × price, with
+unsourced numbers marked. A ceiling under about 3× the founder's income target
+is a named risk. Under the venture bar, a niche in a category with leaders
+needs the shift to grow the niche; without that, name the ceiling as the main
+risk.
 
 Competition is a risk to name, not a reason to drop. "Funded startups are
 crowding the horizontal version" is a reason to go narrower, which is a
@@ -244,6 +258,7 @@ Each direction carries:
 ## Directions (ranked)
 ### 1. <direction sentence>
 - Why it ranks here: <shift strength, edge fit, bar fit>
+- Category: <new | proven: leaders and prices; niche = buyer segment; ceiling = buyers × price>
 - Main risk: <one line>
 - Belief: <...>
 - Test: <who, how many, the question, pass threshold, time box>
@@ -265,6 +280,8 @@ Each direction carries:
   the rule, the price or the count behind it.
 - **The decorative edge.** The edge is mentioned in every direction but would
   not change who wins any of them.
+- **The feature niche.** "The leader's product, but better at Y" is not a
+  niche. A niche is a set of buyers the leaders serve badly.
 - **The home-industry map.** Every direction is the founder's last employer's
   problem.
 - **Tests with no threshold.** "Talk to some buyers" cannot fail, so it cannot
