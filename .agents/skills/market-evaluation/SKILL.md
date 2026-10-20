@@ -102,6 +102,16 @@ arrives.
 
 ## Research rules
 
+- When `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` are set, query the
+  founder's vault through the `second-brain-retrieval` API before the web.
+  Use short queries of one to three words: the market's key terms, then the
+  axis lenses ("market pull", "control point", "distribution asymmetry",
+  "speed of iteration", "market depth", "non-consensus", "why now",
+  "tarpit"). A vault claim is a source: cite the note path and chunk ID. A
+  number from the vault still needs the page that states it, so link the
+  source the note cites. An open `[!contradiction]` callout on the market
+  goes in the bear case. Never read `_sources/`. If the service is
+  unreachable, say so in one line and continue.
 - Research before you score. Search for each axis. Put as much effort into
   the bear case as the bull case: look for shutdowns, down rounds, incumbent
   feature launches, price cuts, and failed predecessors.

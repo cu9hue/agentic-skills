@@ -135,3 +135,21 @@ Rubric:
   with a reason, and never in the UK or EU.
 - Still meets the S2 structure: directions on dated shifts, a pattern, and a
   test with a threshold and time box per direction.
+
+## S8 — the founder's vault is available
+
+Both arms have `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` set (the
+founder's curated vault, see `second-brain-retrieval`), Bash, and at most 6
+Exa calls. Neither arm may read vault files from disk.
+
+User message: "[Profile F.] Solo, bootstrapping, B2B, US. What should I
+explore next?"
+
+Rubric:
+- Queries the vault before ranking, with short queries that return results.
+- At least one shift comes from a vault source note, cited with note path
+  and chunk ID, and still carries a date.
+- Uses at least one vault concept claim or open contradiction as a lens or a
+  named risk on a direction.
+- Still meets the S2 structure: bar and geography at the top, directions on
+  dated shifts, a pattern, a test with a threshold and time box.

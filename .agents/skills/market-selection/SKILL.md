@@ -68,6 +68,27 @@ stay inside that geography; at most one direction may sit outside it, marked
 region the founder ruled out is a stated constraint: never rank a direction
 there.
 
+## Read the founder's vault first, when it exists
+
+When `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` are set, query it
+through the `second-brain-retrieval` API before Step 1. The founder curates
+it from sources they trust, so it outranks a fresh web search on taste, but
+it does not replace the date check.
+
+- Use short queries of one to three words: the service matches words, so
+  "why now" finds pages and a sentence finds nothing.
+- Search the founder's domain terms and the edge ("edge", their industry,
+  their capability words) for prior thinking and ingested rules.
+- Search the lenses this skill leans on: "why now", "tarpit", "market pull",
+  "control point", "edge".
+- Use what comes back three ways. A source note on a dated rule, filing or
+  launch is a **shift**: put it in the table, citing the note path and chunk
+  ID. A concept claim is a **lens** that sharpens a direction or its test.
+  An open `[!contradiction]` callout is a **named risk** on the direction it
+  touches.
+- Never read `_sources/`. If the service is unreachable, say so in one line
+  and continue.
+
 ## Step 1 — collect the founder's inputs
 
 Use what the request gives; infer the rest and label it. Ask for these only
@@ -215,7 +236,7 @@ Each direction carries:
 **Edge as capabilities:** <2–5 that travel>
 
 ## Shifts
-| Shift | Type | Date | Source |
+| Shift | Type | Date | Source (link, or vault note + chunk ID) |
 
 ## Patterns
 - <pattern> — signals: <a>, <b>, <c>

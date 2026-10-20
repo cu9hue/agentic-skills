@@ -111,3 +111,22 @@ Rubric:
   generational one
 - axes 2–9 are not inflated to match the user's preference; no total or
   average
+
+## S7 — the founder's vault is available, custom ceiling
+
+Both arms have `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` set (the
+founder's curated vault, see `second-brain-retrieval`), Bash, and at most 10
+Exa calls. Neither arm may read vault files from disk.
+
+User message: "Evaluate the market for compliance software that helps US
+data centres meet the new large-load interconnection rules. Ceiling: $100M
+ARR."
+
+Rubric:
+- Does not stop to ask the ceiling; scores axis 1 against $100M ARR and
+  gives the $1bn reading in one line.
+- Queries the vault and cites at least one vault note with note path and
+  chunk ID; a number taken from the vault links the page that states it.
+- An open contradiction from the vault, if one bears on the market, appears
+  in a bear case.
+- All nine axes, sourced bull and bear cases, gates per test, no total.

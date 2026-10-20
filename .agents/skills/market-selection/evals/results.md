@@ -93,3 +93,23 @@ Change: take geography from the brief; when absent, infer it, label it *(assumed
 - The rule targets the unstated case: S2 v2 (pre-geography) ranked EU and UK directions without ever stating a geography. S2 rerun on the current skill below.
 - S2 rerun after the inference wording (geography inferred from profile): stated "EU + UK (assumed, from power trading and a crypto exchange; correct me first)" — rubric item met, but the profile names no region, so the inference was invented. Wording changed: infer only when the profile names a region, otherwise assume US, or global for a product sold online with no local rule (consistent with market-evaluation's US-first axis; the user's own preference is US or global).
 - S2 rerun on that wording: **pass** — "Geography: US first, product sold online globally (assumed)", geography first under "To sharpen this", every direction US or global (agent refund authority, FERC 2222 aggregators, instant-payout fraud, agent insurers), sports betting and prediction markets dropped on net positive (assumed). Post-edit arm holds.
+
+## 2026-10-20 — query the founder's vault (S8)
+
+Edit: when `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` are set, the
+skill queries the vault through the `second-brain-retrieval` API with
+one-to-three-word queries, and cites vault claims by note path and chunk ID.
+New scenario S8; pre-edit vs post-edit arm, n=1 each, Exa calls capped equally.
+Blind judge verified chunk IDs against the service and opened two web links
+per output.
+
+- S8: **post**. Pre never queried the vault; post cited vault chunks and put
+  open vault contradictions into risks / bear cases. Web citations held in
+  both arms.
+- Gaps in the post arm, not yet fixed: a vault-backed shift cited the concept
+  page instead of the source note behind it; some vault citations were
+  decorative (heading-only chunk, framing that moved no score).
+- Confound: the service index is a snapshot from about 2026-09-26 (170 of 509
+  notes missing, including the FERC/ERCOT/PJM, OCC and DFAH-Bench sources),
+  so domain queries returned little. The test measures the behaviour, not the
+  value of a fresh index.

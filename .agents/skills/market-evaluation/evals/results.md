@@ -82,3 +82,23 @@ No regression run: the user judged the change minor and chose to skip it.
 S1–S4 name no ceiling, so under this edit they now pause for the question;
 rerun them as two-turn scenarios (scripted reply "$1bn ARR") at the next
 behavior change.
+
+## 2026-10-20 — query the founder's vault (S7)
+
+Edit: when `SECOND_BRAIN_URL` and `SECOND_BRAIN_READER_TOKEN` are set, the
+skill queries the vault through the `second-brain-retrieval` API with
+one-to-three-word queries, and cites vault claims by note path and chunk ID.
+New scenario S7; pre-edit vs post-edit arm, n=1 each, Exa calls capped equally.
+Blind judge verified chunk IDs against the service and opened two web links
+per output.
+
+- S7: **post**. Pre never queried the vault; post cited vault chunks and put
+  open vault contradictions into risks / bear cases. Web citations held in
+  both arms.
+- Gaps in the post arm, not yet fixed: a vault-backed shift cited the concept
+  page instead of the source note behind it; some vault citations were
+  decorative (heading-only chunk, framing that moved no score).
+- Confound: the service index is a snapshot from about 2026-09-26 (170 of 509
+  notes missing, including the FERC/ERCOT/PJM, OCC and DFAH-Bench sources),
+  so domain queries returned little. The test measures the behaviour, not the
+  value of a fresh index.
