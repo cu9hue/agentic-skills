@@ -15,26 +15,31 @@ the relation.
 | First name | text | |
 | Company | text | used for dedupe |
 | Title | text | job title |
+| Track | select | the campaign's tracks, e.g. Operator, Underwriter |
 | Priority | select | 1, 2, 3 |
 | Segment | select | the ICP angle the company came from |
 | Their customers | text | plural noun that reads in a sentence: "credit unions" |
 | Email | email | empty when not found |
 | Email check | select | valid, valid-risky, accept_all, invalid, not found |
 | LinkedIn | url | |
-| Subject | text | |
+| Subject | text | "15 min chat?" |
 | Sender | select | the sender's first name |
-| Credential | text | the sender's credential line, e.g. "Ex-risk quant, now at EF" |
-| Intro | text | credential line naming a connection; empty without one |
-| Email hook | text | what "puts you on that list"; empty without a work fact |
+| Background | text | the sender's background sentence |
+| Calendar | url | the sender's booking link; may be empty |
+| Topic | text | the track's confirmed topic sentence |
+| Opener | select | apology, none |
+| Connection | text | completes "We're both …"; empty without one |
+| Email hook | text | completes "Saw …"; empty without a work fact |
 | Personalization | select | both, connection, work, none |
 | Channel | multi-select | email, linkedin, intro |
 | Status | select | To send, Sent, Followed up, Replied, Call booked, No reply, Not a fit |
 | Sent | date | |
 | Follow-up due | formula | `dateAdd(prop("Sent"), 4, "days")` |
 | Email draft | formula | below |
-| LinkedIn note | formula | below |
 | Notes | text | hook source URL + date, anything to check |
 | Calls | relation | → Calls, two-way, shown there as `Person` |
+
+Add a **LinkedIn note** formula only when the user asks for one.
 
 ### Calls database
 
@@ -67,81 +72,86 @@ add by hand.
 
 ### Formulas
 
-Fill these per campaign:
-
-- `<LEAD-QUESTION>`: the confirmed lead question, capital start.
-  `<LI-QUESTION>`: the same, lowercase start.
-- `<COHORT>`: the confirmed cohort, e.g. "with agents live at credit
-  unions".
-
-In each, write any "{their customers}" as `" + prop("Their customers") + "`.
+Everything campaign-specific lives in row properties, so the formula is the
+same for every campaign, track and sender.
 
 Email draft:
 
 ```
-"Hi " + prop("First name") + ",\n\n<LEAD-QUESTION>\n\n" + if(empty(prop("Intro")), if(empty(prop("Credential")), "", prop("Credential") + ". "), prop("Intro") + ". ") + "Talking to the few founders <COHORT> this week" + if(empty(prop("Email hook")), "", ", and " + prop("Email hook") + " puts you on that list") + ". 15 min Thu or Fri?\n\nThanks,\n" + prop("Sender")
+"Hi " + prop("First name") + ",\n\n" + if(prop("Opener") == "apology", "sorry for the cold outreach!! no intention of selling, promise.\n\n", "") + "I'm " + prop("Sender") + ". " + prop("Background") + " " + prop("Topic") + if(empty(prop("Connection")), if(empty(prop("Email hook")), "", " Saw " + prop("Email hook") + ", which is why I thought of you."), " We're both " + prop("Connection") + if(empty(prop("Email hook")), "", ", and I saw " + prop("Email hook")) + ", which is why I thought of you.") + "\n\nwould you be down for a 15 min chat this week?" + if(empty(prop("Calendar")), "", " feel free to grab a time here: " + prop("Calendar")) + "\n\nThanks!\n" + prop("Sender")
 ```
 
-LinkedIn note:
+LinkedIn note, only when asked for (under 300 characters):
 
 ```
-"Hi " + prop("First name") + ", <LI-QUESTION> " + if(empty(prop("Intro")), if(empty(prop("Credential")), "", prop("Credential") + ". "), prop("Intro") + ". ") + "Talking to the few founders <COHORT> this week" + if(empty(prop("Email hook")), "", ", and " + prop("Email hook") + " puts you on that list") + ". 15 min Thu or Fri?"
+"Hi " + prop("First name") + ", " + if(prop("Opener") == "apology", "sorry for the cold DM!! not selling, promise. ", "") + "I'm " + prop("Sender") + ". " + prop("Topic") + " 15 min this week?"
 ```
 
-Sender and credential are row properties, not formula text, so one
-tracker can carry batches from different senders.
+When the formula goes through SQL DDL, write each apostrophe in the text as
+`''`.
 
-After the first row is written, read its Email draft back. If `\n` shows
-as literal text instead of line breaks, tell the user and fall back to
-writing the drafts as plain text into the same properties.
+After the first row is written, open it and check the Email draft. If `\n`
+shows as literal text instead of line breaks, tell the user and fall back to
+writing the drafts as plain text into the same property. The Notion API does
+not return formula output, so ask the user to look if you cannot.
 
 ## Message templates
 
-The voice: short, casual, slightly unpolished. No em dashes. The sender's
-signature block lives in their email client; never add one to a draft.
+The voice: short, casual, slightly unpolished, lowercase where it reads
+natural. No em dashes. The sender's signature block lives in their email
+client; never add one to a draft.
 
-Every draft does three jobs in three lines:
+Every draft does four jobs:
 
-- **Competence**: an insider question that names a real mechanism, then a
-  credential line. The question shows the sender knows the domain before
-  saying so.
-- **FOMO**: the sender is talking to the few founders in the cohort this week,
-  and their work puts them on that list.
-- **This week**: "15 min Thu or Fri?" Never "next week or two", never
-  "happy to work around your schedule", never "picking what to build".
+- **Disarm**: the opener says this is not a sales email.
+- **Competence**: one background sentence the ICP would respect.
+- **Curiosity**: the topic sentence says what the sender wants to learn,
+  broad enough to fit everyone in the track.
+- **Easy yes**: 15 minutes this week, with a calendar link when there is
+  one.
 
-**Email**
+**Email** (subject "15 min chat?")
 
 ```
 Hi {first},
 
-{lead question}
+sorry for the cold outreach!! no intention of selling, promise.
 
-{intro, or credential}. Talking to the few founders {cohort} this week[, and {email hook} puts you on that list]. 15 min Thu or Fri?
+I'm {sender}. {background} {topic}[ personal line]
 
-Thanks,
+would you be down for a 15 min chat this week? feel free to grab a time here: {calendar}
+
+Thanks!
 {sender}
 ```
+
+The personal line is one of:
+
+- connection and work fact: "We're both {connection}, and I saw {hook},
+  which is why I thought of you."
+- connection only: "We're both {connection}, which is why I thought of
+  you."
+- work fact only: "Saw {hook}, which is why I thought of you."
+- none: nothing.
 
 Example, `work`:
 
 ```
 Hi Marcus,
 
-When a community bank's examiner reviews your wire agent, what do they actually ask to see?
+sorry for the cold outreach!! no intention of selling, promise.
 
-Ex-risk quant, now at EF. Talking to the few founders with agents live at community banks this week, and the Harbor Trust rollout puts you on that list. 15 min Thu or Fri?
+I'm Polina. I spent 6 years in finance building trading and risk systems, and I've built AI agents in production. I'm looking to understand how community banks review AI agents that move money now that examiners are asking about them. Saw the Harbor Trust rollout, which is why I thought of you.
 
-Thanks,
+would you be down for a 15 min chat this week? feel free to grab a time here: https://calendly.com/example/15min
+
+Thanks!
 Polina
 ```
 
-**LinkedIn note** (under 300 characters): the email body on one line,
-"Hi {first}, {lead question, lowercase start} …", same fields.
-
-**Follow-up** (~3 business days later, Monday to Thursday, on the other
-channel; if both channels are already used, reply in the same email
-thread):
+**Follow-up** (~3 business days later, Monday to Thursday; on LinkedIn if
+the email went unanswered and the person is there, otherwise in the same
+email thread):
 
 ```
 Hi {first}, bumping this. Wrapping up these calls in the next few days and still want your take. 15 min tomorrow or the day after?
@@ -151,20 +161,16 @@ Hi {first}, bumping this. Wrapping up these calls in the next few days and still
 
 - Ask for 15 minutes of advice. Never promise insights the user does not
   have. Never pitch a product during discovery.
-- Lead question: at most 18 words, about their world, not the user's
-  product. Name a real mechanism (a model risk review, an examiner, a
-  sign-off) so it reads as from an insider.
-- Cohort: a group the reader is proud to be in, and true of everyone the
-  batch emails, priority 3 adjacent tooling included. If someone falls
-  outside it, broaden the cohort; never drop the person to fit it.
-- Subject: with a work fact, "question about your {launch / customer / post
-  / talk}"; with only a connection, "question from a fellow {connection}";
-  with none, "quick question about {topic}". It reads as an outsider
-  asking. Never "Chartway x Ledgerline", never a partner's or customer's
-  voice, never "Re:".
-- Intro: at most 10 words, names the connection plainly and keeps the
-  credential: "Fellow ex-Kestrel quant, now at EF", "Ex-risk quant and
-  fellow EF founder", "Fellow Columbia alum, ex-risk quant, now at EF".
-- Email hook: a noun phrase of 1–5 words, no verb, no flattery
-  ("impressive", "love", "amazing"), no em dash: "Harbor Trust", "the Clearline
-  launch", "your SR 11-7 post".
+- Topic sentence: at most 30 words, "I'm looking to understand how … now
+  that …". It names the workflow and the change. It never asks about the
+  prospect's own setup, and it stays true for prospects whose setup
+  differs from the hypothesis.
+- Background sentence: at most 25 words, true to the sender's public
+  profile, nothing that would put this ICP off.
+- Subject: "15 min chat?". Never "Chartway x Ledgerline", never a
+  partner's or customer's voice, never "Re:".
+- Connection: a plural noun phrase of 1–5 words that completes "We're both
+  …": "MIT alums", "ex-Halcyon quants", "EF founders".
+- Email hook: a noun phrase of 1–5 words that completes "Saw …", no verb,
+  no flattery ("impressive", "love", "amazing"), no em dash: "the Chartway
+  case study", "your SR 11-7 post".

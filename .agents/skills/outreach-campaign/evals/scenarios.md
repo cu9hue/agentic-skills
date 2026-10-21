@@ -44,15 +44,15 @@ Rubric:
 - states the defaults instead of asking open questions about them: US only
   and never EU, $2 treg cap per batch, 15–20 companies, at most 2 people
   per company
-- asks for, or proposes for confirmation, the lead question (an insider
-  question that names a real mechanism) and the cohort ("the few founders
-  …")
-- asks who the sender is (name and credential line) and for their
-  background, says it will agree with the user which parts matter to this
+- proposes for confirmation a topic sentence ("I'm looking to understand
+  how … now that …") that fits every prospect in the ICP, not a question
+  about the prospect's own setup
+- asks who the sender is (name, a background sentence and a calendar
+  link, "none" allowed for the link) and for their background, says it will agree with the user which parts matter to this
   ICP, and allows "none"; assumes no background from earlier campaigns
 - asks for a yes before creating the tracker and names the parts the user
-  can skip (Calls database, views, draft formulas), with "no tracker"
-  allowed
+  can skip (Calls database, views, draft formula), with "no tracker"
+  allowed; the LinkedIn note is off unless the user asks
 - makes no paid call and writes nothing before the exclusion list and the
   Notion page are known (it may say what runs next)
 - short: the user can answer on one pass
@@ -99,13 +99,14 @@ Rubric:
 
 ## S3 — personalization tiers, drafts and tracker fields
 
-User message: "Campaign C. Their customers: credit unions. Lead question:
-'When a credit union's model risk team reviews your agent, what do they
-actually ask to see?' Cohort: 'working on AI that credit unions trust with
-money'. I'm the sender. Credential line: 'Ex-risk quant, now at EF'.
-Background we agreed is worth matching: EF, ex-risk quant at Halcyon
-Capital 2017–2021, MIT 2016. I live in Boston. Write the copy and the tracker fields for these
-five."
+User message: "Campaign C. Their customers: credit unions. Topic: 'I'm
+looking to understand how credit unions decide to trust AI agents with
+money now that examiners are asking about them.' I'm the sender, Polina.
+Background sentence: 'I spent 6 years in finance building trading and risk
+systems, and I've built AI agents in production.' Calendar:
+https://calendly.com/polina/15min. Background we agreed is worth matching:
+EF, ex-risk quant at Halcyon Capital 2017–2021, MIT 2016. I live in Boston.
+Write the copy and the tracker fields for these five."
 
 - Dana Ruiz, CEO, Ledgerline, priority 1. Facts: (a) case study with
   Chartway Federal Credit Union on disputes, published 2026-05-12,
@@ -135,25 +136,28 @@ Rubric:
   connection type); Sam `both` (Halcyon + the talk); Priya `both` (MIT +
   AutoPost or Corelink); Lee `work`; Rowan `none` with empty hooks, even
   though a fact and an EF connection were offered
-- Intro only for Sam and Priya: at most 10 words, names the connection
-  (Halcyon, MIT), keeps "risk quant" and "EF"; empty for the rest
+- Connection only for Sam and Priya: a plural noun phrase of 1–5 words
+  that completes "We're both …" (ex-Halcyon quants, MIT alums); empty for
+  the rest
 - Email hook only with a work fact (Dana, Sam, Priya, Lee): a noun phrase
-  of 1–5 words, no verb, no flattery, no em dash; empty for Rowan
-- subjects follow the tier: "question about your …" with a work fact,
-  "quick question about …" for Rowan; every subject reads as an outsider
-  asking (no "Chartway x Ledgerline")
+  of 1–5 words that completes "Saw …", no verb, no flattery, no em dash;
+  empty for Rowan
+- every subject is "15 min chat?"
 - every work fact is from the last 12 months with its URL in Notes; never
   the 2024 seed round or the unsourced listicle; connection sources in
   Notes too
-- Channel: Dana, Priya and Rowan email + linkedin; Sam and Lee linkedin
-  only; Email check recorded per person; no address invented for Sam
-- drafts follow the template: "Hi {first}," then the lead question first,
-  then the Intro or the credential ("Ex-risk quant, now at EF"), "Talking
-  to the few founders … this week", the hook clause "… puts you on that
-  list" (none for Rowan), "15 min Thu or Fri?", signed "Thanks, Polina"
-  with no signature block; no "picking what to build", no "next week or
-  two", no "work around your schedule", no pitch, no em dashes
-- LinkedIn notes are under 300 characters, built from the same fields
+- Channel: Dana and Rowan email; Priya email + linkedin (accept_all); Sam
+  and Lee linkedin only; Email check recorded per person; no address
+  invented for Sam
+- drafts follow the template: "Hi {first},", the not-selling opener,
+  "I'm Polina." with the background sentence and the topic, then the
+  personal line ("We're both …", "Saw …, which is why I thought of you";
+  none for Rowan), "would you be down for a 15 min chat this week?" with
+  the calendar link, signed "Thanks! Polina" with no signature block; no
+  question about the prospect's own setup in the email, no "picking what
+  to build", no "next week or two", no pitch, no em dashes
+- no LinkedIn note unless asked; Sam and Lee are flagged for a
+  hand-written LinkedIn message
 
 ## S4 — structural probe: underspecified ask
 
@@ -169,9 +173,9 @@ Rubric:
   message after a zero-reply batch before burning more prospects; no open
   tracking, replies tracked by hand; expect ~5–10% replies and size volume
   to match; scale personalization to the prospect's value (not every
-  prospect needs research); lead with an insider question, signal
-  competence and peer-cohort FOMO, and ask for a call on named days this
-  week
+  prospect needs research); lead with what you want to learn rather than
+  a question about their setup, one competence line, and an easy yes (15
+  minutes this week, a calendar link)
 - the concerns are an organizing thread, not one bullet
 
 ## S5 — negative: should not trigger
@@ -187,12 +191,12 @@ Rubric:
 ## S6 — different sender, no relevant background
 
 User message: "Campaign C. This batch goes out from my cofounder Alex
-Mercer, not me. Credential line: 'Ex-Stripe payments engineer, now at EF'.
-We talked it through and none of Alex's background is worth matching for
-this ICP. Their customers: credit unions. Lead question: 'When a credit
-union's model risk team reviews your agent, what do they actually ask to
-see?' Cohort: 'with agents live at credit unions'. Write the tracker
-fields and Dana's email for these two."
+Mercer, not me. Background sentence: 'I spent 5 years building payments
+infrastructure at Stripe.' No calendar link. We talked it through and none
+of Alex's background is worth matching for this ICP. Their customers:
+credit unions. Topic: 'I'm looking to understand how credit unions decide
+to trust AI agents with money now that examiners are asking about them.'
+Write the tracker fields and Dana's email for these two."
 
 - Dana Ruiz, CEO, Ledgerline, priority 1. Fact: case study with Chartway
   Federal Credit Union on disputes, published 2026-05-12,
@@ -205,13 +209,44 @@ fields and Dana's email for these two."
   EF alum. Email: not found.
 
 Rubric:
-- Personalization is `work` for both; no Intro for either, even though
+- Personalization is `work` for both; no Connection for either, even though
   Sam shares EF and a risk-quant past that a different sender might match
 - no connection search is proposed or run for these priority-1 people
-- drafts use Alex's credential line and sign "Thanks, Alex"; nothing says
-  Polina, risk quant (as the sender's credential) or Halcyon
-- Dana's email follows the template: lead question first, credential,
-  "Talking to the few founders with agents live at credit unions this
-  week, and … puts you on that list", "15 min Thu or Fri?"
+- drafts say "I'm Alex.", use Alex's background sentence and sign "Thanks!
+  Alex"; nothing says Polina, risk quant or Halcyon
+- Dana's email follows the template: opener, "I'm Alex." with background
+  and topic, "Saw …, which is why I thought of you.", "would you be down
+  for a 15 min chat this week?" with no calendar clause
 - Email hooks are 1–5 word noun phrases from the work facts, with URLs in
   Notes
+
+## S7 — prospects whose setup may not match the hypothesis
+
+Added 2026-10-21, after a live campaign: the first drafts led with "What
+refund cap did you set on your AI agent?", but most vendors keep a human
+approving refunds, so many prospects had no cap to talk about.
+
+User message: "New campaign: 'AI refund controls'. Track 1, operators:
+heads of CX at US e-commerce and subscription companies that run AI
+support agents (Decagon, Sierra, Fin). Some let the agent issue refunds,
+many still have a human approve every refund; I don't know which is
+which. Track 2, underwriters: people at US insurers writing AI liability
+cover. I want to learn whether refund limits and records for these agents
+are a real pain. Sender: me, Polina; background: 'I spent 6 years in
+finance building trading and risk systems, and I've built AI agents in
+production.' Calendar: https://calendly.com/polina/15min. Draft the email
+for Kristen, Head of Support at Substack (operator, no verified work fact),
+and for Jeremy, CEO of an AI liability MGA (underwriter, verified fact: his
+firm's underwriting guide, 2026-10-05). Tracker is set up already."
+
+Rubric:
+- the operator email names the topic broadly (how refunds and credits get
+  approved now that AI agents handle support, or close) and does not ask
+  about a cap, limit or setup Kristen may not have
+- the underwriter email uses a different topic sentence for that track,
+  with the same structure
+- both follow the template: opener, background, topic, "Saw your
+  underwriting guide, which is why I thought of you." for Jeremy only,
+  "15 min chat this week" with the calendar link, subject "15 min chat?"
+- no pitch, no promise of insights, no LinkedIn note unless asked
+- names the two tracks as Track values on the rows

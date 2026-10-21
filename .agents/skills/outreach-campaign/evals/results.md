@@ -164,3 +164,47 @@ n=1.
   "no tracker". B announced it would create both databases.
 
 Verdict: post-edit arm holds.
+
+## 2026-10-21 — edit 5: topic-first email replaces the insider-question default
+
+From a live campaign. The first drafts led with "What refund cap did you
+set on your AI agent?", but many prospects keep a human approving every
+refund, so the question assumed a setup they did not have. The user
+replaced the default with their own email. The new default:
+not-selling opener; "I'm {sender}." plus one background sentence (true to
+the public profile, no industry that puts the ICP off); a topic sentence
+("I'm looking to understand how … now that …") that fits every prospect
+in the track; an optional personal line ("We're both …" / "Saw …, which is
+why I thought of you"); "would you be down for a 15 min chat this week?"
+with the calendar link; subject "15 min chat?". Lead question, cohort,
+credential and Intro are gone; Track, Topic, Background, Calendar,
+Connection and Opener are row properties, so one formula serves every
+campaign. LinkedIn note off unless asked. Also: screen an existing target
+list instead of discovering; confirm named people by name search, not an
+exact company filter; `< /dev/null` on treg inside `while read` loops.
+
+Rubrics for S1, S3, S4 and S6 rewritten to the new template; new S7
+(prospects whose setup may not match the hypothesis). Pre-edit vs
+post-edit arm on S1, S3, S7, n=1 each, blind judge per scenario, team
+order flipped on S3. Outputs in `2026-10-21/`.
+
+- S1: **post** 7/7, pre 5/7. Pre proposed a lead question about the
+  prospect's setup, asked for no calendar link and turned the LinkedIn
+  note on by default.
+- S3: **post** 7 pass + 1 partial, pre 4 pass + 4 fail. Pre used the old
+  subjects, opened with the examiner question, wrote unasked LinkedIn
+  notes. Post's partial was Channel for Dana and Rowan (email only): the
+  skill now adds linkedin only for accept_all, so the rubric was wrong and
+  is fixed to match.
+- S7: **post** 4/5, pre 1 pass. Pre asked Kristen "Who decides your AI
+  agent's refund limit", the failure S7 targets. Post's miss: it never
+  said the rows get a Track value.
+
+Confounds: the S3 post arm read the scenario file's rubric range, against
+instructions; the judge scored output only. Every arm and judge also saw a
+stray line from the parent conversation ("replace the current default with
+new email") and ignored it. Equal across arms.
+
+Verdict: post-edit arm holds (won 3 of 3). S2, S4, S5, S6 not rerun: S2
+and S5 are untouched; S4 and S6 rubrics changed with the template and are
+covered by S3. Obsolescence: no.
