@@ -76,3 +76,25 @@ S2–S4 do not score the entry test's wording and were not rerun.
 Judge verdict: post-edit arm holds on both. Landing as a wording
 clarification backed by a non-Python fixture. Obsolescence: not assessed —
 no no-skill arm ran on S5.
+
+## 2026-10-22 — regression for the no-methods rule (base b45a27f)
+
+Edit: a data type with no methods earns an entry when it is the unit the
+other concepts operate on and would appear on their `Depends on` lines;
+the skill says to apply that rule without asking the user. The return-bundle
+exclusion now says "between two functions; no other entry would depend on
+it". S1's rubric gains a line: keep `Document` without asking or flagging
+a close call.
+
+Arms: B = pre-edit SKILL.md, C = post-edit SKILL.md. n=1 per cell — signal,
+not proof. One blind judge per scenario, teams shuffled. S1 and S5 reran.
+
+- S1 (Python set-up): **C wins, 8/8 vs 7/8.** Same ledger from both arms. B
+  called `Document` a close call and offered to drop it; C kept it with no
+  hedge and described it as "the unit every other concept takes, returns,
+  or stores".
+- S5 (Rust set-up): **tie, 7/7 vs 7/7.** Same four entries and the same
+  eight exclusions from both arms. No no-methods unit type exists in this
+  fixture, so the rule had nothing to act on.
+
+Judge verdict: post-edit arm wins S1 on the new line and holds S5. Landing.

@@ -198,6 +198,8 @@ Rubric:
   entries or named inside the `Stage` entry
 - has no entry for `StageResult`, `Settings`, `chunked`, `parse_args`, or
   `main`
+- keeps `Document` without asking the user whether a dataclass with no
+  methods belongs, and without flagging it as a close call
 - every entry says what the thing is, what it owns or is responsible for,
   where it lives (a file path), and which other concepts it depends on
 - entries are in one flat alphabetical list, with no sections per module or

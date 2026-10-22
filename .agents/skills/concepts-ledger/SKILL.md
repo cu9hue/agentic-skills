@@ -26,10 +26,17 @@ protocol, or abstract base the code implements: it and its implementations
 are one entry, with the implementations named inside it, unless an
 implementation carries behaviour the base does not describe.
 
+A data type with no methods still earns an entry when it is the unit the
+other concepts operate on: they take it, return it, store it, and their
+entries would name it on a `Depends on` line (`Document` in a pipeline,
+`Order` in a shop). This is a rule, not a close call. Apply it and move on;
+do not ask the user whether to keep such a type.
+
 No entry for:
 
 - a dataclass, struct, record, tuple, or object type that only bundles
-  values to return or pass them (`StageResult`, `IndexStats`, `PopResult`)
+  values to return or pass them between two functions (`StageResult`,
+  `IndexStats`, `PopResult`); no other entry would depend on it
 - a config or settings holder
 - a function, helper, or utility
 - a constant, variable, module, or type alias
