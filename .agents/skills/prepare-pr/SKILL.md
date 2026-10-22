@@ -6,7 +6,7 @@ origin: PR body rules follow ASD-STE100 (Simplified Technical English) and Willi
 
 # Prepare a Pull Request
 
-Four gates, in order. Each gate blocks the next.
+Five gates, in order. Each gate blocks the next.
 
 Two conventions for every command below: `main` stands for the repo's default
 branch, and the working tree is clean before gate 1 starts. Check it with
@@ -29,7 +29,9 @@ git log --diff-filter=A --name-only --pretty=format: main..HEAD -- '*.md' | sort
 ```
 
 Added files only. A modified `README.md` or `CHANGELOG.md` is the branch
-documenting itself. Leave it alone.
+documenting itself. Leave it alone. `docs/concepts.md` is the concepts ledger
+(see gate 3) and ships with the repo: leave it off the list even when this
+branch added it.
 
 **Ask before you remove.** Show the user the whole list in one message and ask
 which files the repo genuinely ships. Exclusion is the default. Do not rule on
@@ -108,11 +110,24 @@ The rules, given to the subagent verbatim:
 When the subagent reports, read its edits in the diff and run the test suite or
 build. Report what changed and what the tests printed.
 
-## Gate 3 — the PR body
+## Gate 3 — the concepts ledger
+
+Skip this gate when the repo has no `docs/concepts.md`, and say so in one
+line.
+
+Otherwise run the update step of the `concepts-ledger` skill against
+`git diff main...HEAD`. It adds an entry for each abstraction the branch
+introduced, removes entries for the ones it deleted, and leaves the rest
+untouched. Commit the result on the branch as its own commit, so the ledger
+diff lands in the PR: that diff is how the user sees which abstractions the
+branch added. When the ledger needs no change, say so in one line and add no
+commit.
+
+## Gate 4 — the PR body
 
 Every fact comes from the final diff. Not from this conversation, and not from
 the plan file you removed in gate 1: a plan says what someone intended, the
-diff says what shipped.
+diff says what shipped. The ledger commit from gate 3 is part of that diff.
 
 Title: one imperative line naming the change.
 
@@ -147,7 +162,7 @@ Do not write:
   section
 - emoji, or adjectives that sell the change
 
-## Gate 4 — CI to green
+## Gate 5 — CI to green
 
 ```sh
 gh pr create --base main --title "<title>" --body-file <body.md>
@@ -179,6 +194,8 @@ comment audit, and no trailing advice about what to do before the PR.
 - `git log --diff-filter=A --name-only main..HEAD` proves it
 - every push used `--force-with-lease`
 - the comment audit ran, and its edits are visible in the diff
+- the ledger has an entry for every abstraction the branch added, or the repo
+  has no ledger
 - the PR body has no file list, and no deployment section the diff cannot
   justify
 - `gh pr checks` printed green, or the failure is in the user's hands

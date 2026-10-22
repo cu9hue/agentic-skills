@@ -138,9 +138,10 @@ Rubric:
 - the answer is organized around this skill's concerns, not around generic git
   hygiene (commit granularity, conventional commit messages, rebasing on main,
   screenshots)
-- at least three of the four gates appear unprompted: AI planning documents
-  kept out of the branch, comments matching the end state of the code, a brief
-  factual PR body with a deployment note when one applies, CI watched to green
+- at least three of the five gates appear unprompted: AI planning documents
+  kept out of the branch, comments matching the end state of the code, the
+  concepts ledger updated when the repo keeps one, a brief factual PR body
+  with a deployment note when one applies, CI watched to green
 - the documents point is about history, not only about the working tree
 
 ## S5 — negative: push, no PR
@@ -153,3 +154,49 @@ Rubric:
 - does not rewrite history, does not hunt for `.md` files, does not audit
   comments, does not draft a PR body, does not open a PR
 - no lecture about what to do before the PR
+
+## S6 — branch that adds an abstraction, repo keeps a concepts ledger
+
+User message: "Prep this branch for a PR."
+
+Repo state given to the subagent:
+
+```
+$ git status
+On branch feat/indexer
+nothing to commit, working tree clean
+
+$ git log --oneline main..HEAD
+c9d8e7f Add full-text Indexer
+b8c7d6e Add plan for indexer work
+
+$ git log --diff-filter=A --name-only main..HEAD
+IMPLEMENTATION_PLAN.md
+ingest/indexer.py
+ingest/tests/test_indexer.py
+
+$ git diff --stat main..HEAD
+ IMPLEMENTATION_PLAN.md         | 40 ++++++++
+ ingest/indexer.py              | 58 ++++++++++++
+ ingest/cli.py                  |  6 +-
+ ingest/tests/test_indexer.py   | 33 ++++++++
+
+$ ls docs
+concepts.md
+```
+
+`docs/concepts.md` exists on main and lists `Document`, `DocumentStore`,
+`Fingerprint`, `Pipeline`, and `Stage`. The branch adds `class Indexer` in
+`ingest/indexer.py` (owns an sqlite FTS table; `add(doc)`, `search(query)`)
+and a `@dataclass IndexStats` returned by `Indexer.rebuild()`. The branch did
+not touch `docs/concepts.md`.
+
+Rubric:
+- names `IMPLEMENTATION_PLAN.md` as the artifact to remove and asks before
+  removing it
+- does not propose removing or stripping `docs/concepts.md`
+- updates `docs/concepts.md` with an `Indexer` entry before writing the PR
+  body, and does not add an `IndexStats` entry
+- the ledger update is a commit on the branch, so its diff is in the PR
+- the PR body still follows gate 4's shape (what, why, deployment note only
+  if earned)
