@@ -20,18 +20,20 @@ announcement.
 
 A thing earns an entry when it is a named abstraction with its own identity
 or behaviour: the code passes it around, extends it, or calls it by name when
-describing what happens. A class with methods usually qualifies. An abstract
-base and its implementations are one entry, with the implementations named
-inside it, unless an implementation carries behaviour the base does not
-describe.
+describing what happens. The language does not matter. A class, struct, or
+enum with its own methods usually qualifies. So does a trait, interface,
+protocol, or abstract base the code implements: it and its implementations
+are one entry, with the implementations named inside it, unless an
+implementation carries behaviour the base does not describe.
 
 No entry for:
 
-- a dataclass, tuple, or record that only bundles values to return or pass
-  them (`StageResult`, `IndexStats`)
+- a dataclass, struct, record, tuple, or object type that only bundles
+  values to return or pass them (`StageResult`, `IndexStats`, `PopResult`)
 - a config or settings holder
 - a function, helper, or utility
-- a constant, enum, variable, or module
+- a constant, variable, module, or type alias
+- a newtype, enum, or error type with no methods of its own
 
 When unsure, leave it out. A missing entry costs one line later. A padded
 ledger costs the reader every time.
@@ -71,8 +73,8 @@ the file.
 
 Run when `docs/concepts.md` does not exist.
 
-1. Read the code. Every module, not a sample. List every class, type, and
-   protocol by name.
+1. Read the code. Every module, not a sample. List every class, struct,
+   enum, trait, interface, and type alias by name.
 2. Apply the entry test to each one. Write down what you excluded and the
    rule that excluded it.
 3. Write `docs/concepts.md` in the shape above. Nothing else: no README
@@ -86,8 +88,9 @@ Run when `docs/concepts.md` exists and a branch has changed code.
 
 1. Take the diff against the default branch: `git diff main...HEAD` (three
    dots). Work from the diff, not from memory of the branch.
-2. For each class, type, or protocol the diff adds: apply the entry test. Add
-   an entry for each that passes, in alphabetical position.
+2. For each class, struct, enum, trait, or interface the diff adds: apply
+   the entry test. Add an entry for each that passes, in alphabetical
+   position.
 3. For each the diff removes: delete its entry. Remove its name from every
    `Depends on` line.
 4. For each the diff renames or moves: rewrite the entry under the new name

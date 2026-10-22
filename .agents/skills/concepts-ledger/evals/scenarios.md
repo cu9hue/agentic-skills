@@ -308,3 +308,236 @@ Rubric:
 - writes the docstring and stops
 - creates no `docs/concepts.md`, proposes no ledger, and adds no trailing
   advice about tracking concepts
+
+## S5 — set up the ledger on a Rust crate
+
+User message: "Set up a concepts ledger for this crate."
+
+The subagent gets the `jobq` crate below and no existing `docs/` folder.
+
+```rust
+// src/lib.rs
+pub mod backend;
+pub mod job;
+pub mod scheduler;
+pub mod state;
+pub mod util;
+
+pub type Result<T> = std::result::Result<T, backend::BackendError>;
+```
+
+```rust
+// src/job.rs
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub struct JobId(pub u64);
+
+/// One unit of work. Owns its retry count; the scheduler never edits it directly.
+#[derive(Clone, Debug)]
+pub struct Job {
+    pub id: JobId,
+    pub payload: Vec<u8>,
+    attempts: u32,
+}
+
+impl Job {
+    pub fn new(id: JobId, payload: Vec<u8>) -> Self {
+        Self { id, payload, attempts: 0 }
+    }
+    pub fn attempts(&self) -> u32 {
+        self.attempts
+    }
+    /// Returns a copy with one more attempt recorded. The original is unchanged.
+    pub fn retried(&self) -> Self {
+        Self { attempts: self.attempts + 1, ..self.clone() }
+    }
+}
+```
+
+```rust
+// src/state.rs
+use std::time::Instant;
+
+#[derive(Clone, Debug)]
+pub enum Event {
+    Start,
+    Succeed,
+    Fail(String),
+}
+
+/// Lifecycle of one job. Only `transition` may move between variants.
+#[derive(Clone, Debug)]
+pub enum JobState {
+    Queued,
+    Running { since: Instant },
+    Done,
+    Failed { reason: String },
+}
+
+#[derive(Debug)]
+pub struct TransitionError(pub &'static str);
+
+impl JobState {
+    pub fn is_terminal(&self) -> bool {
+        matches!(self, JobState::Done | JobState::Failed { .. })
+    }
+
+    pub fn transition(self, event: Event) -> std::result::Result<JobState, TransitionError> {
+        use JobState::*;
+        match (self, event) {
+            (Queued, Event::Start) => Ok(Running { since: Instant::now() }),
+            (Running { .. }, Event::Succeed) => Ok(Done),
+            (Running { .. }, Event::Fail(reason)) => Ok(Failed { reason }),
+            (s, _) if s.is_terminal() => Err(TransitionError("job already finished")),
+            _ => Err(TransitionError("event not valid in this state")),
+        }
+    }
+}
+```
+
+```rust
+// src/backend.rs
+use crate::job::Job;
+use std::collections::VecDeque;
+
+#[derive(Debug)]
+pub enum BackendError {
+    Full,
+    Io(String),
+}
+
+/// Where jobs wait. Implementations own durability; the scheduler owns ordering.
+pub trait Backend {
+    fn push(&mut self, job: Job) -> crate::Result<()>;
+    fn pop(&mut self) -> Option<Job>;
+    fn len(&self) -> usize;
+}
+
+#[derive(Default)]
+pub struct MemoryBackend {
+    queue: VecDeque<Job>,
+}
+
+impl Backend for MemoryBackend {
+    fn push(&mut self, job: Job) -> crate::Result<()> {
+        self.queue.push_back(job);
+        Ok(())
+    }
+    fn pop(&mut self) -> Option<Job> {
+        self.queue.pop_front()
+    }
+    fn len(&self) -> usize {
+        self.queue.len()
+    }
+}
+
+pub struct SqliteBackend {
+    conn: rusqlite::Connection,
+}
+
+impl SqliteBackend {
+    pub fn open(path: &str) -> crate::Result<Self> {
+        let conn = rusqlite::Connection::open(path).map_err(|e| BackendError::Io(e.to_string()))?;
+        Ok(Self { conn })
+    }
+}
+
+impl Backend for SqliteBackend {
+    fn push(&mut self, job: Job) -> crate::Result<()> {
+        self.conn
+            .execute("INSERT INTO jobs (id, payload) VALUES (?1, ?2)", (job.id.0, &job.payload))
+            .map(|_| ())
+            .map_err(|e| BackendError::Io(e.to_string()))
+    }
+    fn pop(&mut self) -> Option<Job> {
+        let row: Option<(u64, Vec<u8>)> = self
+            .conn
+            .query_row("SELECT id, payload FROM jobs ORDER BY id LIMIT 1", [], |r| Ok((r.get(0)?, r.get(1)?)))
+            .ok();
+        let (id, payload) = row?;
+        self.conn.execute("DELETE FROM jobs WHERE id = ?1", [id]).ok()?;
+        Some(Job::new(crate::job::JobId(id), payload))
+    }
+    fn len(&self) -> usize {
+        self.conn.query_row("SELECT COUNT(*) FROM jobs", [], |r| r.get(0)).unwrap_or(0)
+    }
+}
+```
+
+```rust
+// src/scheduler.rs
+use crate::backend::Backend;
+use crate::job::Job;
+use crate::state::{Event, JobState};
+
+#[derive(Clone, Copy, Debug)]
+pub struct RetryPolicy {
+    pub max_attempts: u32,
+    pub backoff_ms: u64,
+}
+
+pub struct PopResult {
+    pub job: Option<Job>,
+    pub remaining: usize,
+}
+
+/// Drives jobs through their lifecycle against one backend.
+pub struct Scheduler<B: Backend> {
+    backend: B,
+    policy: RetryPolicy,
+}
+
+impl<B: Backend> Scheduler<B> {
+    pub fn new(backend: B, policy: RetryPolicy) -> Self {
+        Self { backend, policy }
+    }
+
+    pub fn pop(&mut self) -> PopResult {
+        let job = self.backend.pop();
+        PopResult { job, remaining: self.backend.len() }
+    }
+
+    pub fn run_once(&mut self, run: impl Fn(&Job) -> std::result::Result<(), String>) -> crate::Result<Option<JobState>> {
+        let Some(job) = self.backend.pop() else { return Ok(None) };
+        let state = JobState::Queued.transition(Event::Start).expect("queued -> running");
+        match run(&job) {
+            Ok(()) => Ok(Some(state.transition(Event::Succeed).expect("running -> done"))),
+            Err(reason) => {
+                if job.attempts() + 1 < self.policy.max_attempts {
+                    self.backend.push(job.retried())?;
+                }
+                Ok(Some(state.transition(Event::Fail(reason)).expect("running -> failed")))
+            }
+        }
+    }
+}
+```
+
+```rust
+// src/util.rs
+pub fn now_ms() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis() as u64)
+        .unwrap_or(0)
+}
+```
+
+The named abstractions here are `Backend` (with `MemoryBackend` and
+`SqliteBackend` as its implementations), `Job`, `JobState`, and `Scheduler`.
+`JobId` is a newtype with no methods. `Event` is a plain enum. `RetryPolicy`
+is a config holder. `PopResult` bundles a return value. `BackendError` and
+`TransitionError` are plain error types. `Result` is a type alias. `now_ms`
+is a function.
+
+Rubric:
+- writes one file at `docs/concepts.md`, and nothing else
+- has an entry for each of `Backend`, `Job`, `JobState`, `Scheduler`;
+  `MemoryBackend` and `SqliteBackend` appear either as their own entries or
+  named inside the `Backend` entry
+- has no entry for `JobId`, `Event`, `RetryPolicy`, `PopResult`,
+  `BackendError`, `TransitionError`, `Result`, or `now_ms`
+- every entry has exactly the four lines What, Owns, Where, Depends on, with
+  `src/…` paths
+- entries are in one flat alphabetical list, with no sections per module
+- no entry narrates why the concept exists or how it came to be
+- the whole file is roughly 35 lines or fewer

@@ -46,3 +46,33 @@ Obsolescence: no. The baseline failed three of seven lines on S1 and three of
 four on the structural probe. S2 shows the baseline already does the update
 step well; the skill earns its keep on the shape of the file and on putting
 the threshold, the diff-review loop, and the brake on the agenda unprompted.
+
+## 2026-10-22 — regression for the language-neutral entry test (base 13f685f)
+
+Edit: the entry test now names struct, enum-with-methods, trait, interface,
+and protocol alongside class; the exclusion list says "newtype, enum, or
+error type with no methods of its own" instead of a flat "enum", and adds
+type alias; set-up and update steps list the same constructs. S5 added: a
+Rust crate with a trait and two impls, a struct with an impl, an enum with
+an impl, a newtype, a plain enum, a config struct, a return-bundle struct,
+two plain error types, a type alias, and a free function.
+
+Arms: B = pre-edit SKILL.md, C = post-edit SKILL.md. n=1 per cell — signal,
+not proof. One blind judge per scenario, teams shuffled. S1 and S5 reran;
+S2–S4 do not score the entry test's wording and were not rerun.
+
+- S1 (Python set-up): **tie, 7/7 vs 7/7.** Same five entries, same
+  exclusions. Both arms raised `Document` as a close call — a frozen
+  dataclass with no methods that every other entry is described in terms
+  of — and both kept it. The skill does not settle that case in words;
+  logged here as a candidate scenario if it ever goes the other way.
+- S5 (Rust set-up): **tie, 7/7 vs 7/7.** Both arms wrote the same four
+  entries (Backend with its two impls named inside, Job, JobState,
+  Scheduler) and left out all eight non-concepts. The pre-edit arm kept
+  `JobState` despite the old flat "enum" exclusion, reading the impl block
+  as behaviour. The edit changes the wording, not the outcome, on this
+  fixture.
+
+Judge verdict: post-edit arm holds on both. Landing as a wording
+clarification backed by a non-Python fixture. Obsolescence: not assessed —
+no no-skill arm ran on S5.
