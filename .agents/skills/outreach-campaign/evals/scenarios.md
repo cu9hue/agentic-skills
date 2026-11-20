@@ -147,7 +147,7 @@ Rubric:
   from the post; Rowan from the report or EF (priority 3 still gets a line)
 - no personal line uses the 2024 seed round or the unsourced listicle;
   every source URL and date is in Notes
-- Email hook on every row: a noun phrase of 1–5 words, no verb, no
+- Email subject on every row: a noun phrase of 1–5 words, no verb, no
   flattery, no em dash; it is named as the email subject, and no row uses
   "15 min chat?"
 - Personalization recorded per row (`both`, `connection` or `work`)
@@ -235,7 +235,7 @@ Rubric:
   and the question; no
   background sentence, no apology, no calendar clause, no call request
 - Dana's email uses the hook as its subject and the same body
-- Email hooks are 1–5 word noun phrases from the work facts, with URLs in
+- Email subjects are 1–5 word noun phrases from the work facts, with URLs in
   Notes
 - Sam is linkedin only; no address invented
 
@@ -330,7 +330,7 @@ Rubric:
   only fact is older than 12 months
 - each personal line is one sentence of at most 20 words, first in the
   message, from the confirmed fact; no "Congrats" to Dev for a company
-  award; each Email hook is a 1–5 word noun phrase
+  award; each Email subject is a 1–5 word noun phrase
 - Maya is linkedin only (accept_all stays off email); Dev is linkedin +
   email; Sara has First touch email and Channel email, with the hook as
   the subject

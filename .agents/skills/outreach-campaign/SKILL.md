@@ -316,14 +316,14 @@ Then write, per the copy rules in the reference:
   happened to the person or that they led: a promotion, an acquisition
   they ran. Never for a company award sent to an employee; write "Saw
   that …" for those.
-- **Email hook**: the same fact as a noun phrase of 1–5 words. It is the
-  email subject: "your Service Improvement Team post".
+- **Email subject**: the subject line of the email. The same fact as a
+  noun phrase of 1–5 words: "your Service Improvement Team post".
 - **Question**: the confirmed question for the person's role group,
   starting in lower case so it reads after the bridge ("Quick question -").
 - **Personalization**: `both`, `connection` or `work`.
 
 Check each row before writing it: count the words in Personal line and
-Email hook; search Personal line, Question and Topic for "—", ":", ";"
+Email subject; search Personal line, Question and Topic for "—", ":", ";"
 and ","; and confirm the source is in Notes.
 
 ## Step 7 — write rows to Notion
@@ -336,7 +336,7 @@ One row per person:
 - Track and Topic: the person's track and its confirmed topic sentence.
   In a campaign with more than one track, name the Track value next to
   every row and every draft you show, also before the rows are written.
-- Personal line, Email hook, Question, Personalization: from step 6.
+- Personal line, Email subject, Question, Personalization: from step 6.
 - Opener: `question`, or `advice` for a group with no fitting question.
 - Variant: `A`, `B`, `C` in rotation down the rows. Two people at one
   company never share one. It picks the bridge and the sign-off, so no

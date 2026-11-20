@@ -30,7 +30,7 @@ the relation.
 | Opener | select | question, advice |
 | Variant | select | A, B, C: picks the wording of the bridge and the sign-off |
 | Personal line | text | one sentence from a confirmed fact |
-| Email hook | text | the same fact as a 1–5 word noun phrase; the email subject |
+| Email subject | text | the subject line of the email: the same fact as a 1–5 word noun phrase |
 | Question | text | the confirmed question for the person's role group |
 | Personalization | select | both, connection, work |
 | Status | select | To send, Request sent, Accepted, Sent, Replied, Followed up, Call booked, No reply, Not a fit |
@@ -89,7 +89,8 @@ Message (LinkedIn message 1, and the body of the email):
 "Hi " + prop("First name") + "! " + prop("Personal line") + " " + if(prop("Opener") == "advice", prop("Topic") + " " + if(prop("Variant") == "B", "Would really appreciate 15 mins of your advice", if(prop("Variant") == "C", "Could I get 15 mins of your advice?", "Would love 15 mins of your advice")), if(prop("Variant") == "B", "Quick one for you", if(prop("Variant") == "C", "Curious", "Quick question")) + " - " + prop("Question"))
 ```
 
-Email draft (subject: the Email hook): the Message expression, then
+Email draft (the body; the subject line is the Email subject property):
+the Message expression, then
 
 ```
 + "\n\n" + if(prop("Variant") == "B", "Thank you!", if(prop("Variant") == "C", "Thanks so much!", "Thanks!")) + "\n" + prop("Sender")
@@ -163,7 +164,7 @@ Hi Scott! Congrats on starting your own practice. I am currently trying to learn
 **Email** (second touch, or first touch for a person with no LinkedIn URL)
 
 ```
-Subject: {email hook}
+Subject: {email subject}
 
 Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
 
@@ -232,9 +233,9 @@ Hi {first}! Bumping this in case it got buried. Still curious if you have a minu
   "amazing"), nothing the source does not say. A person with a connection
   and a work fact gets both, joined by "and" with no comma: "Fellow MIT
   alum here and saw the AutoPost launch."
-- Email hook: the same fact as a noun phrase of 1–5 words, no verb: "your
+- Email subject: the same fact as a noun phrase of 1–5 words, no verb: "your
   Service Improvement Team post", "the Chartway case study". It is the
-  email subject. Never "Re:", never a partner's or customer's voice, never
+  subject line of the email. Never "Re:", never a partner's or customer's voice, never
   a question the body does not ask.
 - Question: at most 25 words. A fact they know from memory, nothing
   sensitive, true for everyone in the role group, either/or where
