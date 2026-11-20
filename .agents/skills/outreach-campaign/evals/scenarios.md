@@ -155,14 +155,23 @@ Rubric:
   email; Sam, Priya (accept_all) and Lee (invalid) linkedin only; Email
   check recorded per person; no address invented for Sam
 - message 1 follows the template: "Hi {first}!", the personal line, then
-  "Quick question:" and the confirmed question, in at most three
-  sentences; the `advice` opener is also right for Rowan, whose product
+  the bridge ("Quick question -" or the row's variant of it) and the
+  confirmed question, in at most three sentences plus a short either/or
+  tail; the `advice` opener is also right for Rowan, whose product
   is a test harness and not an agent, if the output says why
 - message 1 has no apology, no background sentence, no calendar link and
   no request for a call; the nudge asks for 15 minutes after the answer
   and uses the topic sentence; the calendar link appears only for the
   reply after they agree
 - no pitch, no promise of insights, no em dashes
+- light punctuation (added 2026-11-20): no colon, semicolon or comma in
+  any drafted message (message 1, the nudge, the reply after they agree);
+  the user's topic and question are stored with the commas dropped or the
+  sentence split in two, with no word changed, and the output shows the
+  stored text
+- variants (added 2026-11-20): every row has a Variant of A, B or C; Dana
+  and Sam, at one company, do not share one; each message's bridge
+  matches its row's Variant
 
 ## S4 — structural probe: underspecified ask
 
@@ -222,7 +231,8 @@ Rubric:
 - Sender is Alex on both rows; the email draft signs "Thanks! Alex";
   nothing says Polina, risk quant or Halcyon
 - Dana's message 1 follows the template: "Hi Dana!", a personal line from
-  the Chartway case study, "Quick question:" and the question; no
+  the Chartway case study, the bridge ("Quick question -" or a variant)
+  and the question; no
   background sentence, no apology, no calendar clause, no call request
 - Dana's email uses the hook as its subject and the same body
 - Email hooks are 1–5 word noun phrases from the work facts, with URLs in
@@ -261,7 +271,7 @@ Rubric:
   so she is left out until one is found or the user says a generic row is
   fine
 - Jeremy's message 1 follows the template: "Hi Jeremy!", a personal line
-  from the underwriting guide, "Quick question:" and the underwriter
+  from the underwriting guide, the bridge ("Quick question -" or a variant) and the underwriter
   question; no apology, background, link or call request
 - no pitch, no promise of insights
 - names the two tracks as Track values on the rows
@@ -326,8 +336,11 @@ Rubric:
   the subject
 - Maya and Dev get the service question; Sara gets the owners and COOs
   question
-- message 1 is "Hi {first}!", the personal line, "Quick question:" and
-  the question, with no apology, background, link or call request
+- message 1 is "Hi {first}!", the personal line, the bridge ("Quick
+  question -" or a variant) and the question, with no apology,
+  background, link or call request
+- no colon, semicolon or comma in any drafted message; the user's two
+  questions and topic keep their words
 - the sending instructions give the sequence: LinkedIn request with no
   note; message 1 within minutes of acceptance; email as the second touch
   about 5 business days later for people who did not accept and have a

@@ -28,6 +28,7 @@ the relation.
 | Calendar | url | the sender's booking link; used in the reply, never in a draft |
 | Topic | text | the track's confirmed topic sentence |
 | Opener | select | question, advice |
+| Variant | select | A, B, C: picks the wording of the bridge and the sign-off |
 | Personal line | text | one sentence from a confirmed fact |
 | Email hook | text | the same fact as a 1–5 word noun phrase; the email subject |
 | Question | text | the confirmed question for the person's role group |
@@ -85,20 +86,22 @@ the same for every campaign, track and sender.
 Message (LinkedIn message 1, and the body of the email):
 
 ```
-"Hi " + prop("First name") + "! " + prop("Personal line") + " " + if(prop("Opener") == "advice", prop("Topic") + " Would love 15 mins of your advice", "Quick question: " + prop("Question"))
+"Hi " + prop("First name") + "! " + prop("Personal line") + " " + if(prop("Opener") == "advice", prop("Topic") + " " + if(prop("Variant") == "B", "Would really appreciate 15 mins of your advice", if(prop("Variant") == "C", "Could I get 15 mins of your advice?", "Would love 15 mins of your advice")), if(prop("Variant") == "B", "Quick one for you", if(prop("Variant") == "C", "Curious", "Quick question")) + " - " + prop("Question"))
 ```
 
-Email draft (subject: the Email hook):
+Email draft (subject: the Email hook): the Message expression, then
 
 ```
-"Hi " + prop("First name") + "! " + prop("Personal line") + " " + if(prop("Opener") == "advice", prop("Topic") + " Would love 15 mins of your advice", "Quick question: " + prop("Question")) + "\n\nThanks!\n" + prop("Sender")
++ "\n\n" + if(prop("Variant") == "B", "Thank you!", if(prop("Variant") == "C", "Thanks so much!", "Thanks!")) + "\n" + prop("Sender")
 ```
 
 Nudge (after they answer the question):
 
 ```
-"Thanks, that helps a lot. " + prop("Topic") + " Could I get 15 mins of your advice this week?"
+"Thanks that helps a lot. " + prop("Topic") + " Could I get 15 mins of your advice this week?"
 ```
+
+A row with no Variant reads as A.
 
 When a formula goes through SQL DDL, write each apostrophe in its text as
 `''`.
@@ -111,11 +114,16 @@ drafts as plain text into text properties of the same names.
 ## Message templates
 
 The voice: short, casual, slightly unpolished, the way the sender would
-type it by hand. No em dashes. The sender finishes each one by hand; the
+type it by hand. Light punctuation: no colon, no semicolon, no comma, no
+em dash (see the copy rules). The sender finishes each one by hand; the
 draft is a starting point. The signature block lives in the email client;
 never add one to a draft.
 
-Every message 1 does three jobs in at most three sentences:
+The templates use spintax: `{first}` is a field, and `{a|b|c}` is a choice
+that the row's Variant picks (A the first, B the second, C the third).
+
+Every message 1 does three jobs in at most three sentences (a short
+either/or tail such as "Days or weeks?" does not count):
 
 - **Personal**: the first sentence is about them, from a confirmed fact.
 - **Small ask**: one question they can answer in a line, or 15 minutes of
@@ -126,20 +134,24 @@ Every message 1 does three jobs in at most three sentences:
 body by email with the hook as subject)
 
 ```
-Hi {first}! {personal line} Quick question: {question}
+Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
 ```
 
-Example:
+Examples:
 
 ```
-Hi Tonya! Saw your post about being part of the Service Improvement Team. Quick question: who writes up your warranty claims day to day, a dedicated admin or the service advisors?
+Hi Tonya! Saw your post about being part of the Service Improvement Team. Quick question - who writes up your warranty claims day to day? A dedicated admin or the service advisors?
+```
+
+```
+Hi Josh! Congrats on the Hudson Bus Sales acquisition. Quick one for you - do you keep warranty admin in-house or does someone outside file for you?
 ```
 
 **Message 1, `advice` opener** (for a group with no question that fits
 everyone, and for open discovery)
 
 ```
-Hi {first}! {personal line} {topic} Would love 15 mins of your advice
+Hi {first}! {personal line} {topic} {Would love 15 mins of your advice|Would really appreciate 15 mins of your advice|Could I get 15 mins of your advice?}
 ```
 
 Example:
@@ -153,22 +165,22 @@ Hi Scott! Congrats on starting your own practice. I am currently trying to learn
 ```
 Subject: {email hook}
 
-Hi {first}! {personal line} Quick question: {question}
+Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
 
-Thanks!
+{Thanks!|Thank you!|Thanks so much!}
 {sender}
 ```
 
 **Nudge** (after they answer the question)
 
 ```
-Thanks, that helps a lot. {topic} Could I get 15 mins of your advice this week?
+Thanks that helps a lot. {topic} Could I get 15 mins of your advice this week?
 ```
 
 **When they agree** (within the hour; this is where the link goes)
 
 ```
-Great, thank you! I could do {time 1} or {time 2}. Or grab any slot here: {calendar}
+Great thank you! I could do {time 1} or {time 2}. Or grab any slot here {calendar}
 ```
 
 **Follow-up** (once, ~3 business days after message 1 with no answer, in
@@ -177,25 +189,49 @@ the same thread)
 With the track's finding:
 
 ```
-Hi {first}, one thing I found while looking into this: {finding}. Still curious about my question if you have a minute.
+Hi {first}! One thing I found while looking into this - {finding}. Still curious about my question if you have a minute
 ```
 
 Without one:
 
 ```
-Hi {first}, bumping this in case it got buried. Still curious if you have a minute.
+Hi {first}! Bumping this in case it got buried. Still curious if you have a minute
 ```
 
 ## Copy rules
 
 - Ask for a one-line answer or for 15 minutes of advice. Never promise
   insights the user does not have. Never pitch a product during discovery.
+- **Light punctuation.** A message reads as typed by hand, and a person
+  typing a LinkedIn message does not punctuate like a document. In every
+  message (message 1, the email, the nudge, the reply, the follow-up):
+  - no colon, no semicolon, no comma, no em dash;
+  - where a comma sat, drop it. If the sentence does not read without it,
+    split it in two: "who writes up your warranty claims day to day? A
+    dedicated admin or the service advisors?";
+  - the bridge joins the question with a spaced hyphen: "Quick question -
+    do you …";
+  - keep full stops, question marks, apostrophes and the "!" after the
+    name. A comma inside a proper name stays ("Trucks, Parts, Service");
+  - the last sentence may end with no full stop;
+  - never add a spelling or grammar mistake. Missing punctuation reads as
+    human; typos read as careless.
+
+  Apply this to the user's own topic sentence and question as well, and
+  show them the stored text. It changes punctuation only, never a word.
+- **Variants.** Give each row a Variant: A, B, C in rotation down the
+  rows, and never the same one for two people at one company. The Variant
+  changes the bridge and the sign-off only. Never vary the question's
+  words or the fact in the personal line. When the user asks which
+  wording works, report replies by Variant.
 - Personal line: one sentence, at most 20 words, first in the message,
   built from one confirmed fact. "Saw …" for something they made or said.
   "Congrats on …" only for something that happened to the person or that
   they led: a promotion, an acquisition they ran. A company award sent to
   an employee gets "Saw that …". No flattery words ("impressive", "love",
-  "amazing"), no em dash, nothing the source does not say.
+  "amazing"), nothing the source does not say. A person with a connection
+  and a work fact gets both, joined by "and" with no comma: "Fellow MIT
+  alum here and saw the AutoPost launch."
 - Email hook: the same fact as a noun phrase of 1–5 words, no verb: "your
   Service Improvement Team post", "the Chartway case study". It is the
   email subject. Never "Re:", never a partner's or customer's voice, never
@@ -203,7 +239,7 @@ Hi {first}, bumping this in case it got buried. Still curious if you have a minu
 - Question: at most 25 words. A fact they know from memory, nothing
   sensitive, true for everyone in the role group, either/or where
   possible. It never assumes a setup the prospect may not have. Store it
-  starting in lower case, so it reads after "Quick question:".
+  starting in lower case, so it reads after the bridge.
 - Topic sentence: at most 25 words, starts "I'm trying to understand how …"
   or "I am currently trying to learn more about …". It names the workflow
   under test, or the role for open discovery, and stays true for every

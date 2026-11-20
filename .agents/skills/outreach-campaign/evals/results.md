@@ -268,3 +268,47 @@ tracker's First touch and Opener fields are there to measure that.
 Verdict: post-edit arm holds (won 4 of 4). S2 and S5 not rerun: untouched.
 S4 and S6 rubrics changed with the template and are covered by S3 and S8.
 Obsolescence: no.
+
+## 2026-11-20 — light punctuation and wording variants (on top of dcc4362)
+
+Why: the author read the drafts and said no person types a LinkedIn
+message with "Quick question:" and comma-joined clauses; missing
+punctuation reads as typed by hand. She also asked for spintax, so that
+people do not all get identical wording.
+
+Edit: no colon, semicolon or comma in any message; a comma is dropped or
+the sentence is split in two; the bridge joins the question with a spaced
+hyphen; the user's own topic and question are stored the same way, with
+no word changed. New Variant field (A, B, C in rotation, never shared by
+two people at one company) picks the bridge ("Quick question", "Quick one
+for you", "Curious"), the advice ask and the email sign-off. Templates
+are written in spintax; the three formulas read Variant.
+
+Rubrics: S3 gained a punctuation bullet and a variants bullet; S8 gained
+a punctuation bullet; "Quick question:" became "the bridge" in S3, S6, S7
+and S8. Pre-edit (dcc4362) vs post-edit arm on S3 and S8, n=1 each, blind
+judge per scenario (post was X on S3, Y on S8). Outputs in
+`2026-11-20-punctuation/`.
+
+- S3: **post** 10/10, pre 7 pass + 1 partial + 2 fail. Pre kept the
+  colon bridge and every comma and had no variants. Post stored the topic
+  and question without commas, showed the stored text, and gave Dana and
+  Sam different variants.
+- S8: **post** 11/11, pre 10 pass + 1 fail (the punctuation bullet). The
+  gates and the sending sequence held in both arms.
+
+Finding beyond the rubric: on S3 the post arm built Sam's, Priya's and
+Rowan's lines from the connection alone ("Fellow MIT alum here.") and
+moved the work fact to Notes, where the pre arm joined both with a comma.
+Follow-up edit, not rerun: a person with a connection and a work fact
+gets both, joined by "and" with no comma.
+
+Limits: the two new bullets describe the new rules, so the pre arm loses
+them by construction; without them pre and post tie on both scenarios.
+The run shows that an agent follows the rules, not that these messages
+get more replies. Variant is in the tracker so replies can be counted by
+wording.
+
+Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
+rerun: the edit changes message punctuation and wording only.
+Obsolescence: no.

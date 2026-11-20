@@ -91,7 +91,7 @@ defaults instead of asking about them:
 
 **Topic sentence.** What the sender wants to learn, at most 25 words. When
 the campaign tests one workflow, name it: "I'm trying to understand how
-warranty claims get filed and chased at a dealer group, and where they get
+warranty claims get filed and chased at a dealer group and where they get
 stuck." When the campaign is open discovery, use the role: "I am currently
 trying to learn more about the day to day of a fractional CFO." It stays
 true for every prospect in the track. Open discovery gets general calls; a
@@ -107,10 +107,15 @@ three tests:
 - it is true for everyone in the group. Never assume a setup: "what cap
   did you set on your agent?" fails for every prospect with no cap.
 
-An either/or form helps: "Who writes up your warranty claims day to day, a
+An either/or form helps: "Who writes up your warranty claims day to day? A
 dedicated admin or the service advisors?" Each answer should teach
 something even if no call follows. If no question passes all three tests
 for a group, use the `advice` opener for that group.
+
+**Light punctuation.** Messages carry no colon, semicolon or comma (copy
+rules in the reference). Store the confirmed topic sentence and question
+that way, and show the user the stored text: drop each comma, or split
+the sentence in two. Never change a word.
 
 **Sender background.** Ask for the sender's schools, past employers and
 field, and communities. Then name which of them a prospect in this ICP
@@ -154,7 +159,9 @@ With no tracker, skip this step; the skip list is the exclusion list.
    and First touch properties; Opener options become `question` and
    `advice`; Status gains `Request sent` and `Accepted`; Subject becomes
    the hook; Background, Calendar-in-draft and Connection go; the draft
-   formulas are rewritten on unsent rows. Change them only after a yes.
+   formulas are rewritten on unsent rows. A tracker with no Variant
+   property gets one, and the three formulas change with it. Change them
+   only after a yes.
 3. Query Outreach for every existing Company. Merge them with the exclusion
    list into one **skip list**.
 
@@ -312,11 +319,12 @@ Then write, per the copy rules in the reference:
 - **Email hook**: the same fact as a noun phrase of 1–5 words. It is the
   email subject: "your Service Improvement Team post".
 - **Question**: the confirmed question for the person's role group,
-  starting in lower case so it reads after "Quick question:".
+  starting in lower case so it reads after the bridge ("Quick question -").
 - **Personalization**: `both`, `connection` or `work`.
 
 Check each row before writing it: count the words in Personal line and
-Email hook, search both for "—", and confirm the source is in Notes.
+Email hook; search Personal line, Question and Topic for "—", ":", ";"
+and ","; and confirm the source is in Notes.
 
 ## Step 7 — write rows to Notion
 
@@ -330,6 +338,9 @@ One row per person:
   every row and every draft you show, also before the rows are written.
 - Personal line, Email hook, Question, Personalization: from step 6.
 - Opener: `question`, or `advice` for a group with no fitting question.
+- Variant: `A`, `B`, `C` in rotation down the rows. Two people at one
+  company never share one. It picks the bridge and the sign-off, so no
+  two people there read the same wording.
 - First touch: `linkedin` when the row has a LinkedIn URL, else `email`.
 - Channel: `linkedin` when there is a URL; add `email` only when Email
   check is `valid` or `valid-risky`.
@@ -388,6 +399,9 @@ one pass.
   a reply; a request for time from a stranger often does not.
 - Keep it to three sentences. No apology, no background, no link. Their
   first look at who you are is your LinkedIn profile, so keep it current.
+- Type it like a message, not a document: no colons, no commas, and the
+  wording varies by Variant. Identical, tidy text is what a reader and a
+  spam filter both recognise as a template.
 - Send about 15 to 20 LinkedIn requests a day, Monday to Wednesday.
   LinkedIn limits weekly invitations.
 - Track acceptance apart from replies. A low acceptance rate is a list or
