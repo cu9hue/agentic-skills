@@ -401,3 +401,47 @@ this order has not been sent yet. S6's rubric changed and was not rerun.
 
 Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
 rerun: the edit changes the email body only. Obsolescence: no.
+
+## 2026-11-20 — a mix of first touches (on top of ba1fa3e)
+
+Trigger: the user did not want to lean on LinkedIn: "it's really industry
+dependent whether people are active there", and "it should be a healthy
+mix until we are confident". The skill started everyone with a LinkedIn
+URL on LinkedIn and offered a split only on request.
+
+Edit: the sequence has two orders, LinkedIn first and email first, and
+each person gets the other channel as the second touch. First touch is
+set per row: no usable address is `linkedin`; no LinkedIn URL is `email`;
+a person whose colleague is fixed on one channel takes the other;
+everyone else alternates down the rows of the track, starting with
+`linkedin`. The report says how many start on each channel, and results
+are counted by First touch. The mix stays until the user says a channel
+has won for the ICP.
+
+Rubrics: S1 names the mix as the default; S3 and S8 check the first
+touches and both orders. Pre-edit (ba1fa3e) vs post-edit arm on S3 and
+S8, n=1 each, blind judge per scenario (post was X on both). Outputs in
+`2026-11-20-mix/`.
+
+- S8: **post** 11 pass + 1 partial, pre 9 pass + 3 partial. Post started
+  Dev on email because Maya at Redline is fixed on LinkedIn; pre started
+  him on LinkedIn. Post's partial: it gave both orders but did not say
+  that results are counted by First touch. Follow-up edit, not rerun:
+  step 8 now asks for that sentence.
+- S3: **tie**. Post 11 pass + 2 partial, pre 12 pass + 1 fail. Pre put
+  all five on LinkedIn. Post started Dana on email and stated the count
+  per channel. Post's two partials come from one choice outside this
+  edit: it gave Lee the `advice` opener because his company keeps a human
+  in the loop and the user's question assumes an agent that acts alone.
+  The rubric allows `advice` for Rowan only. The previous post arm raised
+  the same doubt and kept the question, so this is run-to-run variance on
+  an existing rule (when to drop a question the user confirmed), and a
+  candidate for its own scenario.
+
+Limits: the first-touch bullets describe the new rule, so the pre arm
+loses them by construction. The run shows that an agent applies the mix,
+not which channel gets replies; only sent messages can show that. S1's
+rubric changed and was not rerun.
+
+Verdict: post-edit arm holds (1 win, 1 tie, no loss). S1, S2, S4, S5, S6
+and S7 not rerun. Obsolescence: no.

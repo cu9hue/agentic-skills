@@ -22,7 +22,7 @@ the relation.
 | Email | email | empty when not found or not usable |
 | Email check | select | valid, valid-risky, accept_all, invalid, not found |
 | LinkedIn | url | |
-| First touch | select | linkedin, email |
+| First touch | select | linkedin, email: where this person starts (the mix rule in SKILL.md) |
 | Channel | multi-select | email, linkedin, intro |
 | Sender | select | the sender's first name |
 | Calendar | url | the sender's booking link; used in the reply, never in a draft |
@@ -174,7 +174,8 @@ Example:
 Hi Scott! Congrats on starting your own practice. I am currently trying to learn more about the day to day of a fractional CFO. Would love 15 mins of your advice
 ```
 
-**Email** (second touch, or first touch for a person with no LinkedIn URL)
+**Email** (the first touch for the email-first people in the mix and for
+anyone with no LinkedIn URL; the second touch for the rest)
 
 ```
 Subject: Quick question about {company}

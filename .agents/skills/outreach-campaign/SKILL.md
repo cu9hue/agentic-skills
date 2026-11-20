@@ -50,21 +50,49 @@ ends with the hook. The call is asked for only after they answer. Schema, formul
 
 ## The sequence
 
+Two channels. Each person starts on one of them (First touch) and gets
+the other as the second touch.
+
+**LinkedIn first**
+
 1. **LinkedIn request with no note.**
 2. **Message 1 within minutes of the acceptance**: the personal line and
    the question.
 3. **Email as the second touch**, about 5 business days after the request,
    for people who have not accepted and have a `valid` or `valid-risky`
-   address. Its own message, never message 1 again: the Email lead first,
-   the topic in the middle, the hook last.
-4. **Nudge for the call after they answer**: thanks, the topic sentence,
-   15 minutes.
-5. **The calendar link or two concrete times** once they agree, within the
-   hour.
+   address.
 
-A person with no LinkedIn URL starts at step 3. The user may ask for a
-split instead (half LinkedIn first, half email first); then set First touch
-per row and report results by it.
+**Email first**
+
+1. **The email.** Its own message, never message 1 again: the Email lead
+   first, the topic in the middle, the hook last.
+2. **LinkedIn request with no note as the second touch**, about 5
+   business days later, for people who have not replied and have a
+   LinkedIn URL. Message 1 on acceptance.
+
+**Both**
+
+- **Nudge for the call after they answer**: thanks, the topic sentence,
+  15 minutes.
+- **The calendar link or two concrete times** once they agree, within the
+  hour.
+
+**The mix.** How much people use LinkedIn depends on the industry, so no
+channel goes first for everyone until it has earned that for this ICP.
+Set First touch per row:
+
+- no usable address (`invalid`, `not found`, `accept_all`): `linkedin`;
+- no LinkedIn URL: `email`;
+- both channels, and the other person at the company is fixed on one
+  channel: the other channel;
+- everyone else: alternate down the rows of each track, starting with
+  `linkedin`. Two people at one company never share a first touch when
+  both have both channels.
+
+Say in the report how many people start on each channel. Count requests,
+acceptances, replies and calls by First touch. Keep the mix until the
+user says one channel has won for this ICP; the user may also set the
+split themselves.
 
 ## Step 0 — inputs
 
@@ -88,7 +116,7 @@ defaults instead of asking about them:
 | Question per role group (below) | draft one per group and ask the user to confirm |
 | Email lead per segment (below) | draft one per segment from a page you opened and ask the user to confirm |
 | Opener | `question`; `advice` for a group with no question that fits |
-| First touch | LinkedIn, email as the second touch |
+| First touch | a mix: LinkedIn first for some, email first for the others (see The sequence) |
 | Sender: first name and calendar link | none, ask; no calendar link is a valid answer |
 | Sender background worth matching for this ICP | none, discuss (below) |
 | Finding per track, for the follow-up | none; optional |
@@ -369,7 +397,7 @@ One row per person:
   company never share one. It picks the bridge, the wording of the
   email lead and of the hook sentence, and the sign-off, so no two people
   there read the same wording.
-- First touch: `linkedin` when the row has a LinkedIn URL, else `email`.
+- First touch: `linkedin` or `email`, by the mix rule in The sequence.
 - Channel: `linkedin` when there is a URL; add `email` only when Email
   check is `valid` or `valid-risky`.
 - Sender and Calendar: from step 0, the same on every row of the batch.
@@ -385,7 +413,8 @@ Run `treg balance` again. Then report, in this order:
 
 1. **Companies added**: priority, why they fit, who they sell to.
 2. **People**: name, title, company, first touch, email status, the level
-   of the fact behind the personal line.
+   of the fact behind the personal line. Say how many start on each
+   channel, and that replies and calls are counted by First touch.
 3. **Left out**: people with no confirmed personal line, reserves, and
    people who appear to have left.
 4. **Rejected**: company and one-line reason, grouped by reason.
@@ -419,9 +448,11 @@ with the first batch's report. Never in the step 0 message: that one
 holds the questions and the defaults only, so the user can answer it on
 one pass.
 
-- Connect on LinkedIn with no note, and message within minutes of the
-  acceptance. This sequence has booked the author's calls; email has not
-  yet. Run both and count calls per person approached, by First touch.
+- Mix the first touch. LinkedIn with no note and a message within
+  minutes of the acceptance has booked calls for the author in one ICP,
+  but how much people use LinkedIn depends on the industry. Start some
+  people on each channel and count replies and calls by First touch
+  before leaning on one.
 - Message 1 is a personal line and one specific question. Ask for the
   call only after they answer. A question they can answer in one line gets
   a reply; a request for time from a stranger often does not.
