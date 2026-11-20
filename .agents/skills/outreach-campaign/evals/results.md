@@ -312,3 +312,42 @@ wording.
 Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
 rerun: the edit changes message punctuation and wording only.
 Obsolescence: no.
+
+## 2026-11-20 — the hook is not the subject (on top of 5b6e63c)
+
+Trigger: the user looked for the email subject in the tracker and found
+only Email hook. The LinkedIn-first rewrite had made the hook double as
+the subject. Her correction: "hook is a hook and subject is a subject",
+and the subject guidance was already in an article ingested the same day.
+A first fix renamed the column to Email subject (1ca9a17); that kept the
+hook in the subject line and is reverted here.
+
+Edit: Email hook stays a 1–5 word label of the fact and never goes in the
+subject line. New Email subject formula: "Quick question about {Company}"
+for the `question` opener, "Could I get your perspective?" for `advice`,
+both from "Cold Email for SaaS Founders" (@AvinashSingh_20), which also
+gives the rule: plain, no urgency, no clickbait, true to the body. Company
+is stored as the everyday name because the subject reads it.
+
+Rubrics: S3, S6 and S8 now ask for that subject and say the hook is not
+the subject. Pre-edit (5b6e63c) vs post-edit arm on S3 and S8, n=1 each,
+blind judge per scenario (post was X on both). Outputs in
+`2026-11-20-subject/`.
+
+- S3: **post** 9 pass + 2 partial, pre 9 pass + 1 partial + 1 fail. Pre
+  used the hook as the subject on both emails. Post wrote "Quick question
+  about Ledgerline" for Dana and "Could I get your perspective?" for
+  Rowan's advice email; the judge marked that partial because the rubric
+  named only the first form. The rubric now names both. The other partial
+  is shared: the judge read "no request for a call" against Rowan's
+  advice opener, which asks for 15 minutes by design.
+- S8: **post** 11/11, pre 10 pass + 1 partial (Sara's and Dev's emails
+  carried the hook as the subject).
+
+Limits: the subject bullet describes the new rule, so the pre arm loses
+it by construction; without it the arms tie. The run shows that an agent
+follows the rule, not that this subject gets more replies. The vault has
+one source on subjects. S6's rubric changed and was not rerun.
+
+Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
+rerun: the edit changes the email subject only. Obsolescence: no.

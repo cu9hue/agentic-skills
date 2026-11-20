@@ -13,7 +13,7 @@ the relation.
 | --- | --- | --- |
 | Name | title | full name |
 | First name | text | |
-| Company | text | used for dedupe |
+| Company | text | the everyday name, no legal suffix; used for dedupe and in the email subject |
 | Title | text | job title |
 | Track | select | the campaign's tracks, e.g. Operator, Underwriter |
 | Priority | select | 1, 2, 3 |
@@ -30,13 +30,14 @@ the relation.
 | Opener | select | question, advice |
 | Variant | select | A, B, C: picks the wording of the bridge and the sign-off |
 | Personal line | text | one sentence from a confirmed fact |
-| Email subject | text | the subject line of the email: the same fact as a 1–5 word noun phrase |
+| Email hook | text | the same fact as a 1–5 word noun phrase; a label, never the subject |
 | Question | text | the confirmed question for the person's role group |
 | Personalization | select | both, connection, work |
 | Status | select | To send, Request sent, Accepted, Sent, Replied, Followed up, Call booked, No reply, Not a fit |
 | Sent | date | the day message 1 or the email went out |
 | Follow-up due | formula | `dateAdd(prop("Sent"), 4, "days")` |
 | Message | formula | below |
+| Email subject | formula | below |
 | Email draft | formula | below |
 | Nudge | formula | below |
 | Notes | text | source URL + date for the fact, anything to check |
@@ -71,6 +72,7 @@ sent) → `Call booked`.
 ### Views on Outreach
 
 - **Send queue**: table, filter Status = To send, sort Priority ascending.
+  It shows Email subject next to Email draft.
 - **Message now**: table, filter Status = Accepted.
 - **Follow up**: table, filter Status = Sent, sort Sent ascending.
 - **Pipeline**: board grouped by Status.
@@ -89,8 +91,13 @@ Message (LinkedIn message 1, and the body of the email):
 "Hi " + prop("First name") + "! " + prop("Personal line") + " " + if(prop("Opener") == "advice", prop("Topic") + " " + if(prop("Variant") == "B", "Would really appreciate 15 mins of your advice", if(prop("Variant") == "C", "Could I get 15 mins of your advice?", "Would love 15 mins of your advice")), if(prop("Variant") == "B", "Quick one for you", if(prop("Variant") == "C", "Curious", "Quick question")) + " - " + prop("Question"))
 ```
 
-Email draft (the body; the subject line is the Email subject property):
-the Message expression, then
+Email subject:
+
+```
+if(prop("Opener") == "advice", "Could I get your perspective?", "Quick question about " + prop("Company"))
+```
+
+Email draft (the body of the email): the Message expression, then
 
 ```
 + "\n\n" + if(prop("Variant") == "B", "Thank you!", if(prop("Variant") == "C", "Thanks so much!", "Thanks!")) + "\n" + prop("Sender")
@@ -108,9 +115,10 @@ When a formula goes through SQL DDL, write each apostrophe in its text as
 `''`.
 
 The Notion API does not return formula output. After the first row is
-written, ask the user to open it and check the three drafts. If `\n` shows
-as literal text in Email draft, tell the user and fall back to writing the
-drafts as plain text into text properties of the same names.
+written, ask the user to open it and check the subject and the three
+drafts. If `\n` shows as literal text in Email draft, tell the user and
+fall back to writing the drafts as plain text into text properties of the
+same names.
 
 ## Message templates
 
@@ -132,7 +140,7 @@ either/or tail such as "Days or weeks?" does not count):
 - **Nothing else**: no apology, no background sentence, no pitch, no link.
 
 **Message 1, `question` opener** (LinkedIn after they accept; the same
-body by email with the hook as subject)
+body by email under the Email subject)
 
 ```
 Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
@@ -164,7 +172,7 @@ Hi Scott! Congrats on starting your own practice. I am currently trying to learn
 **Email** (second touch, or first touch for a person with no LinkedIn URL)
 
 ```
-Subject: {email subject}
+Subject: Quick question about {company}
 
 Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
 
@@ -233,10 +241,14 @@ Hi {first}! Bumping this in case it got buried. Still curious if you have a minu
   "amazing"), nothing the source does not say. A person with a connection
   and a work fact gets both, joined by "and" with no comma: "Fellow MIT
   alum here and saw the AutoPost launch."
-- Email subject: the same fact as a noun phrase of 1–5 words, no verb: "your
-  Service Improvement Team post", "the Chartway case study". It is the
-  subject line of the email. Never "Re:", never a partner's or customer's voice, never
-  a question the body does not ask.
+- Email hook: the same fact as a noun phrase of 1–5 words, no verb: "your
+  Service Improvement Team post", "the Chartway case study". It names the
+  hook in the tracker. A hook is not a subject: it never goes in the
+  subject line.
+- Email subject: plain, and true to the body. "Quick question about
+  {Company}" for the `question` opener and "Could I get your perspective?"
+  for the `advice` opener. Never "Re:", never urgency or clickbait, never
+  a partner's or customer's voice, never a claim the body does not make.
 - Question: at most 25 words. A fact they know from memory, nothing
   sensitive, true for everyone in the role group, either/or where
   possible. It never assumes a setup the prospect may not have. Store it

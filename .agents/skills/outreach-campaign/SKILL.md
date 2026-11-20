@@ -1,7 +1,7 @@
 ---
 name: outreach-campaign
 description: "Use when the user wants to run or continue a cold-outreach campaign for customer discovery: find companies for an ICP, find people, verify emails, write personal lines, questions and drafts for LinkedIn and email, fill the Notion outreach tracker. Also use when they ask what to get right in cold outreach for discovery calls. Not for replying to a prospect who already answered, or for one-off messages outside a campaign."
-origin: "The author's own cold-outreach pipeline, tracker schema and message templates. Message shape from the author's LinkedIn messages that booked calls, and from Entrepreneur First's outreach advice (connect with no note, message on acceptance, open with a specific question). Tool mechanics from the treg skill in this repo."
+origin: "The author's own cold-outreach pipeline, tracker schema and message templates. Message shape from the author's LinkedIn messages that booked calls, and from Entrepreneur First's outreach advice (connect with no note, message on acceptance, open with a specific question). Email subject from \"Cold Email for SaaS Founders\" by @AvinashSingh_20. Tool mechanics from the treg skill in this repo."
 ---
 
 # Outreach Campaign
@@ -26,7 +26,7 @@ only after they answer. Schema, formulas, templates and copy rules live in
 - **Never guess an email address.** Only use an address a provider returned,
   and verify every one. Never put an `invalid`, `not found` or `accept_all`
   address on the email channel.
-- **Never use an unverified fact in a personal line or a subject.** Open
+- **Never use an unverified fact in a personal line or a hook.** Open
   the source and confirm it on the page. A page that would not open is not
   a source.
 - **No personal line, no row.** A person with no confirmed personal line
@@ -53,7 +53,7 @@ only after they answer. Schema, formulas, templates and copy rules live in
    the question.
 3. **Email as the second touch**, about 5 business days after the request,
    for people who have not accepted and have a `valid` or `valid-risky`
-   address. Same message, with the hook as the subject.
+   address. Same message, under the Email subject.
 4. **Nudge for the call after they answer**: thanks, the topic sentence,
    15 minutes.
 5. **The calendar link or two concrete times** once they agree, within the
@@ -158,10 +158,10 @@ With no tracker, skip this step; the skip list is the exclusion list.
    property), tell the user what would change: new Personal line, Question
    and First touch properties; Opener options become `question` and
    `advice`; Status gains `Request sent` and `Accepted`; Subject becomes
-   the hook; Background, Calendar-in-draft and Connection go; the draft
+   the Email subject formula; Background, Calendar-in-draft and Connection go; the draft
    formulas are rewritten on unsent rows. A tracker with no Variant
-   property gets one, and the three formulas change with it. Change them
-   only after a yes.
+   or no Email subject property gets it, and the formulas change with it.
+   Change them only after a yes.
 3. Query Outreach for every existing Company. Merge them with the exclusion
    list into one **skip list**.
 
@@ -316,14 +316,18 @@ Then write, per the copy rules in the reference:
   happened to the person or that they led: a promotion, an acquisition
   they ran. Never for a company award sent to an employee; write "Saw
   that …" for those.
-- **Email subject**: the subject line of the email. The same fact as a
-  noun phrase of 1–5 words: "your Service Improvement Team post".
+- **Email hook**: the same fact as a noun phrase of 1–5 words: "your
+  Service Improvement Team post". It labels the hook in the tracker. It
+  is never the email subject.
+- **Email subject**: a formula, not a field to write. It reads "Quick
+  question about {Company}", so store Company as the name a person there
+  would say, with no legal suffix: "Baldwin Supply".
 - **Question**: the confirmed question for the person's role group,
   starting in lower case so it reads after the bridge ("Quick question -").
 - **Personalization**: `both`, `connection` or `work`.
 
 Check each row before writing it: count the words in Personal line and
-Email subject; search Personal line, Question and Topic for "—", ":", ";"
+Email hook; search Personal line, Question and Topic for "—", ":", ";"
 and ","; and confirm the source is in Notes.
 
 ## Step 7 — write rows to Notion
@@ -336,7 +340,7 @@ One row per person:
 - Track and Topic: the person's track and its confirmed topic sentence.
   In a campaign with more than one track, name the Track value next to
   every row and every draft you show, also before the rows are written.
-- Personal line, Email subject, Question, Personalization: from step 6.
+- Personal line, Email hook, Question, Personalization: from step 6.
 - Opener: `question`, or `advice` for a group with no fitting question.
 - Variant: `A`, `B`, `C` in rotation down the rows. Two people at one
   company never share one. It picks the bridge and the sign-off, so no
