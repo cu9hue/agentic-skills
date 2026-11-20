@@ -312,3 +312,136 @@ wording.
 Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
 rerun: the edit changes message punctuation and wording only.
 Obsolescence: no.
+
+## 2026-11-20 — the hook is not the subject (on top of 5b6e63c)
+
+Trigger: the user looked for the email subject in the tracker and found
+only Email hook. The LinkedIn-first rewrite had made the hook double as
+the subject. Her correction: "hook is a hook and subject is a subject",
+and the subject guidance was already in an article ingested the same day.
+A first fix renamed the column to Email subject (1ca9a17); that kept the
+hook in the subject line and is reverted here.
+
+Edit: Email hook stays a 1–5 word label of the fact and never goes in the
+subject line. New Email subject formula: "Quick question about {Company}"
+for the `question` opener, "Could I get your perspective?" for `advice`,
+both from "Cold Email for SaaS Founders" (@AvinashSingh_20), which also
+gives the rule: plain, no urgency, no clickbait, true to the body. Company
+is stored as the everyday name because the subject reads it.
+
+Rubrics: S3, S6 and S8 now ask for that subject and say the hook is not
+the subject. Pre-edit (5b6e63c) vs post-edit arm on S3 and S8, n=1 each,
+blind judge per scenario (post was X on both). Outputs in
+`2026-11-20-subject/`.
+
+- S3: **post** 9 pass + 2 partial, pre 9 pass + 1 partial + 1 fail. Pre
+  used the hook as the subject on both emails. Post wrote "Quick question
+  about Ledgerline" for Dana and "Could I get your perspective?" for
+  Rowan's advice email; the judge marked that partial because the rubric
+  named only the first form. The rubric now names both. The other partial
+  is shared: the judge read "no request for a call" against Rowan's
+  advice opener, which asks for 15 minutes by design.
+- S8: **post** 11/11, pre 10 pass + 1 partial (Sara's and Dev's emails
+  carried the hook as the subject).
+
+Limits: the subject bullet describes the new rule, so the pre arm loses
+it by construction; without it the arms tie. The run shows that an agent
+follows the rule, not that this subject gets more replies. The vault has
+one source on subjects. S6's rubric changed and was not rerun.
+
+Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
+rerun: the edit changes the email subject only. Obsolescence: no.
+
+## 2026-11-20 — the email is not the LinkedIn message (on top of 2e0c5b1)
+
+Trigger: the user saw that the email still led with the personal line.
+Earlier the same day she had set the rule for email: the first two lines
+carry attention and curiosity, and what the reader already knows comes
+middle to last. The LinkedIn-first rewrite built message 1 from her
+LinkedIn message, which opens with the personal line, and then reused it
+as the email body. Her correction: "linkedin and email are two very
+different things". She also asked for spintax on the new email.
+
+Edit: the email has its own order. New Email lead field (the first two
+lines: a claim from a page that was opened, attributed to a kind of
+source, plus a one-line doubt; or a finding the user owns), then the
+topic, then a hook sentence built from Email hook ("Saw {hook} which is
+why I thought of you."). The Variant now also picks the wording around
+the claim, the doubt and the hook sentence. With no confirmed lead the
+email opens with the bridge and the question, and the report says the
+lead is missing. Message 1 on LinkedIn is unchanged.
+
+Rubrics: S3, S6 and S8 gained an email-order bullet. S8's user message
+now gives a lead for dealers; S3 gives none, to test the fallback and
+that no claim is invented. Pre-edit (2e0c5b1) vs post-edit arm on S3 and
+S8, n=1 each, blind judge per scenario (post was Y on both). Outputs in
+`2026-11-20-email-order/`.
+
+- S3: **post** 11 pass + 1 partial, pre 11 pass + 1 fail. Pre sent
+  message 1 again as the email. Post opened Dana's email with the bridge
+  and the question, closed it with the hook sentence, and said the lead
+  was missing without inventing one. The partial: in Rowan's `advice`
+  email the advice ask follows the hook sentence, which is the template;
+  the rubric now allows it.
+- S8: **post** 12/12, pre 11 pass + 1 fail. Post opened Dev's and Sara's
+  emails with the given claim in two different wordings and closed with
+  the hook sentence. Pre repeated message 1 and moved the claim into a
+  follow-up.
+
+Seen outside the rubric, not fixed here: both arms store the question
+with a lower-case first letter and still say no word changed; both
+restate "LinkedIn has booked calls, email has not" from the operating
+advice as if read from the tracker.
+
+Limits: the email-order bullet describes the new rule, so the pre arm
+loses it by construction; without it the arms tie. The run shows that an
+agent follows the order, not that this email gets replies. The author's
+emails under the old templates got no replies on about 20 logged sends;
+this order has not been sent yet. S6's rubric changed and was not rerun.
+
+Verdict: post-edit arm holds (won 2 of 2). S1, S2, S4, S5, S6 and S7 not
+rerun: the edit changes the email body only. Obsolescence: no.
+
+## 2026-11-20 — a mix of first touches (on top of ba1fa3e)
+
+Trigger: the user did not want to lean on LinkedIn: "it's really industry
+dependent whether people are active there", and "it should be a healthy
+mix until we are confident". The skill started everyone with a LinkedIn
+URL on LinkedIn and offered a split only on request.
+
+Edit: the sequence has two orders, LinkedIn first and email first, and
+each person gets the other channel as the second touch. First touch is
+set per row: no usable address is `linkedin`; no LinkedIn URL is `email`;
+a person whose colleague is fixed on one channel takes the other;
+everyone else alternates down the rows of the track, starting with
+`linkedin`. The report says how many start on each channel, and results
+are counted by First touch. The mix stays until the user says a channel
+has won for the ICP.
+
+Rubrics: S1 names the mix as the default; S3 and S8 check the first
+touches and both orders. Pre-edit (ba1fa3e) vs post-edit arm on S3 and
+S8, n=1 each, blind judge per scenario (post was X on both). Outputs in
+`2026-11-20-mix/`.
+
+- S8: **post** 11 pass + 1 partial, pre 9 pass + 3 partial. Post started
+  Dev on email because Maya at Redline is fixed on LinkedIn; pre started
+  him on LinkedIn. Post's partial: it gave both orders but did not say
+  that results are counted by First touch. Follow-up edit, not rerun:
+  step 8 now asks for that sentence.
+- S3: **tie**. Post 11 pass + 2 partial, pre 12 pass + 1 fail. Pre put
+  all five on LinkedIn. Post started Dana on email and stated the count
+  per channel. Post's two partials come from one choice outside this
+  edit: it gave Lee the `advice` opener because his company keeps a human
+  in the loop and the user's question assumes an agent that acts alone.
+  The rubric allows `advice` for Rowan only. The previous post arm raised
+  the same doubt and kept the question, so this is run-to-run variance on
+  an existing rule (when to drop a question the user confirmed), and a
+  candidate for its own scenario.
+
+Limits: the first-touch bullets describe the new rule, so the pre arm
+loses them by construction. The run shows that an agent applies the mix,
+not which channel gets replies; only sent messages can show that. S1's
+rubric changed and was not rerun.
+
+Verdict: post-edit arm holds (1 win, 1 tie, no loss). S1, S2, S4, S5, S6
+and S7 not rerun. Obsolescence: no.

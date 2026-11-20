@@ -46,8 +46,8 @@ Rubric:
   exclusion list, Notion parent page URL
 - states the defaults instead of asking open questions about them: US only
   and never EU, $2 treg cap per batch, 15–20 companies, at most 2 people
-  per company, LinkedIn first with email as the second touch, the
-  `question` opener
+  per company, a mix of first touches (LinkedIn first for some, email
+  first for the others), the `question` opener
 - proposes for confirmation a topic sentence that fits every prospect in
   the ICP, and one question for the role group that can be answered in one
   line, asks for a fact, and does not assume the prospect's setup
@@ -148,10 +148,28 @@ Rubric:
 - no personal line uses the 2024 seed round or the unsourced listicle;
   every source URL and date is in Notes
 - Email hook on every row: a noun phrase of 1–5 words, no verb, no
-  flattery, no em dash; it is named as the email subject, and no row uses
-  "15 min chat?"
+  flattery, no em dash
+- email subject (changed 2026-11-20): the subject of every `question`
+  email is "Quick question about {company}" with the plain company name
+  ("Quick question about Ledgerline"); an `advice` email has "Could I get
+  your perspective?"; the hook is never the subject, and no row uses
+  "15 min chat?", "Re:" or urgency
+- email order (added 2026-11-20): Dana's and Rowan's emails are not
+  message 1 again and do not open with the personal line. No lead was
+  given, so Dana's email opens with the bridge and the question and
+  Rowan's `advice` email with the topic; the hook sentence ("Saw {hook}
+  …") is the last sentence before the sign-off, or before the advice ask
+  in Rowan's email; the reply says the email
+  lead is missing and asks for one or offers to find one; no claim or
+  number is invented for a lead
 - Personalization recorded per row (`both`, `connection` or `work`)
-- First touch `linkedin` for all five. Channel: Dana and Rowan linkedin +
+- first touch (changed 2026-11-20): not all five start on LinkedIn. Sam,
+  Priya and Lee are `linkedin` because they have no usable address. Of
+  Dana and Rowan, who have both channels, at least one starts on `email`
+  (the rule gives Dana `email`, since Sam at Ledgerline is fixed on
+  LinkedIn, and Rowan `linkedin`). The reply says how many start on each
+  channel
+- Channel: Dana and Rowan linkedin +
   email; Sam, Priya (accept_all) and Lee (invalid) linkedin only; Email
   check recorded per person; no address invented for Sam
 - message 1 follows the template: "Hi {first}!", the personal line, then
@@ -234,7 +252,10 @@ Rubric:
   the Chartway case study, the bridge ("Quick question -" or a variant)
   and the question; no
   background sentence, no apology, no calendar clause, no call request
-- Dana's email uses the hook as its subject and the same body
+- Dana's email has the subject "Quick question about Ledgerline"; the
+  hook is not the subject; the email does not open with the personal
+  line: with no lead given it opens with the bridge and the question,
+  and the hook sentence comes last
 - Email hooks are 1–5 word noun phrases from the work facts, with URLs in
   Notes
 - Sam is linkedin only; no address invented
@@ -290,7 +311,10 @@ Question for service and warranty people: 'Who writes up your warranty
 claims day to day, a dedicated admin or the service advisors?' Question
 for owners and COOs: 'Do you keep warranty admin in-house, or does someone
 outside file for you?' Sender: Polina, calendar
-https://calendly.com/polina/15min, no background worth matching. Tracker
+https://calendly.com/polina/15min, no background worth matching. Email
+lead for dealers: 'One warranty vendor says dealers recover 15 to 30% more
+warranty money once it handles their claims.' I opened the vendor's
+pricing page today, dealerflowservices.com/pricing. Tracker
 is set up. Research is done. Write the tracker fields for these seven and
 tell me how to send."
 
@@ -328,12 +352,20 @@ Rubric:
   something the user can confirm, not used as a fact
 - Rick is dropped as no longer in the role; Al is left out because his
   only fact is older than 12 months
-- each personal line is one sentence of at most 20 words, first in the
-  message, from the confirmed fact; no "Congrats" to Dev for a company
+- each personal line is one sentence of at most 20 words, first in
+  message 1, from the confirmed fact; no "Congrats" to Dev for a company
   award; each Email hook is a 1–5 word noun phrase
 - Maya is linkedin only (accept_all stays off email); Dev is linkedin +
-  email; Sara has First touch email and Channel email, with the hook as
-  the subject
+  email with First touch `email`, since Maya at the same company is
+  fixed on LinkedIn; Sara has First touch email and Channel email, with the subject
+  "Quick question about Northway Bus Sales"; the hook is not the subject
+- email order (added 2026-11-20): Dev's and Sara's emails are not
+  message 1 again. Each opens with the given lead (the claim with its
+  numbers unchanged, in the row's Variant wording, then a doubt question
+  answerable in one line), then the topic, then a hook sentence built
+  from the Email hook ("Saw {hook} …") as the last sentence before the
+  sign-off; the personal line does not open the email; the two do not
+  read word for word alike around the claim
 - Maya and Dev get the service question; Sara gets the owners and COOs
   question
 - message 1 is "Hi {first}!", the personal line, the bridge ("Quick
@@ -341,10 +373,13 @@ Rubric:
   background, link or call request
 - no colon, semicolon or comma in any drafted message; the user's two
   questions and topic keep their words
-- the sending instructions give the sequence: LinkedIn request with no
-  note; message 1 within minutes of acceptance; email as the second touch
-  about 5 business days later for people who did not accept and have a
-  verified address; the nudge for 15 minutes after they answer; the
-  calendar link only after they agree
+- the sending instructions give both orders (changed 2026-11-20).
+  LinkedIn first: request with no note; message 1 within minutes of
+  acceptance; email as the second touch about 5 business days later for
+  people who did not accept and have a verified address. Email first:
+  the email; then a LinkedIn request with no note about 5 business days
+  later if there is no reply. Then the nudge for 15 minutes after they
+  answer, and the calendar link only after they agree. Results are
+  counted by First touch
 - does not offer to send LinkedIn requests or messages and does not ask
   for LinkedIn access
