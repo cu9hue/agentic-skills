@@ -11,9 +11,10 @@ companies, screen them, find people, find and verify emails, write a
 personal line for each person, write tracker rows, report. The goal is
 discovery calls: 15 minutes of a prospect's advice. Never a sale.
 
-The message is three short sentences and works the same on LinkedIn and
-email: a personal line, then one specific question. The call is asked for
-only after they answer. Schema, formulas, templates and copy rules live in
+LinkedIn and email are different, and each gets its own message. The
+LinkedIn message is three short sentences: a personal line, then one
+specific question. The email opens with a lead the reader has not seen and
+ends with the hook. The call is asked for only after they answer. Schema, formulas, templates and copy rules live in
 `references/notion-and-templates.md`. Read it before step 5.
 
 ## Hard rules
@@ -26,7 +27,8 @@ only after they answer. Schema, formulas, templates and copy rules live in
 - **Never guess an email address.** Only use an address a provider returned,
   and verify every one. Never put an `invalid`, `not found` or `accept_all`
   address on the email channel.
-- **Never use an unverified fact in a personal line or a hook.** Open
+- **Never use an unverified fact in a personal line, a hook or an email
+  lead.** Open
   the source and confirm it on the page. A page that would not open is not
   a source.
 - **No personal line, no row.** A person with no confirmed personal line
@@ -53,7 +55,8 @@ only after they answer. Schema, formulas, templates and copy rules live in
    the question.
 3. **Email as the second touch**, about 5 business days after the request,
    for people who have not accepted and have a `valid` or `valid-risky`
-   address. Same message, under the Email subject.
+   address. Its own message, never message 1 again: the Email lead first,
+   the topic in the middle, the hook last.
 4. **Nudge for the call after they answer**: thanks, the topic sentence,
    15 minutes.
 5. **The calendar link or two concrete times** once they agree, within the
@@ -83,6 +86,7 @@ defaults instead of asking about them:
 | Tracks: the distinct audiences in this campaign ("operators", "underwriters") | one track |
 | Topic sentence per track (below) | draft one and ask the user to confirm |
 | Question per role group (below) | draft one per group and ask the user to confirm |
+| Email lead per segment (below) | draft one per segment from a page you opened and ask the user to confirm |
 | Opener | `question`; `advice` for a group with no question that fits |
 | First touch | LinkedIn, email as the second touch |
 | Sender: first name and calendar link | none, ask; no calendar link is a valid answer |
@@ -112,6 +116,20 @@ dedicated admin or the service advisors?" Each answer should teach
 something even if no call follows. If no question passes all three tests
 for a group, use the `advice` opener for that group.
 
+**Email lead.** The first two lines of the email, one per segment. In an
+inbox those lines decide whether the email is read, so they carry
+attention and curiosity: something the reader has not seen put this way,
+then a question they can answer in one line. The default is a claim from
+a named kind of source plus the sender's doubt: "One warranty vendor says
+dealers recover 15 to 30% more warranty money once it handles their
+claims. Does that match what you see or is it a sales pitch?" A finding
+the user owns also works. Open the page before you propose a claim, keep
+its numbers exact, and never state it as the sender's own belief. What
+the reader already knows, the personal fact included, never opens an
+email. With no confirmed lead the email opens with the bridge and the
+question; say in the report that the lead is missing. Never invent a
+claim or a number.
+
 **Light punctuation.** Messages carry no colon, semicolon or comma (copy
 rules in the reference). Store the confirmed topic sentence and question
 that way, and show the user the stored text: drop each comma, or split
@@ -134,8 +152,8 @@ days." Without one, the follow-up is the plain bump.
 - **Calls database** and its relation: skip if they log calls elsewhere.
 - **The four views**: skip if they will build their own.
 - **Draft formulas** (Message, Email draft, Nudge): skip if they write the
-  messages themselves. Rows still get Personal line, Question and Email
-  hook.
+  messages themselves. Rows still get Personal line, Question, Email
+  lead and Email hook.
 
 "No tracker" is a valid answer: dedupe against the exclusion list only,
 skip step 7, and give the rows in the report.
@@ -159,8 +177,8 @@ With no tracker, skip this step; the skip list is the exclusion list.
    and First touch properties; Opener options become `question` and
    `advice`; Status gains `Request sent` and `Accepted`; Subject becomes
    the Email subject formula; Background, Calendar-in-draft and Connection go; the draft
-   formulas are rewritten on unsent rows. A tracker with no Variant
-   or no Email subject property gets it, and the formulas change with it.
+   formulas are rewritten on unsent rows. A tracker with no Variant,
+   Email subject or Email lead property gets it, and the formulas change with it.
    Change them only after a yes.
 3. Query Outreach for every existing Company. Merge them with the exclusion
    list into one **skip list**.
@@ -316,9 +334,13 @@ Then write, per the copy rules in the reference:
   happened to the person or that they led: a promotion, an acquisition
   they ran. Never for a company award sent to an employee; write "Saw
   that …" for those.
-- **Email hook**: the same fact as a noun phrase of 1–5 words: "your
-  Service Improvement Team post". It labels the hook in the tracker. It
-  is never the email subject.
+- **Email hook**: the same fact as a noun phrase of 1–5 words that
+  completes "Saw …": "your Service Improvement Team post". It closes the
+  email: "Saw {hook} which is why I thought of you." It is never the
+  email subject and never opens the email.
+- **Email lead**: the segment's confirmed lead, in the wording of the
+  row's Variant (templates in the reference). Its source URL and date go
+  on the campaign page.
 - **Email subject**: a formula, not a field to write. It reads "Quick
   question about {Company}", so store Company as the name a person there
   would say, with no legal suffix: "Baldwin Supply".
@@ -340,11 +362,13 @@ One row per person:
 - Track and Topic: the person's track and its confirmed topic sentence.
   In a campaign with more than one track, name the Track value next to
   every row and every draft you show, also before the rows are written.
-- Personal line, Email hook, Question, Personalization: from step 6.
+- Personal line, Email lead, Email hook, Question, Personalization: from
+  step 6.
 - Opener: `question`, or `advice` for a group with no fitting question.
 - Variant: `A`, `B`, `C` in rotation down the rows. Two people at one
-  company never share one. It picks the bridge and the sign-off, so no
-  two people there read the same wording.
+  company never share one. It picks the bridge, the wording of the
+  email lead and of the hook sentence, and the sign-off, so no two people
+  there read the same wording.
 - First touch: `linkedin` when the row has a LinkedIn URL, else `email`.
 - Channel: `linkedin` when there is a URL; add `email` only when Email
   check is `valid` or `valid-risky`.
@@ -401,7 +425,11 @@ one pass.
 - Message 1 is a personal line and one specific question. Ask for the
   call only after they answer. A question they can answer in one line gets
   a reply; a request for time from a stranger often does not.
-- Keep it to three sentences. No apology, no background, no link. Their
+- LinkedIn and email are two different things. On LinkedIn they have
+  accepted you, so the personal line opens. In an inbox the first two
+  lines decide whether it is read: lead with something they have not
+  seen, and put what they already know last.
+- Keep message 1 to three sentences. No apology, no background, no link. Their
   first look at who you are is your LinkedIn profile, so keep it current.
 - Type it like a message, not a document: no colons, no commas, and the
   wording varies by Variant. Identical, tidy text is what a reader and a

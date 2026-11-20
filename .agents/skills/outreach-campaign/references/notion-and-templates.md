@@ -28,9 +28,10 @@ the relation.
 | Calendar | url | the sender's booking link; used in the reply, never in a draft |
 | Topic | text | the track's confirmed topic sentence |
 | Opener | select | question, advice |
-| Variant | select | A, B, C: picks the wording of the bridge and the sign-off |
+| Variant | select | A, B, C: picks the wording of the bridge, the email lead, the hook sentence and the sign-off |
 | Personal line | text | one sentence from a confirmed fact |
-| Email hook | text | the same fact as a 1–5 word noun phrase; a label, never the subject |
+| Email lead | text | the email's first two lines: the segment's lead in the row's Variant wording |
+| Email hook | text | the same fact as a 1–5 word noun phrase that completes "Saw …"; closes the email, never the subject |
 | Question | text | the confirmed question for the person's role group |
 | Personalization | select | both, connection, work |
 | Status | select | To send, Request sent, Accepted, Sent, Replied, Followed up, Call booked, No reply, Not a fit |
@@ -85,7 +86,7 @@ add by hand.
 Everything campaign-specific lives in row properties, so the formulas are
 the same for every campaign, track and sender.
 
-Message (LinkedIn message 1, and the body of the email):
+Message (LinkedIn message 1):
 
 ```
 "Hi " + prop("First name") + "! " + prop("Personal line") + " " + if(prop("Opener") == "advice", prop("Topic") + " " + if(prop("Variant") == "B", "Would really appreciate 15 mins of your advice", if(prop("Variant") == "C", "Could I get 15 mins of your advice?", "Would love 15 mins of your advice")), if(prop("Variant") == "B", "Quick one for you", if(prop("Variant") == "C", "Curious", "Quick question")) + " - " + prop("Question"))
@@ -97,11 +98,16 @@ Email subject:
 if(prop("Opener") == "advice", "Could I get your perspective?", "Quick question about " + prop("Company"))
 ```
 
-Email draft (the body of the email): the Message expression, then
+Email draft (the body of the email; its own order, never the Message
+again):
 
 ```
-+ "\n\n" + if(prop("Variant") == "B", "Thank you!", if(prop("Variant") == "C", "Thanks so much!", "Thanks!")) + "\n" + prop("Sender")
+"Hi " + prop("First name") + "! " + if(empty(prop("Email lead")), if(prop("Opener") == "advice", "", if(prop("Variant") == "B", "Quick one for you", if(prop("Variant") == "C", "Curious", "Quick question")) + " - " + prop("Question") + "\n\n"), prop("Email lead") + "\n\n") + prop("Topic") + if(empty(prop("Email hook")), "", " Saw " + prop("Email hook") + if(prop("Variant") == "B", " so I thought you would know.", if(prop("Variant") == "C", " and figured you would be a good person to ask.", " which is why I thought of you."))) + if(prop("Opener") == "advice", " " + if(prop("Variant") == "B", "Would really appreciate 15 mins of your advice", if(prop("Variant") == "C", "Could I get 15 mins of your advice?", "Would love 15 mins of your advice")), "") + "\n\n" + if(prop("Variant") == "B", "Thank you!", if(prop("Variant") == "C", "Thanks so much!", "Thanks!")) + "\n" + prop("Sender")
 ```
+
+A row with no Email lead opens with the bridge and the question (an
+`advice` row opens with the topic). A row with no Email hook gets no hook
+sentence.
 
 Nudge (after they answer the question):
 
@@ -139,8 +145,7 @@ either/or tail such as "Days or weeks?" does not count):
   advice.
 - **Nothing else**: no apology, no background sentence, no pitch, no link.
 
-**Message 1, `question` opener** (LinkedIn after they accept; the same
-body by email under the Email subject)
+**Message 1, `question` opener** (LinkedIn, after they accept)
 
 ```
 Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
@@ -174,11 +179,34 @@ Hi Scott! Congrats on starting your own practice. I am currently trying to learn
 ```
 Subject: Quick question about {company}
 
-Hi {first}! {personal line} {Quick question|Quick one for you|Curious} - {question}
+Hi {first}! {email lead}
+
+{topic} Saw {email hook} {which is why I thought of you|so I thought you would know|and figured you would be a good person to ask}.
 
 {Thanks!|Thank you!|Thanks so much!}
 {sender}
 ```
+
+The email lead, written per row in the Variant's wording:
+
+```
+{One {kind of source} says|A {kind of source} claims|One {firm or vendor} in this space claims} {claim}. {Does that match what you see or is it a sales pitch?|Is that real or just a sales pitch?|Does that sound right to you or is it marketing?}
+```
+
+Example (Variant B):
+
+```
+Subject: Quick question about Allegiance Truck Centers
+
+Hi Tonya! A warranty vendor claims dealers recover 15 to 30% more warranty money once it handles their claims. Is that real or just a sales pitch?
+
+I'm trying to understand how warranty claims get filed and chased at a dealer group and where they get stuck. Saw your Service Improvement Team post so I thought you would know.
+
+Thank you!
+Polina
+```
+
+An `advice` email adds the advice ask after the hook sentence.
 
 **Nudge** (after they answer the question)
 
@@ -230,10 +258,21 @@ Hi {first}! Bumping this in case it got buried. Still curious if you have a minu
   show them the stored text. It changes punctuation only, never a word.
 - **Variants.** Give each row a Variant: A, B, C in rotation down the
   rows, and never the same one for two people at one company. The Variant
-  changes the bridge and the sign-off only. Never vary the question's
-  words or the fact in the personal line. When the user asks which
+  changes the bridge, the wording around the email lead's claim, the hook
+  sentence and the sign-off. Never vary the question's words, the claim's
+  numbers or the fact in the personal line. When the user asks which
   wording works, report replies by Variant.
-- Personal line: one sentence, at most 20 words, first in the message,
+- **LinkedIn and email are different.** LinkedIn message 1 opens with the
+  personal line: they have accepted the request and can see the profile.
+  The email goes to a cold inbox, where the subject and the first two
+  lines decide whether it is read. Its order is the lead, then the topic,
+  then the hook. Never reuse message 1 as the email body.
+- Email lead: at most two sentences and 40 words. A claim from a page you
+  opened, attributed to a kind of source ("one warranty vendor"), with its
+  numbers exact, then a doubt they can settle in one line. Or a finding
+  the user owns, then "Does that match what you see?". Never the sender's
+  own belief, never a pitch, never a fact about the reader.
+- Personal line: one sentence, at most 20 words, first in message 1,
   built from one confirmed fact. "Saw …" for something they made or said.
   "Congrats on …" only for something that happened to the person or that
   they led: a promotion, an acquisition they ran. A company award sent to
@@ -242,9 +281,9 @@ Hi {first}! Bumping this in case it got buried. Still curious if you have a minu
   and a work fact gets both, joined by "and" with no comma: "Fellow MIT
   alum here and saw the AutoPost launch."
 - Email hook: the same fact as a noun phrase of 1–5 words, no verb: "your
-  Service Improvement Team post", "the Chartway case study". It names the
-  hook in the tracker. A hook is not a subject: it never goes in the
-  subject line.
+  Service Improvement Team post", "the Chartway case study". It completes
+  "Saw …" and closes the email. A hook is not a subject: it never goes
+  in the subject line.
 - Email subject: plain, and true to the body. "Quick question about
   {Company}" for the `question` opener and "Could I get your perspective?"
   for the `advice` opener. Never "Re:", never urgency or clickbait, never
