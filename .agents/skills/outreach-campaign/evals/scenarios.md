@@ -1,8 +1,9 @@
 # outreach-campaign — eval scenarios
 
-How to run: one subagent per arm per scenario (arm A = no skill, arm B =
-SKILL.md and `references/notion-and-templates.md` read by the arm), identical
-prompts otherwise. Every arm is told that today is 2026-10-09, to invoke no
+How to run: one subagent per arm per scenario (arm A = no skill, or the
+pre-edit skill for a regression; arm B = SKILL.md and
+`references/notion-and-templates.md` read by the arm), identical prompts
+otherwise. Every arm is told that today is 2026-10-09, to invoke no
 skill of its own, and to call **no tools** (no web, no treg, no Notion), so
 the pipeline's judgment is under test, not live data. The subagent returns
 exactly the deliverable, the next chat message it would send, with no
@@ -13,10 +14,12 @@ The failures this skill targets: a run that starts spending before it has
 the exclusion list and the tracker; screening that lets an EU team or a
 buyer-side company through; hooks built on stale or unsourced facts;
 subjects that read as if the prospect's customer sent them; guessed email
-addresses; drafts that pitch or drift from the user's voice; drafts with no
-urgency ("next week or two", "happy to work around your schedule") or
-no competence and FOMO signal; and
-the same research depth for every prospect regardless of priority.
+addresses; drafts that pitch or drift from the user's voice; a first
+message that opens with an apology, a background sentence or a request for
+time instead of a personal line and one question; a link in a first
+message; a generic row for a person with no confirmed fact; a question
+that assumes a setup the prospect may not have; and email treated as the
+only channel.
 
 ## Shared material: campaign C
 
@@ -43,16 +46,20 @@ Rubric:
   exclusion list, Notion parent page URL
 - states the defaults instead of asking open questions about them: US only
   and never EU, $2 treg cap per batch, 15–20 companies, at most 2 people
-  per company
-- proposes for confirmation a topic sentence ("I'm looking to understand
-  how … now that …") that fits every prospect in the ICP, not a question
-  about the prospect's own setup
-- asks who the sender is (name, a background sentence and a calendar
-  link, "none" allowed for the link) and for their background, says it will agree with the user which parts matter to this
-  ICP, and allows "none"; assumes no background from earlier campaigns
+  per company, LinkedIn first with email as the second touch, the
+  `question` opener
+- proposes for confirmation a topic sentence that fits every prospect in
+  the ICP, and one question for the role group that can be answered in one
+  line, asks for a fact, and does not assume the prospect's setup
+- asks for the sender's first name and a calendar link ("none" allowed)
+  and for the background worth matching, allowing "none"; asks for no
+  background sentence for the message; assumes no background from earlier
+  campaigns
 - asks for a yes before creating the tracker and names the parts the user
-  can skip (Calls database, views, draft formula), with "no tracker"
-  allowed; the LinkedIn note is off unless the user asks
+  can skip (Calls database, views, draft formulas), with "no tracker"
+  allowed
+- does not ask for LinkedIn access or data and does not offer to send for
+  the user
 - makes no paid call and writes nothing before the exclusion list and the
   Notion page are known (it may say what runs next)
 - short: the user can answer on one pass
@@ -97,16 +104,17 @@ Rubric:
   tracker), naming the reason for each
 - every reject carries a one-line reason
 
-## S3 — personalization tiers, drafts and tracker fields
+## S3 — personal lines, drafts and tracker fields
 
 User message: "Campaign C. Their customers: credit unions. Topic: 'I'm
-looking to understand how credit unions decide to trust AI agents with
-money now that examiners are asking about them.' I'm the sender, Polina.
-Background sentence: 'I spent 6 years in finance building trading and risk
-systems, and I've built AI agents in production.' Calendar:
+trying to understand how credit unions decide to trust AI agents with
+money, and where that decision gets stuck.' Question for founders: 'Do
+your credit union customers let the agent act on its own today, or does
+someone approve each action?' I'm the sender, Polina. Calendar:
 https://calendly.com/polina/15min. Background we agreed is worth matching:
 EF, ex-risk quant at Halcyon Capital 2017–2021, MIT 2016. I live in Boston.
-Write the copy and the tracker fields for these five."
+All five have LinkedIn URLs. Write the copy and the tracker fields for
+these five."
 
 - Dana Ruiz, CEO, Ledgerline, priority 1. Facts: (a) case study with
   Chartway Federal Credit Union on disputes, published 2026-05-12,
@@ -132,32 +140,38 @@ Write the copy and the tracker fields for these five."
   2026-09-02. Profile: EF alum. Email: rowan@gridmark.io, verify = valid.
 
 Rubric:
-- Personalization follows priority: Dana `work` (Boston is not a
-  connection type); Sam `both` (Halcyon + the talk); Priya `both` (MIT +
-  AutoPost or Corelink); Lee `work`; Rowan `none` with empty hooks, even
-  though a fact and an EF connection were offered
-- Connection only for Sam and Priya: a plural noun phrase of 1–5 words
-  that completes "We're both …" (ex-Halcyon quants, MIT alums); empty for
-  the rest
-- Email hook only with a work fact (Dana, Sam, Priya, Lee): a noun phrase
-  of 1–5 words that completes "Saw …", no verb, no flattery, no em dash;
-  empty for Rowan
-- every subject is "15 min chat?"
-- every work fact is from the last 12 months with its URL in Notes; never
-  the 2024 seed round or the unsourced listicle; connection sources in
-  Notes too
-- Channel: Dana and Rowan email; Priya email + linkedin (accept_all); Sam
-  and Lee linkedin only; Email check recorded per person; no address
-  invented for Sam
-- drafts follow the template: "Hi {first},", the not-selling opener,
-  "I'm Polina." with the background sentence and the topic, then the
-  personal line ("We're both …", "Saw …, which is why I thought of you";
-  none for Rowan), "would you be down for a 15 min chat this week?" with
-  the calendar link, signed "Thanks! Polina" with no signature block; no
-  question about the prospect's own setup in the email, no "picking what
-  to build", no "next week or two", no pitch, no em dashes
-- no LinkedIn note unless asked; Sam and Lee are flagged for a
-  hand-written LinkedIn message
+- every one of the five gets a Personal line: one sentence, at most 20
+  words, from a confirmed fact or agreed connection. Dana from the
+  Chartway case study (Boston is not a connection); Sam from the Halcyon
+  connection, the talk, or both; Priya from MIT, AutoPost or Corelink; Lee
+  from the post; Rowan from the report or EF (priority 3 still gets a line)
+- no personal line uses the 2024 seed round or the unsourced listicle;
+  every source URL and date is in Notes
+- Email hook on every row: a noun phrase of 1–5 words, no verb, no
+  flattery, no em dash; it is named as the email subject, and no row uses
+  "15 min chat?"
+- Personalization recorded per row (`both`, `connection` or `work`)
+- First touch `linkedin` for all five. Channel: Dana and Rowan linkedin +
+  email; Sam, Priya (accept_all) and Lee (invalid) linkedin only; Email
+  check recorded per person; no address invented for Sam
+- message 1 follows the template: "Hi {first}!", the personal line, then
+  the bridge ("Quick question -" or the row's variant of it) and the
+  confirmed question, in at most three sentences plus a short either/or
+  tail; the `advice` opener is also right for Rowan, whose product
+  is a test harness and not an agent, if the output says why
+- message 1 has no apology, no background sentence, no calendar link and
+  no request for a call; the nudge asks for 15 minutes after the answer
+  and uses the topic sentence; the calendar link appears only for the
+  reply after they agree
+- no pitch, no promise of insights, no em dashes
+- light punctuation (added 2026-11-20): no colon, semicolon or comma in
+  any drafted message (message 1, the nudge, the reply after they agree);
+  the user's topic and question are stored with the commas dropped or the
+  sentence split in two, with no word changed, and the output shows the
+  stored text
+- variants (added 2026-11-20): every row has a Variant of A, B or C; Dana
+  and Sam, at one company, do not share one; each message's bridge
+  matches its row's Variant
 
 ## S4 — structural probe: underspecified ask
 
@@ -166,16 +180,16 @@ customer discovery calls. What should I get right?"
 
 Rubric:
 - the skill's core concerns structure the answer unprompted; pass needs at
-  least four of: ask for 15 minutes of advice and never pitch; one recent,
-  verifiable, specific hook per person; verify every email and never guess
-  one (accept_all also goes to LinkedIn); batches of ~10–20 with a
-  follow-up after ~3 business days on the other channel; change the
-  message after a zero-reply batch before burning more prospects; no open
-  tracking, replies tracked by hand; expect ~5–10% replies and size volume
-  to match; scale personalization to the prospect's value (not every
-  prospect needs research); lead with what you want to learn rather than
-  a question about their setup, one competence line, and an easy yes (15
-  minutes this week, a calendar link)
+  least five of: connect on LinkedIn with no note and message on
+  acceptance; open with a personal line from one recent, verifiable,
+  specific fact; ask one specific question first and ask for the call
+  after the answer; ask for 15 minutes of advice and never pitch; three
+  sentences, no link in a first message; verify every email, never guess
+  one, and keep unconfirmed addresses off email; batches with one
+  follow-up after ~3 business days; change the message after a zero-reply
+  batch before burning more prospects; track acceptance apart from replies
+  and compare channels; expect ~5–10% replies and size volume to match;
+  end each call with a small commitment question
 - the concerns are an organizing thread, not one bullet
 
 ## S5 — negative: should not trigger
@@ -191,12 +205,13 @@ Rubric:
 ## S6 — different sender, no relevant background
 
 User message: "Campaign C. This batch goes out from my cofounder Alex
-Mercer, not me. Background sentence: 'I spent 5 years building payments
-infrastructure at Stripe.' No calendar link. We talked it through and none
-of Alex's background is worth matching for this ICP. Their customers:
-credit unions. Topic: 'I'm looking to understand how credit unions decide
-to trust AI agents with money now that examiners are asking about them.'
-Write the tracker fields and Dana's email for these two."
+Mercer, not me. No calendar link. We talked it through and none of Alex's
+background is worth matching for this ICP. Their customers: credit unions.
+Topic: 'I'm trying to understand how credit unions decide to trust AI
+agents with money, and where that decision gets stuck.' Question for
+founders: 'Do your credit union customers let the agent act on its own
+today, or does someone approve each action?' Both have LinkedIn URLs.
+Write the tracker fields and Dana's messages for these two."
 
 - Dana Ruiz, CEO, Ledgerline, priority 1. Fact: case study with Chartway
   Federal Credit Union on disputes, published 2026-05-12,
@@ -209,22 +224,28 @@ Write the tracker fields and Dana's email for these two."
   EF alum. Email: not found.
 
 Rubric:
-- Personalization is `work` for both; no Connection for either, even though
-  Sam shares EF and a risk-quant past that a different sender might match
+- Personalization is `work` for both; no personal line uses a connection,
+  even though Sam shares EF and a risk-quant past that a different sender
+  might match
 - no connection search is proposed or run for these priority-1 people
-- drafts say "I'm Alex.", use Alex's background sentence and sign "Thanks!
-  Alex"; nothing says Polina, risk quant or Halcyon
-- Dana's email follows the template: opener, "I'm Alex." with background
-  and topic, "Saw …, which is why I thought of you.", "would you be down
-  for a 15 min chat this week?" with no calendar clause
+- Sender is Alex on both rows; the email draft signs "Thanks! Alex";
+  nothing says Polina, risk quant or Halcyon
+- Dana's message 1 follows the template: "Hi Dana!", a personal line from
+  the Chartway case study, the bridge ("Quick question -" or a variant)
+  and the question; no
+  background sentence, no apology, no calendar clause, no call request
+- Dana's email uses the hook as its subject and the same body
 - Email hooks are 1–5 word noun phrases from the work facts, with URLs in
   Notes
+- Sam is linkedin only; no address invented
 
 ## S7 — prospects whose setup may not match the hypothesis
 
 Added 2026-10-21, after a live campaign: the first drafts led with "What
 refund cap did you set on your AI agent?", but most vendors keep a human
-approving refunds, so many prospects had no cap to talk about.
+approving refunds, so many prospects had no cap to talk about. Rewritten
+2026-11-20: message 1 now opens with a question, so the question itself
+has to fit both setups.
 
 User message: "New campaign: 'AI refund controls'. Track 1, operators:
 heads of CX at US e-commerce and subscription companies that run AI
@@ -232,21 +253,98 @@ support agents (Decagon, Sierra, Fin). Some let the agent issue refunds,
 many still have a human approve every refund; I don't know which is
 which. Track 2, underwriters: people at US insurers writing AI liability
 cover. I want to learn whether refund limits and records for these agents
-are a real pain. Sender: me, Polina; background: 'I spent 6 years in
-finance building trading and risk systems, and I've built AI agents in
-production.' Calendar: https://calendly.com/polina/15min. Draft the email
-for Kristen, Head of Support at Substack (operator, no verified work fact),
-and for Jeremy, CEO of an AI liability MGA (underwriter, verified fact: his
-firm's underwriting guide, 2026-10-05). Tracker is set up already."
+are a real pain. Sender: me, Polina. Calendar:
+https://calendly.com/polina/15min. Draft message 1 for Kristen, Head of
+Support at Substack (operator, no verified work fact), and for Jeremy, CEO
+of an AI liability MGA (underwriter, verified fact: his firm's
+underwriting guide, 2026-10-05). Both have LinkedIn URLs. Tracker is set
+up already."
 
 Rubric:
-- the operator email names the topic broadly (how refunds and credits get
-  approved now that AI agents handle support, or close) and does not ask
-  about a cap, limit or setup Kristen may not have
-- the underwriter email uses a different topic sentence for that track,
-  with the same structure
-- both follow the template: opener, background, topic, "Saw your
-  underwriting guide, which is why I thought of you." for Jeremy only,
-  "15 min chat this week" with the calendar link, subject "15 min chat?"
-- no pitch, no promise of insights, no LinkedIn note unless asked
+- proposes a question for operators that both kinds of prospect can
+  answer in one line (for example, whether the agent issues refunds on its
+  own or a person approves each one); it does not ask about a cap or a
+  limit Kristen may not have
+- proposes a different question and topic sentence for the underwriter
+  track
+- writes no generic message for Kristen: says she has no confirmed fact,
+  so she is left out until one is found or the user says a generic row is
+  fine
+- Jeremy's message 1 follows the template: "Hi Jeremy!", a personal line
+  from the underwriting guide, the bridge ("Quick question -" or a variant) and the underwriter
+  question; no apology, background, link or call request
+- no pitch, no promise of insights
 - names the two tracks as Track values on the rows
+
+## S8 — hook gate, one row per fact, and the sending sequence
+
+Added 2026-11-20, after a live campaign: the first batch wrote rows for
+people with no personal hook, treated an unopened job-ad page as a fact,
+put a calendar link in the first email, and planned email as the only
+channel although the sender's booked calls had all come from LinkedIn.
+
+User message: "Campaign 'Dealer warranty'. Track: service leaders at US
+truck and bus dealer groups. Topic: 'I'm trying to understand how warranty
+claims get filed and chased at a dealer group, and where they get stuck.'
+Question for service and warranty people: 'Who writes up your warranty
+claims day to day, a dedicated admin or the service advisors?' Question
+for owners and COOs: 'Do you keep warranty admin in-house, or does someone
+outside file for you?' Sender: Polina, calendar
+https://calendly.com/polina/15min, no background worth matching. Tracker
+is set up. Research is done. Write the tracker fields for these seven and
+tell me how to send."
+
+- Maya Ortiz, Warranty Manager, Redline Truck Centers, priority 1.
+  LinkedIn URL: yes. Fact: her own LinkedIn post about joining Redline's
+  new Service Quality Team, 2026-08-14, page opened. Email:
+  maya.ortiz@redlinetrucks.com, verify = accept_all.
+- Dev Patel, VP of Service, Redline Truck Centers, priority 1. LinkedIn
+  URL: yes. Fact: PACCAR Parts named Redline 2025 Kenworth Parts and
+  Service Dealer of the Year, paccarparts.com news, 2026-02-10, page
+  opened. Email: verify = valid.
+- Karen Liu, Service Manager, Redline Truck Centers, priority 1. LinkedIn
+  URL: yes. Only fact found: the same Kenworth award. Email: verify =
+  valid.
+- Tom Reyes, Service Manager, Gulf Coast Truck Group, priority 1. LinkedIn
+  URL: yes. Only fact found: a "Warranty Specialist" opening listed
+  2026-10-05 by a job index; the company's careers page would not load.
+  Email: verify = valid.
+- Sara Kim, VP of Operations, Northway Bus Sales, priority 2. LinkedIn
+  URL: none found. Fact: the company's news page says she was promoted to
+  VP of Operations on 2026-07-10, page opened. Email: verify = valid.
+- Rick Dunn, listed as VP of Operations, Northway Bus Sales, priority 2.
+  His LinkedIn headline now reads "Executive coach", and the same news
+  page says Sara Kim was promoted into the VP of Operations role. Email:
+  verify = accept_all.
+- Al Novak, President, Prairie Coach, priority 2. LinkedIn URL: yes. Only
+  fact found: a trade article from June 2024 quoting him on a new store.
+  Email: verify = valid.
+
+Rubric:
+- rows are written for Maya, Dev and Sara only
+- Karen is named as a reserve: same fact as Dev, and Redline already has
+  two people
+- Tom is left out because the ad page did not open; the ad is offered as
+  something the user can confirm, not used as a fact
+- Rick is dropped as no longer in the role; Al is left out because his
+  only fact is older than 12 months
+- each personal line is one sentence of at most 20 words, first in the
+  message, from the confirmed fact; no "Congrats" to Dev for a company
+  award; each Email hook is a 1–5 word noun phrase
+- Maya is linkedin only (accept_all stays off email); Dev is linkedin +
+  email; Sara has First touch email and Channel email, with the hook as
+  the subject
+- Maya and Dev get the service question; Sara gets the owners and COOs
+  question
+- message 1 is "Hi {first}!", the personal line, the bridge ("Quick
+  question -" or a variant) and the question, with no apology,
+  background, link or call request
+- no colon, semicolon or comma in any drafted message; the user's two
+  questions and topic keep their words
+- the sending instructions give the sequence: LinkedIn request with no
+  note; message 1 within minutes of acceptance; email as the second touch
+  about 5 business days later for people who did not accept and have a
+  verified address; the nudge for 15 minutes after they answer; the
+  calendar link only after they agree
+- does not offer to send LinkedIn requests or messages and does not ask
+  for LinkedIn access
