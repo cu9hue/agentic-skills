@@ -51,6 +51,9 @@ this.
 
 - Follow existing patterns. Write idiomatic code with clear separation of
   concerns and interfaces that support testing.
+- When a repository's documentation and its existing code disagree, follow
+  the conventions used in the existing code, and in your final reply point
+  out each inconsistency you found between the documentation and the code.
 - Search the repo before adding anything. Reuse existing helpers. Don't
   introduce a new pattern when one already exists.
 - Make surgical edits: every changed line traces to the request. Match the
