@@ -2,3 +2,4 @@
 .agents/skills/synced/
 .agents/skills/.trash/
 .agents/commands/
+.agents/mcp/servers.local.json

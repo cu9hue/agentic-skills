@@ -47,6 +47,13 @@ RTK proxy) lives in the separately-imported `RTK.md`. Some rules adapt
 agents pick it up everywhere. Only `SKILL.md` skills port across agents;
 subagents (`.md` vs `.toml`) and hooks are agent-specific.
 
+**MCP servers:** `.agents/mcp/servers.json` lists the shared servers, and
+`.agents/mcp/servers.local.json` (gitignored) holds machine-specific ones, such
+as a server reached over SSH. `python3 .agents/mcp/sync.py` adds any missing
+server to Claude Code, Codex and the Antigravity CLI at user scope
+(`--dry-run` prints the steps). Logins don't transfer: sign in once per agent
+(`/mcp` in Claude Code, `codex mcp login <name>` in Codex).
+
 > Note: running Codex *inside this repo* may list each skill twice — Codex sees
 > them via both its repo scan and `~/.agents`. This is cosmetic and only happens
 > here; in other projects each skill appears once.
