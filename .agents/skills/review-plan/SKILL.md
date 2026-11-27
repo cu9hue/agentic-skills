@@ -1,6 +1,7 @@
 ---
 name: review-plan
 description: Use when reviewing an implementation plan, design document, or PR before making code changes - performs structured interactive review of architecture, code quality, tests, and performance
+disable-model-invocation: true
 ---
 
 # Review Plan

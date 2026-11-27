@@ -1,6 +1,7 @@
 ---
 name: founder-market-map
 description: Build a sourced one-page map of a problem space a founder wants to explore (the workflow, where it breaks and what it costs, user vs buyer, market size with a path to $1bn ARR, players, who tried and failed, and 3 sharp hunches to test this week). Use for /marketmap, "map the market for this problem", "map this workflow", or "who else is working on this".
+disable-model-invocation: true
 origin: "Written by the Entrepreneur First (EF) team; added here unchanged apart from this line."
 ---
 

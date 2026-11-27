@@ -1,6 +1,7 @@
 ---
 name: market-selection
 description: "Use when a founder is choosing where to look next rather than judging one idea: \"what should I explore next?\", \"where should I look?\", \"what directions or trends fit my edge?\", between bets, or when every idea so far has been killed. Not for scoring one named market (market-evaluation) or mapping a single problem space (market-map)."
+disable-model-invocation: true
 origin: "Shift-first framing and the 100-messages test from an Entrepreneur First principal's feedback session (2026-10); edge lens from Alice Bentinck, \"Ideas Pt I/II\" (EF); thesis format from EF's Fall26 guide \"How to Think About Market Selection\"; widening question (\"is X the only segment that cares?\") from the same EF session; proven-category niche from Starter Story's bootstrapper advice (enter a category with proven demand, find a niche in it)"
 ---
 

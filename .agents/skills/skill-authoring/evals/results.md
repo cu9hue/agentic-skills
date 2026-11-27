@@ -59,3 +59,51 @@ post-edit, all three scenarios as ordered plans, blind judge. n=1 per cell.
 
 Judge verdict: post-edit wins, pre-edit fails three rubric lines (all the
 new mandate), zero regressions elsewhere. Edit holds — committed.
+
+## 2026-11-27 — regression: plain directives, harness enforcement, model-change trigger, plugin-eval runner (uncommitted, base 9a4eea4)
+
+Edit under test: directives stated once with no emphasis markers (and the
+skill's own "NOT"/"BEFORE" caps removed); only what the RED baseline shows
+the model gets wrong goes in a skill; rules that cannot be taken back go in
+a hook or deny rule (hooks exit 2); a new default model triggers no-skill
+reruns; `claude plugin eval` named as the offline runner; the
+`superpowers:writing-skills` pointer removed. S4 (model change) and S5
+(irreversible rule) added. Arms: pre-edit vs post-edit, all five scenarios
+as ordered plans, blind judge, labels shuffled per scenario. n=1 per cell.
+
+- S1: **pre**, narrowly (6/1/0 vs 5/2/0): the post arm sized the skill to
+  its directives but never named the 500-line cap. Both missed
+  `references/`. Unrelated to the edit.
+- S2: tie (3/1/0 each). Both reran ankify's existing evals; the rubric's
+  backfill path no longer applied, so S2 now targets landing-copy.
+- S3: tie: cosmetic exemption held in both arms.
+- S4: tie on rubric (4/0/0 each); judge leaned post for spotting a skill
+  with no structural probe. The pre arm already reran no-skill arms on a
+  model change, so the new trigger paragraph shows no measured delta.
+- S5: **post** (4/0/0 vs 2/2/0): post built the hook and deny rules first,
+  named the hook in the skill and planned plain wording; pre planned no
+  skill wording and never linked its skill to the hook.
+
+Judge verdict: post-edit 17/3/0 vs pre-edit 16/4/0. The edit wins on its
+main target (S5), ties S2–S4 and loses S1 by one partial on a line it did
+not touch. Edit holds. Open: by the skill's own no-op rule, the
+model-change paragraph is unproven (S4 showed no delta).
+
+## 2026-11-27 — regression: third-party exemption (uncommitted, base 9a4eea4)
+
+Edit under test: credited third-party copies (upstream repo and commit in
+`origin:`, license file in the folder) are exempt from the eval mandate;
+folding in called skills, moving material to `references/` or changing
+invocation keeps the exemption; changing what it tells the agent to do
+ends it. S6 added. Arms: pre-edit (the version logged above) vs post-edit,
+S6 only, since the edit changes no other scenario's path. Blind judge.
+n=1.
+
+- S6: **post** (3/0/0 vs 1/2/0). Both credited source and license. The pre
+  arm wrote no evals by default but laid out an optional full A/B for an
+  unchanged copy, and only implied the boundary by quoting the README. The
+  post arm refused evals for the copy and stated when the mandate returns.
+
+Caveat: the README's new third-party section already described the
+exemption, and the pre arm read it, so the pre arm was not a clean
+no-exemption baseline. Edit holds.

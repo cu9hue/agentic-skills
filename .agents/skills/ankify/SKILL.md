@@ -1,6 +1,7 @@
 ---
 name: ankify
 description: Use when turning a paper, article, book chapter, doc, or notes into Anki flashcards or spaced-repetition cards — triggers like "make Anki cards", "ankify this", "flashcards from this". For retaining conceptual understanding, not rote facts.
+disable-model-invocation: true
 origin: synthesized from Michael Nielsen, "Augmenting Long-Term Memory" (augmentingcognition.com/ltm.html); deliberately biased toward conceptual knowledge over the factual recall cards Nielsen also keeps
 ---
 

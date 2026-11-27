@@ -102,3 +102,7 @@ per output.
   notes missing, including the FERC/ERCOT/PJM, OCC and DFAH-Bench sources),
   so domain queries returned little. The test measures the behaviour, not the
   value of a fresh index.
+
+## 2026-11-27 — made user-invoked
+
+`disable-model-invocation: true` (Codex: `allow_implicit_invocation: false`). The skill now runs only when the user types its command, to cut always-loaded context. Its instructions are unchanged, so nothing was rerun. Scenarios that relied on the skill firing on its own, such as the structural probe, now assume the user typed the command.

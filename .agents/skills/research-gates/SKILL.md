@@ -1,6 +1,7 @@
 ---
 name: research-gates
 description: Use when deciding whether a research bet deserves more time or money — a trading strategy, a backtest result, a side project or business idea — or when kill criteria are being set, checked or bent, open ideas need a keep-or-kill review, a first allocation needs sizing, or a dead idea needs a post-mortem. Not for explaining one statistic or method on its own; answer that directly.
+disable-model-invocation: true
 origin: the six gates, rules and templates are adapted from the author's own Notion research framework ("Canonical Research Pipeline and Templates", 2026); quant checks in references/quant.md draw on Bailey & López de Prado (2014), Bailey, Borwein, López de Prado & Zhu (2014, 2017), Harvey, Liu & Zhu (2016), Moulinier (2026), and the HangukQuant notes "Quantitative and Qualitative Treatments to Capital Markets" (ch 11, after Masters)
 ---
 

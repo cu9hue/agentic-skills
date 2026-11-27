@@ -1,6 +1,7 @@
 ---
 name: review-panel
 description: Use when a code change needs a pre-merge review — "review this change", "review the diff", "review this branch/PR", "look this over before I open the PR", or "what should I get right before this merges". Reviews code that exists; not for reviewing plans or design docs (that is review-plan), and not for summarizing or explaining a diff.
+disable-model-invocation: true
 origin: the ten review angles are the author's standing multi-agent review prompt, kept verbatim
 ---
 
