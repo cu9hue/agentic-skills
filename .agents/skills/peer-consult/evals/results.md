@@ -45,3 +45,36 @@ below.
 Judge verdict: B wins three scenarios and ties two; the wins sit exactly on
 the Gemini route and the loop guard. Obsolescence: no — the no-skill arm
 failed S2 outright and missed the terms risk in S4.
+
+## 2026-11-27 — regression for the delegate section (base a3e4c35)
+
+Arms: B = pre-edit SKILL.md (read-only consults only), C = post-edit
+(adds "Delegate a long job": Paradev workspace, background `agents wait`,
+git-worktree fallback, job prompt contract). n=1 per cell — signal, not
+proof. B outputs for S1–S5 are the scored arm-B outputs from the initial
+A/B; S6 is new and ran on B before the section was drafted. One blind
+judge, team labels rotated per scenario.
+
+S6 on B (the RED for this edit) already isolated the job in a plain git
+worktree and waited through a background run, but did not know the Paradev
+CLI, could not surface questions or approvals, and its prompt had no
+branch or no-merge limit. A first C run exposed two command gaps, both
+fixed before scoring: `--skip-branch-prefix` (Paradev otherwise renames
+the branch) and how to find the job's worktree path.
+
+- S1: **tie, 4/4 vs 4/4.**
+- S2: **tie, 4/4 vs 4/4.**
+- S3: **tie, 4/4 vs 4/4.**
+- S4 (structural probe): **tie, 4/5 vs 4/5.** Both miss the answer-shape
+  part of the prompt contract, as in the initial run. C also separates
+  building from reviewing unprompted.
+- S5 (negative): **tie, 1/2 vs 1/2.** Both answer directly and offer an
+  optional second opinion, as in the initial run; no new over-triggering.
+- S6 (delegation): **C wins, 4/4 vs 1/4.** C started Codex in a Paradev
+  workspace with `--skip-branch-prefix`, waited with `paradev agents wait`
+  in the background, passed questions and approvals to the user, and gave
+  Codex the full job contract. B bypassed Paradev and its prompt lacked
+  the branch and merge limits.
+
+Judge verdict: no regression on S1–S5; the edit wins the scenario it
+targets. Obsolescence: not assessed (no no-skill arm this run).
