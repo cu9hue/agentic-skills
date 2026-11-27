@@ -445,3 +445,7 @@ rubric changed and was not rerun.
 
 Verdict: post-edit arm holds (1 win, 1 tie, no loss). S1, S2, S4, S5, S6
 and S7 not rerun. Obsolescence: no.
+
+## 2026-11-27 — made user-invoked
+
+`disable-model-invocation: true` (Codex: `allow_implicit_invocation: false`). The skill now runs only when the user types its command, to cut always-loaded context. Its instructions are unchanged, so nothing was rerun. Scenarios that relied on the skill firing on its own, such as the structural probe, now assume the user typed the command.

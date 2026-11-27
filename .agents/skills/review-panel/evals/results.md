@@ -49,3 +49,7 @@ summarize. Landing.
 Obsolescence: no. The baseline failed rubric lines in S3, S4, and S5, and
 scored 1/3 on the structural probe — the ten angles are earning their keep
 as attention allocation, not as detection ability the base model lacks.
+
+## 2026-11-27 — made user-invoked
+
+`disable-model-invocation: true` (Codex: `allow_implicit_invocation: false`). The skill now runs only when the user types its command, to cut always-loaded context. Its instructions are unchanged, so nothing was rerun. Scenarios that relied on the skill firing on its own, such as the structural probe, now assume the user typed the command.

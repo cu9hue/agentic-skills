@@ -145,3 +145,7 @@ Open for real use: competitors sharing depth surfaced only after the edit,
 so treat capacity as a weak spot. The arms ran with the vault as working
 directory, which may explain the idea-card offers; a run from a neutral
 directory has not been done.
+
+## 2026-11-27 — made user-invoked
+
+`disable-model-invocation: true` (Codex: `allow_implicit_invocation: false`). The skill now runs only when the user types its command, to cut always-loaded context. Its instructions are unchanged, so nothing was rerun. Scenarios that relied on the skill firing on its own, such as the structural probe, now assume the user typed the command.

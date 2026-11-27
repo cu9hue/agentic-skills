@@ -1,6 +1,7 @@
 ---
 name: outreach-campaign
 description: "Use when the user wants to run or continue a cold-outreach campaign for customer discovery: find companies for an ICP, find people, verify emails, write personal lines, questions and drafts for LinkedIn and email, fill the Notion outreach tracker. Also use when they ask what to get right in cold outreach for discovery calls. Not for replying to a prospect who already answered, or for one-off messages outside a campaign."
+disable-model-invocation: true
 origin: "The author's own cold-outreach pipeline, tracker schema and message templates. Message shape from the author's LinkedIn messages that booked calls, and from Entrepreneur First's outreach advice (connect with no note, message on acceptance, open with a specific question). Email subject from \"Cold Email for SaaS Founders\" by @AvinashSingh_20. Tool mechanics from the treg skill in this repo."
 ---
 

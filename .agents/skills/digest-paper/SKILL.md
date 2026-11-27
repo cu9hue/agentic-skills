@@ -1,6 +1,7 @@
 ---
 name: digest-paper
 description: Use when digesting, summarizing, triaging, or critically reviewing a scientific or research paper from a PDF or an arXiv/DOI/URL link, or when surveying and mapping the literature of a research field. Not for general articles or blog posts.
+disable-model-invocation: true
 origin: synthesized from S. Keshav, "How to Read a Paper" (the three-pass method and literature-survey loop), and a community five-question hypothesis-summary framework
 ---
 

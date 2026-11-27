@@ -1,6 +1,7 @@
 ---
 name: prepare-pr
 description: Use when a finished branch is ready to become a pull request — clearing AI plans and specs out of the branch history, auditing the comments the change leaves behind, writing the PR body, and watching CI to green. Not for deciding whether the work is done or how to merge it.
+disable-model-invocation: true
 origin: PR body rules follow ASD-STE100 (Simplified Technical English) and William Zinsser, "On Writing Well"
 ---
 

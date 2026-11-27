@@ -1,6 +1,7 @@
 ---
 name: market-evaluation
 description: Use when judging whether a market is worth building a startup in — "evaluate the market for X", "is X a good market?", "bull and bear case on this market", "score this market", or prep for a market-selection check-in. Not for a one-number market-size lookup (answer that with a number and a source) or for generating new ideas.
+disable-model-invocation: true
 origin: the nine questions and three tests are paraphrased from Entrepreneurs First's Fall26 market-selection session, which opens with Andy Rachleff's "market wins" argument; revenue-path shapes from Christoph Janz, "Five ways to build a $100 million business" (christophjanz.blogspot.com, 2014)
 ---
 

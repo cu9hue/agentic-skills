@@ -6,6 +6,7 @@ description: >-
   with detail panes), plus Pipeline, Messages, State machines, and Facts &
   rationale tabs. Use when the user wants to map, document, visualize, diagram,
   or produce an architecture overview of a system.
+disable-model-invocation: true
 argument-hint: "[system]"
 ---
 

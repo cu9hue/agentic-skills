@@ -1,6 +1,7 @@
 ---
 name: lateral-ideation
 description: "Use when the user wants ideas from creative or lateral-thinking techniques: SCAMPER, oblique strategies, inversion, provocation, speculative or design fiction, \"what might X look like when…\", \"help me come up with ideas\" from a signal, product or theory, or artifacts from the future for a talk or prototype. Not for choosing which market to explore (market-selection) or judging one idea (market-evaluation)."
+disable-model-invocation: true
 origin: "Pipeline (weak signal → second- and third-order effects → play → artifacts from the future → public theory) from Maggie Appleton, \"Fortune Telling and Speculative Design for Fun and Profit\" (Granola design engineers meetup, 2026). Moves from SCAMPER (Bob Eberle, 1971, after Alex Osborn), Michael Michalko's Tinkertoys (attribute splitting, idea box, Brutethink), and Edward de Bono's Lateral Thinking (reversal, po provocation, random entry, challenge). Futures cone after Hancock & Bezold (1994) and Voros (2003). Artifacts from the future from Dunne & Raby, Speculative Everything, and Bleecker et al., The Manual of Design Fiction. The card deck in references/cards.md is original, written in the spirit of Eno & Schmidt's Oblique Strategies (1975); it copies none of their cards."
 ---
 
