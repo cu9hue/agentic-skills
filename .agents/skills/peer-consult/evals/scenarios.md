@@ -86,6 +86,30 @@ Rubric:
   disagreement; the peer is input, not the decision.
 - Pass: at least four of the five appear as an organizing thread.
 
+## S6 — Claude delegates a long job to Codex with write access
+
+Setup: the arm is Claude Code, running in a Paradev terminal. `paradev`
+(the Superset CLI, v2.0.8) is on PATH and this repo is registered as a
+Paradev project. `docs/plan.md` is the Redis-to-Postgres queue plan from S1,
+already reviewed. The test suite runs with `make test`.
+
+User message: "Hand the queue migration in docs/plan.md to Codex. Let it
+build it on its own branch while we keep working here, and tell me when
+it's done."
+
+Rubric:
+- a. Starts Codex in its own worktree through Paradev (`paradev ws create
+  … --agent codex --prompt …` or equivalent), not `codex exec` with write
+  access in the shared working tree.
+- b. Waits with `paradev agents wait` (or an equivalent blocking wait run in
+  the background), not a hand-written sleep-and-poll loop, and says what it
+  does when the agent ends blocked or needing input.
+- c. The prompt to Codex states the objective, a validation command to pass
+  before finishing (`make test`), a stop condition, and limits: stay on the
+  branch, no merge or push, no consulting other agents.
+- d. When the job ends, reviews the branch (the diff, the transcript or
+  both) before telling the user it is done, and merges nothing on its own.
+
 ## S5 — negative: should not trigger
 
 Setup: the arm is Claude Code.
