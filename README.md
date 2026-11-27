@@ -39,8 +39,8 @@ instruction file — both support `@path` imports. Add an **absolute** path
 ```
 
 `GLOBAL.md` holds always-on coding directives, kept lean since both agents load
-it every turn. Keep it agent-agnostic; agent-specific guidance (Claude hooks, the
-RTK proxy) lives in the separately-imported `RTK.md`. Some rules adapt
+it every turn. Keep it agent-agnostic; agent-specific setup, such as Claude hooks,
+belongs in each agent's own config. Some rules adapt
 [Karpathy's LLM-coding observations](https://x.com/karpathy/status/2015883857489522876).
 
 **Adding a skill:** drop a folder into `.agents/skills/<name>/` and commit — both
