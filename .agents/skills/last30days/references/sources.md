@@ -138,9 +138,7 @@ curl -s "https://hn.algolia.com/api/v1/items/<objectID>" > "$OUT/hn-item-<id>.js
 curl -s "https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=30" > "$OUT/hn-front.json"
 ```
 
-Encode `>` as `%3E`; a raw `>` returns an empty body. If a saved response
-is a schema summary instead of JSON, the RTK hook rewrote it: rerun as
-`rtk proxy curl ...`. Thread link:
+Encode `>` as `%3E`; a raw `>` returns an empty body. Thread link:
 `https://news.ycombinator.com/item?id=<objectID>`. For a window-wide top
 list, add `,points%3E100` to `numericFilters`.
 
