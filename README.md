@@ -100,11 +100,12 @@ subagents (`.md` vs `.toml`) and hooks are agent-specific.
 - **landing-copy** — landing-page copy and product positioning that sells the desire, not the feature: pin the position, write the page, audit against a conversion-killer catalog. Distilled from Marc Lou's "31 Principles of a Viral Product" and Julian Shapiro's landing-page guide; pairs with **ui-design** (visuals) and **seo** (discovery).
 - **treg** — the treg tool catalog for paid external data no other tool covers: SEO and SERP data, keyword volume, backlinks, social profiles, people and company enrichment, ad libraries, and image, video and voice generation. Calls spend the team balance, so the agent quotes the price and asks first.
 
-### Third-party (mattpocock/skills, MIT, pinned at bbadaa6)
-All three are user-invoked: none loads into context until you type its command. Copied with credit and license; exempt from the eval mandate while their instructions stay as written.
-- **/wayfinder** — plans work bigger than one session as a map of decision tickets on the issue tracker (GitHub, GitLab or local markdown), resolving one ticket per session until the way is clear. Its research, prototype and tracker material lives in `references/`; grilling tickets use **/grill-with-docs** (see Process).
-- **/diagnosing-bugs** — a gated diagnosis loop for hard bugs and performance regressions.
-- **/handoff** — compacts the conversation into a handoff document for a fresh session.
+### Third-party
+All four are user-invoked: none loads into context until you type its command. Copied with credit and license; exempt from the eval mandate while their instructions stay as written.
+- **/brainstorming** — from [obra/superpowers](https://github.com/obra/superpowers) v7.0.2 (MIT). Works out what to build and why before anything gets built: open questions one at a time, the approaches laid out with trade-offs for you to pick, a design doc checked by a fresh builder subagent and approved before any code. Offers a local browser companion for mockups (its external logo image is off by default here). The plan comes next, written in-session or via **/wayfinder**.
+- **/wayfinder** — from [mattpocock/skills](https://github.com/mattpocock/skills) at bbadaa6 (MIT). Plans work bigger than one session as a map of decision tickets on the issue tracker (GitHub, GitLab or local markdown), resolving one ticket per session until the way is clear. Its research, prototype and tracker material lives in `references/`; grilling tickets use **/grill-with-docs** (see Process).
+- **/diagnosing-bugs** — from [mattpocock/skills](https://github.com/mattpocock/skills) at bbadaa6 (MIT). A gated diagnosis loop for hard bugs and performance regressions.
+- **/handoff** — from [mattpocock/skills](https://github.com/mattpocock/skills) at bbadaa6 (MIT). Compacts the conversation into a handoff document for a fresh session.
 
 > Skills needing external infra (e.g. AgentShield MCP, Exa MCP for lead-intelligence)
 > were left out until those servers are wired up.
