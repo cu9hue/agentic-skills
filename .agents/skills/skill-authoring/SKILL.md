@@ -1,16 +1,21 @@
 ---
 name: skill-authoring
 description: Use when creating a new skill in this repo, editing what an existing skill mandates, or backfilling evals for a legacy skill. Not for cosmetic changes that leave behavior untouched — typos, README blurbs, formatting.
-origin: eval methodology adapted from Phil Schmid, "Testing Agent Skills" (philschmid.de/testing-skills); the 200-500-line range is from Schmid's talk, reporting Gemini-team testing across a skill corpus; process merged with the superpowers writing-skills RED-GREEN-REFACTOR practice
+origin: eval methodology adapted from Phil Schmid, "Testing Agent Skills" (philschmid.de/testing-skills); the 200-500-line range is from Schmid's talk, reporting Gemini-team testing across a skill corpus; process merged with the superpowers writing-skills RED-GREEN-REFACTOR practice; plain-directive, harness-enforcement and model-change rules from Lydia Hallie, "Rethinking Claude Code Best Practices" (AI Engineer, Nov 2026); positive-target point from mattpocock/skills writing-for-agents (MIT)
 ---
 
 # Skill Authoring
 
 Every skill in this repo ships with persisted evals, and no behavior change
 commits until it wins a blind A/B. Skills are prompts, and prompts regress
-silently — the evals in each skill's directory are the regression net. On
-Claude, `superpowers:writing-skills` holds the deeper TDD and bulletproofing
-theory; this skill is the repo's binding process. On Codex it stands alone.
+silently — the evals in each skill's directory are the regression net. This
+skill is the repo's binding process on both Claude and Codex.
+
+Third-party skills copied in with credit are exempt: an `origin:` that names
+the upstream repo and commit, and the upstream license file in the skill's
+folder. Folding in the skills it calls, moving material to `references/` or
+changing its invocation keeps the exemption. Any change to what it tells
+the agent to do makes it ours, and the eval mandate applies from then on.
 
 ## Authoring rules
 
@@ -27,20 +32,34 @@ theory; this skill is the repo's binding process. On Codex it stands alone.
   credit sources in the `origin:` frontmatter line.
 - Directives, not suggestions: "ask one question per turn", never
   "consider asking".
+- State each directive once, in plain words. No emphasis markers:
+  IMPORTANT, NEVER, CRITICAL, all-caps words, "!" or repeated warnings.
+  Current models follow plain text, and shouting sends them off track: more
+  tool calls, worse results. State the behavior you want; a prohibition
+  earns its place only as a hard limit, and then sits beside the positive
+  target.
+- Put in the skill only what the model gets wrong without it. The RED
+  baseline is the test: a line that fixes no recorded failure is a no-op.
+- A rule that must hold every time goes in the harness, not the prose.
+  Test: if the agent gets this wrong once, can it be taken back? If not
+  (lost work, a leaked secret, a forced push, a skipped check that must
+  run), the skill sets up or names a hook or a deny rule, and says so. A
+  hook that must send the agent back exits with code 2; exit 1 lets the
+  task complete.
 
 ## The eval mandate
 
 **New skill:**
 
 1. Write `<skill>/evals/scenarios.md` first — 3–5 scenarios, at least one
-   negative (a request where the skill should NOT change behavior) and at
+   negative (a request where the skill must leave behavior unchanged) and at
    least one underspecified structural probe: a vague "what should I get
    right?" ask that names no axis. Well-specified prompts pre-empt a
    skill's attention value — the base model writes accessible forms when
    told to build a form, but only a vague probe shows whether the skill
    puts its concerns on the agenda unprompted. Test both execution and
    attention. Skeleton: `references/eval-template.md`.
-2. RED: run every scenario against baseline (no skill) BEFORE drafting the
+2. RED: run every scenario against baseline (no skill) before drafting the
    skill, and record what failed — those failures are what the skill must
    say. If baseline already passes everything, the skill is unnecessary:
    stop.
@@ -73,6 +92,13 @@ No ceremony.
   append-only, with date and commit.
 - State the sample size: n=1 per cell is a signal, not proof. Real usage is
   the ongoing eval — feed observed failures back in as new scenarios.
+- `claude plugin eval` automates this protocol for scenarios that run
+  offline: case prompts with grader files, a with/without baseline arm,
+  3 runs per case and a grader that checks whether the skill fired. Use it
+  with `--no-publish` (the HTML report goes to claude.ai by default) and
+  `--judge-model` set to a strong model (the default grader is Haiku). A
+  skill whose scenarios need live MCP servers or paid calls keeps the
+  subagent protocol above.
 
 ## Obsolescence check
 
@@ -82,6 +108,12 @@ for retirement rather than keeping it loaded. No retirement on execution
 scenarios alone: the structural probe must also show no delta, or the skill
 may still be earning its keep as attention allocation (frontend-a11y was
 retired and reversed the same day on exactly this).
+
+A new default model is a trigger too. When it changes, rerun the no-skill
+arm of every skill's structural probe and one execution scenario, and log
+it in each `results.md`. Rules written for an older model can now cost more
+than they give. `/doctor prompt-audit` is a quick first pass over CLAUDE.md
+and skills; the rerun is the verdict.
 
 ## Quality gate
 
@@ -93,4 +125,6 @@ retired and reversed the same day on exactly this).
   cite its result
 - blind judge, per-scenario rubrics, sample size stated in the log
 - description is triggers-only and ≤~500 chars; SKILL.md ≤500 lines
+- directives plain, no emphasis markers; anything that cannot be taken back
+  is enforced by a hook or deny rule
 - external sources credited in `origin:`
